@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ShiftTracker.Angular.Data;
+using ShiftTracker.Angular.Services;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -18,6 +19,13 @@ builder.Services.AddDbContext<AppDbContext>( options =>
 		                                                     )
 	                                                     )
 );
+
+builder.Services.AddScoped<IShopService, ShopService>();
+builder.Services.AddScoped<IShiftService, ShiftService>();
+builder.Services.AddScoped<IBreakService, BreakService>();
+builder.Services.AddScoped<IDailyRoutePlanService, DailyRoutePlanService>();
+builder.Services.AddScoped<IRunService, RunService>();
+
 
 var app = builder.Build();
 
