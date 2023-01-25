@@ -34,6 +34,7 @@ public class ShiftDto
 			{
 			Id = shift.Id,
 			Date = shift.Date,
+			RunNumber = shift.Run.Number,
 			Breaks = opts.includeBreaks
 				? shift.Breaks.Select( b => new BreakDto
 						{
