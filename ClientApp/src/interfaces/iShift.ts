@@ -1,11 +1,8 @@
 export interface IShift{
   id: number;
   date: Date;
-<<<<<<< HEAD
   runNumber: number;
-=======
   runId: number;
->>>>>>> main
 
   //TODO: Add IRun
   // run?: IRun;
