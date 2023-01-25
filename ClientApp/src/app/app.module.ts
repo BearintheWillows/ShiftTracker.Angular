@@ -5,9 +5,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { ShiftsComponent } from './shifts/shifts.component';
 @NgModule({
   declarations: [
     AppComponent,
+    ShiftsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
