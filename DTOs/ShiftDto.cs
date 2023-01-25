@@ -7,9 +7,9 @@ public class ShiftDto
 	public int?     Id        { get; set; }
 	public DateTime Date      { get; set; }
 	public int?     RunId     { get; set; }
-	public int      RunNumber { get; set; }
+	public int?      RunNumber { get; set; }
 
-	// public RunDto? Run { get; set; }
+	public RunDto? Run { get; set; }
 
 	// Navigation properties
 	public List<BreakDto>? Breaks { get; set; }
@@ -34,7 +34,6 @@ public class ShiftDto
 			{
 			Id = shift.Id,
 			Date = shift.Date,
-			// RunId = shift.RunId,
 			Breaks = opts.includeBreaks
 				? shift.Breaks.Select( b => new BreakDto
 						{
@@ -42,7 +41,7 @@ public class ShiftDto
 						}
 				).ToList()
 				: null,
-			// Run = opts.includeRun ? new RunDto { Id = shift.Run.Id, Number = shift.Run.Number } : null,
+			Run = opts.includeRun ? new RunDto { Id = shift.Run.Id, Number = shift.Run.Number } : null,
 			StartTime = opts.includeTimeData ? shift.StartTime : new TimeSpan( 00, 00, 00 ),
 			EndTime = opts.includeTimeData ? shift.EndTime : new TimeSpan( 00, 00, 00 ),
 			ShiftDuration = opts.includeTimeData ? shift.ShiftDuration : new TimeSpan( 00, 00, 00 ),

@@ -6,6 +6,7 @@ using Models;
 using Services;
 
 [ApiController]
+[Route( "api/[controller]" )]
 public class ShiftController : ControllerBase
 {
 	private readonly IRunService   _runService;
@@ -22,6 +23,7 @@ public class ShiftController : ControllerBase
 	/// </summary>
 	/// <param name="includeRun"></param>
 	/// <param name="includeBreaks"></param>
+	/// <param name="includeTimeData"></param>
 	/// <returns>
 	///     All Shift entities
 	/// </returns>
@@ -36,14 +38,9 @@ public class ShiftController : ControllerBase
 		{
 			var shiftResultAsync =
 				await _shiftService.GetAllAsync( includeBreaks, includeRun, includeTimeData );
-			var shifts = shiftResultAsync.Select( s => new
-					{
-					_ = ShiftDto.CreateDto( s,
-					                        ( includeBreaks, includeRun, includeTimeData )
-					),
-					}
-			).ToList();
-			return Ok( shifts );
+			var shifts = shiftResultAsync.Select( s => ShiftDto.CreateDto(s, (includeBreaks, includeRun, includeTimeData)
+			                                      )).ToList();
+		return Ok( shifts );
 		}
 		catch ( Exception e )
 		{

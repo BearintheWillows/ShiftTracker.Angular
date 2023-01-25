@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShiftTracker.Angular.Data;
 using ShiftTracker.Angular.Services;
 
+var CorsPolicy = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
@@ -12,6 +13,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddCors( options =>
+	{
+		options.AddPolicy( name: CorsPolicy, policy =>
+		{
+			policy.WithOrigins( "https://localhost:44491" );
+		} );
+	}
+);
 builder.Services.AddDbContext<AppDbContext>( options =>
 	                                                     options.UseSqlServer(
 		                                                     builder.Configuration.GetConnectionString(
@@ -42,6 +51,8 @@ if ( app.Environment.IsDevelopment() )
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCors(CorsPolicy);
 
 app.UseAuthentication();
 app.UseAuthorization();
