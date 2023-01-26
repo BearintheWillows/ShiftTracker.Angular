@@ -1,5 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+// 1. Functions first (So colors, SVGs, calc can be overrided
+@import "vendors/bootstrap-funcs";
 
+// 2. Overrides
+
+// 3. Rest of boostrap and vendors
+@import "vendors/vendors-dir";
+
+// 4. Custom Scss
+@import "base/base-dir";
+@import "components/components-dir";
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
