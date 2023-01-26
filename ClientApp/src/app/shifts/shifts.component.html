@@ -1,12 +1,13 @@
 
 <div *ngIf="shifts">
-<table class="table ">
+<table class="table table-striped ">
   <thead>
     <tr>
       <th >Date</th>
       <th>Run #</th>
       <th >Start Time</th>
       <th>Finish Time</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +17,18 @@
       <td>{{shift.runNumber}}</td>
       <td>{{shift.startTime}}</td>
       <td>{{shift.endTime}}</td>
+      <td>
+        <button class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></button>
+        <button class="cBtn cBtn-Del"><i class="fa-regular fa-square-minus"></i></button>
+      </td>
+
+
     </tr>
   </tbody>
 </table>
+  <button class="btn btn-primary">Add Shift</button>
+</div>
+<div *ngIf="!shifts">
+  Loading...
 </div>
 
