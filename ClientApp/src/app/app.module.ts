@@ -6,10 +6,13 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ShiftsComponent } from './shifts/shifts.component';
+import {NavComponent} from "./nav/nav.component";
 @NgModule({
   declarations: [
     AppComponent,
     ShiftsComponent,
+    NavComponent,
+
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

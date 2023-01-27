@@ -3,7 +3,7 @@ import {IDailyRoutePlan} from "./iDailyRoutePlan";
 export interface IShop {
   id: number;
   name: string;
-  number? : number;
+  number?: number;
   street: string;
   street2?: string;
   city: string;
@@ -12,3 +12,4 @@ export interface IShop {
   phoneNumber: number;
 
   dayVariants?: IDailyRoutePlan[];
+}
