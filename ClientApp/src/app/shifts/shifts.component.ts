@@ -17,6 +17,7 @@ export class ShiftsComponent implements OnInit {
     this.shiftService = shiftService;
 }
 
+
   ngOnInit(): void {
     this.populateShifts();
   }
@@ -28,4 +29,22 @@ export class ShiftsComponent implements OnInit {
     });
   }
 
+  buttonGroup(): HTMLDivElement {
+    const div = document.createElement('div');
+    const button = document.createElement('button');
+    div.classList.add('cBtnGroup');
+
+    let buttonEditIcon = button.cloneNode(false) as HTMLButtonElement;
+    buttonEditIcon.classList.add('cBtn', 'cBtn-Edit');
+    buttonEditIcon.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+
+    let buttonDelIcon = button.cloneNode(false) as HTMLButtonElement;
+    buttonDelIcon.classList.add('cBtn', 'cBtn-Del');
+    buttonDelIcon.textContent = '<i class="fa-regular fa-square-minus"></i>';
+
+    div.appendChild(buttonEditIcon);
+    div.appendChild(buttonDelIcon);
+
+    return div;
+}
 }
