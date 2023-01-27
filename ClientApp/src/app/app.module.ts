@@ -7,11 +7,16 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ShiftsComponent } from './shifts/shifts.component';
 import {NavComponent} from "./nav/nav.component";
+import { AppRoutingModule } from './app-routing.module';
+import { RunsComponent } from './runs/runs.component';
+import { ShopsComponent } from './shops/shops.component';
 @NgModule({
   declarations: [
     AppComponent,
     ShiftsComponent,
     NavComponent,
+    RunsComponent,
+    ShopsComponent,
 
   ],
   imports: [
@@ -19,6 +24,7 @@ import {NavComponent} from "./nav/nav.component";
     HttpClientModule,
     FormsModule,
     RouterModule,
+    AppRoutingModule,
   ],
   providers: [
   ],
