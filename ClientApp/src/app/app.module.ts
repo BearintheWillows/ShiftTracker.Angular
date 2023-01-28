@@ -10,6 +10,7 @@ import {NavComponent} from "./nav/nav.component";
 import { AppRoutingModule } from './app-routing.module';
 import { RunsComponent } from './runs/runs.component';
 import { ShopsComponent } from './shops/shops.component';
+import { ShiftDetailComponent } from './shifts/shift-detail/shift-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { ShopsComponent } from './shops/shops.component';
     NavComponent,
     RunsComponent,
     ShopsComponent,
+    ShiftDetailComponent,
 
   ],
   imports: [
