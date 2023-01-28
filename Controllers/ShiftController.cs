@@ -139,8 +139,8 @@ public class ShiftController : ControllerBase
 	[HttpPut( "{id}" )]
 	public async Task<IActionResult> UpdateShift(int id, [FromBody] ShiftDto shiftDto)
 	{
-		if ( !_shiftService.TimeEntryValidator( shiftDto ) )
-			return BadRequest( "Time entries do not add up to shift duration total" );
+		// if ( !_shiftService.TimeEntryValidator( shiftDto ) )
+		// 	return BadRequest( "Time entries do not add up to shift duration total" );
 
 		try
 		{

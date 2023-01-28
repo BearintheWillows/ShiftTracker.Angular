@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {IShift} from "../../interfaces/iShift";
 import {ShiftService} from "../../services/shiftService/shift.service";
+import {IsActiveMatchOptions} from "@angular/router";
 
 @Component({
   selector: 'app-shifts',
@@ -12,7 +13,8 @@ export class ShiftsComponent implements OnInit {
   public shifts: IShift[] = []
   private shiftService: ShiftService;
 
-  selectedShift?: IShift;
+  selectedEditShift?: IShift;
+  selectedFunction?: string;
 
   constructor(shiftService: ShiftService) {
 
@@ -24,33 +26,36 @@ export class ShiftsComponent implements OnInit {
     this.populateShifts();
   }
 
-  onSelect(shift: IShift): void {
-    this.selectedShift = shift;
-  }
-
-
   populateShifts(): void {
       this.shiftService.getShifts(true, true, false).subscribe((shifts: IShift[]) => {
       this.shifts = shifts;
     });
   }
 
-  buttonGroup(): HTMLDivElement {
-    const div = document.createElement('div');
-    const button = document.createElement('button');
-    div.classList.add('cBtnGroup');
+  onSelectFunction(shift: IShift, func: string): void {
+    this.selectedEditShift = shift;
+    this.selectedFunction = func.toLowerCase();
 
-    let buttonEditIcon = button.cloneNode(false) as HTMLButtonElement;
-    buttonEditIcon.classList.add('cBtn', 'cBtn-Edit');
-    buttonEditIcon.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+    switch (func.toLowerCase()) {
+       case "cancel":
+          this.selectedEditShift = undefined;
+          break;
+       case "confirm":
+          this.selectedEditShift = undefined;
+          this.shiftService.updateShift(shift).subscribe((shift: IShift) => {
+             this.populateShifts();
+          });
+    }
+  }
+    editShift(shift: IShift): void {
 
-    let buttonDelIcon = button.cloneNode(false) as HTMLButtonElement;
-    buttonDelIcon.classList.add('cBtn', 'cBtn-Del');
-    buttonDelIcon.textContent = '<i class="fa-regular fa-square-minus"></i>';
+    }
 
-    div.appendChild(buttonEditIcon);
-    div.appendChild(buttonDelIcon);
-
-    return div;
+    deleteShift(shift: IShift): void {
+    }
 }
-}
+
+
+
+
+
