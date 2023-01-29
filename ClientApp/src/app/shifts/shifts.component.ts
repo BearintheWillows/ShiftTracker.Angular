@@ -27,7 +27,7 @@ export class ShiftsComponent implements OnInit {
   }
 
   populateShifts(): void {
-      this.shiftService.getShifts(true, true, false).subscribe((shifts: IShift[]) => {
+      this.shiftService.getShifts(false, false, false).subscribe((shifts: IShift[]) => {
       this.shifts = shifts;
     });
   }
@@ -37,6 +37,8 @@ export class ShiftsComponent implements OnInit {
     this.selectedFunction = func.toLowerCase();
 
     switch (func.toLowerCase()) {
+      case "edit":
+          break;
        case "cancel":
           this.selectedEditShift = undefined;
           break;

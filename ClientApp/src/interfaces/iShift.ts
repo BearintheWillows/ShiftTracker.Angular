@@ -1,14 +1,16 @@
+import {IRun} from "./iRun";
+import {IBreak} from "./iBreak";
+
 export interface IShift{
   id: number;
   date: Date;
   runNumber: number;
   runId: number;
 
-  //TODO: Add IRun
-  // run?: IRun;
 
-  //TODO: Add IBreak
-  // breaks?: IBreak[];
+  run?: IRun;
+
+  breaks?: IBreak[];
   startTime?: Date;
   endTime?: Date;
   driveTime?: Date;

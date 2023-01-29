@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {IShift} from "../../interfaces/iShift";
 
 @Injectable({
@@ -13,13 +13,21 @@ export class ShiftService {
 
   private readonly _baseUrl = `https://localhost:7004/api/shift`;
   private readonly _baseUrlWithFilter = `https://localhost:7004/api/shift`;
+
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+
+
+  }
 
   getShifts(includeRun: boolean, includeTimeData: boolean, includeBreaks: boolean): Observable<IShift[]> {
     this.setFilterOptions(includeRun, includeTimeData, includeBreaks);
     return this.http.get<IShift[]>(this._baseUrl);
+  }
+
+  getShiftById(id: number): Observable<IShift> {
+    return this.http.get<IShift>(`${this._baseUrl}/${id}`);
   }
 
   setFilterOptions(includeRun?: boolean, includeTimeData?: boolean, includeBreaks?: boolean): void {

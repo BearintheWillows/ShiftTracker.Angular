@@ -7,7 +7,6 @@ public class ShiftDto
 	public int?     Id        { get; set; }
 	public DateTime Date      { get; set; }
 	public int?     RunId     { get; set; }
-	public int?      RunNumber { get; set; }
 
 	public RunDto? Run { get; set; }
 
@@ -34,7 +33,6 @@ public class ShiftDto
 			{
 			Id = shift.Id,
 			Date = shift.Date,
-			RunNumber = shift.Run.Number,
 			Breaks = opts.includeBreaks
 				? shift.Breaks.Select( b => new BreakDto
 						{

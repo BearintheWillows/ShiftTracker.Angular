@@ -8,7 +8,7 @@ using Models;
 
 public interface IShiftService : IBaseCrudService<Shift>
 {
-	Task<Shift>       GetAsync(int     id,            bool includeBreaks, bool includeRun, bool includeTimeData);
+	Task<Shift?>       GetShiftByIdAsync(int     id);
 	Task<List<Shift>> GetAllAsync(bool includeBreaks, bool includeRun,    bool includeTimeData);
 	Task<bool>        ExistsAsync(int? id);
 
@@ -26,9 +26,9 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 		_breakService = breakService;
 	}
 
-	public async Task<Shift?> GetAsync(int id, bool includeBreaks, bool includeRun, bool includeTimeData) =>
+	public async Task<Shift?> GetShiftByIdAsync(int id) =>
 		await _context.Shifts
-		              .IncludeExtraShiftData( includeBreaks, includeRun, includeTimeData )
+		              .IncludeExtraShiftData( false, true,true )
 		              .FirstOrDefaultAsync( s => s.Id == id );
 
 	/// <summary>
@@ -38,11 +38,21 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 	/// <param name="includeTimeData"></param>
 	/// <returns></returns>
 	public async Task<List<Shift>> GetAllAsync(
-		bool includeBreaks   = false,
-		bool includeRun      = false,
-		bool includeTimeData = false
-	) => await _context.Shifts.AsQueryable().IncludeExtraShiftData( includeBreaks, includeRun, includeTimeData )
-	                   .ToListAsync();
+		bool includeBreaks,
+		bool includeRun,
+		bool includeTimeData
+	)
+	{
+		
+		 var shifts = await _context.Shifts.AsQueryable().IncludeExtraShiftData( includeBreaks, includeRun, includeTimeData )
+        	                   .ToListAsync();
+		 foreach ( var VARIABLE in shifts )
+		 {
+			 Console.WriteLine(VARIABLE.Id);
+		 }
+
+		 return shifts;
+	}
 
 	public async Task<bool> ExistsAsync(int? id) => await _context.Shifts.AnyAsync( x => x.Id == id );
 

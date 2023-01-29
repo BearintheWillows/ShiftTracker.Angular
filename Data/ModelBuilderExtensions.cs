@@ -56,7 +56,7 @@ public static class ModelBuilderExtentions
 			                      OtherWorkTime = new TimeSpan( 02, 05, 00 ),
 			                      WorkTime = new TimeSpan( 1, 30, 00 ),
 			                      ShiftDuration = new TimeSpan( 08, 00, 00 ),
-			                      RunId = -1,
+			                      RunId = -2,
 			                      },
 		                      new
 			                      {

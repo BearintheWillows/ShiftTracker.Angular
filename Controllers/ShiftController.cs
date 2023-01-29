@@ -29,15 +29,16 @@ public class ShiftController : ControllerBase
 	/// </returns>
 	[HttpGet]
 	public async Task<IActionResult> GetAllShifts(
-		[FromQuery] bool includeRun      = false,
-		bool             includeBreaks   = false,
-		bool             includeTimeData = false
+		[FromQuery] bool includeRun = true    ,
+		bool             includeBreaks = false   ,
+		bool             includeTimeData = true
 	)
 	{
 		try
 		{
 			var shiftResultAsync =
 				await _shiftService.GetAllAsync( includeBreaks, includeRun, includeTimeData );
+			Console.WriteLine("Shift Controller" + "" + shiftResultAsync.Count);
 			var shifts = shiftResultAsync.Select( s => ShiftDto.CreateDto(s, (includeBreaks, includeRun, includeTimeData)
 			                                      )).ToList();
 		return Ok( shifts );
@@ -60,14 +61,14 @@ public class ShiftController : ControllerBase
 	[HttpGet( "{id}" )]
 	public async Task<ActionResult<ShiftDto?>> GetShiftById(
 		int              id,
-		[FromQuery] bool includeRun      = false,
+		[FromQuery] bool includeRun      = true,
 		bool             includeBreaks   = false,
-		bool             includeTimeData = false
+		bool             includeTimeData = true
 	)
 	{
 		try
 		{
-			var shift = await _shiftService.GetAsync( id );
+			var shift = await _shiftService.GetShiftByIdAsync( id);
 
 			if ( shift != null ) return ShiftDto.CreateDto( shift, ( includeBreaks, includeRun, includeTimeData ) );
 

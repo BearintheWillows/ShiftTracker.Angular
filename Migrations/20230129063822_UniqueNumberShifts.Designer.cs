@@ -12,8 +12,8 @@ using ShiftTracker.Angular.Data;
 namespace ShiftTracker.Angular.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230124215734_Initial")]
-    partial class Initial
+    [Migration("20230129063822_UniqueNumberShifts")]
+    partial class UniqueNumberShifts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,6 +184,9 @@ namespace ShiftTracker.Angular.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Number")
+                        .IsUnique();
+
                     b.ToTable("Runs", (string)null);
 
                     b.HasData(
@@ -254,7 +257,7 @@ namespace ShiftTracker.Angular.Migrations
                             DriveTime = new TimeSpan(0, 2, 55, 0, 0),
                             EndTime = new TimeSpan(0, 16, 0, 0, 0),
                             OtherWorkTime = new TimeSpan(0, 2, 5, 0, 0),
-                            RunId = -1,
+                            RunId = -2,
                             ShiftDuration = new TimeSpan(0, 8, 0, 0, 0),
                             StartTime = new TimeSpan(0, 8, 0, 0, 0),
                             WorkTime = new TimeSpan(0, 1, 30, 0, 0)

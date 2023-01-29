@@ -10,32 +10,18 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let shift of shifts">
-      <ng-container *ngIf="this.selectedEditShift != shift; else editTemplate">
-        <tr>
+
+        <tr *ngFor="let shift of shifts">
         <td >{{shift?.date | date:'dd/MM/yyyy'}}</td>
-        <td>{{shift?.runNumber}}</td>
+        <td>{{shift?.run?.number}}</td>
         <td>{{shift?.startTime}}</td>
         <td>{{shift?.endTime}}
         <td></td>
 
-        <a type="button" (click)="this.onSelectFunction(shift, 'edit')" class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></a>
+        <a type="button" routerLink="{{shift?.id}}/edit" (click)="this.onSelectFunction(shift, 'edit')" class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></a>
         <a type="button" (click)="this.onSelectFunction(shift, 'delete')"  class="cBtn cBtn-Del"><i class="fa-regular fa-square-minus"></i></a>
        </tr>
-      </ng-container>
 
-      <ng-template #editTemplate>
-        <tr>
-          <td><input type="date" [(ngModel)]="shift.date" /></td>
-          <td><input type="text" [(ngModel)]="shift.runNumber" /></td>
-          <td><input type="time" [(ngModel)]="shift.startTime" /></td>
-          <td><input type="time" [(ngModel)]="shift.endTime" /></td>
-          <td></td>
-          <button class="cBtn " (click)="this.onSelectFunction(shift, 'confirm')"><i class="fa-solid fa-square-check"></i></button>
-          <button class="cBtn" (click)="this.onSelectFunction(shift, 'cancel')"><i class="fa-solid fa-xmark"></i></button>
-        </tr>
-      </ng-template>
-    </ng-container>
 
 
 
