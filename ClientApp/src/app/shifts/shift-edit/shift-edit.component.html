@@ -1,3 +1,68 @@
-<div *ngIf="shift">
-  <p>{{shift?.run?.number}}</p>
+<div class="form-group">
+
+  <label for="date">Date: </label>
+  <input
+    type="date"
+    class="form-control"
+    id="date"
+    [(ngModel)]="shift.date "
+    [ngModel]="shift.date | date: 'yyyy-MM-dd'"
+    name="date"
+    required />
+
+
+  <label for="runNumber">Run #:</label>
+  <select class="form-control" id="runNumber" [(ngModel)]="shift.run" name="run" required>
+    <option *ngFor="let run of runs" selected="{{shift.run.number}}">
+      {{run.number}}
+    </option>
+  </select>
+
+
+    <label for="ShiftFormStartTimeInput" >Shift Start</label>
+    <input
+      type="time"
+      class="form-control"
+      id="ShiftFormStartTimeInput"
+      [(ngModel)]="shift.startTime"
+      name="startTime"
+      value="{{shift.startTime}}">
+
+    <label for="ShiftFormEndTimeInput" >Shift Finish</label>
+    <input
+      type="time"
+      class="form-control"
+      id="ShiftFormEndTimeInput"
+      [(ngModel)]="shift.endTime"
+      name="endTime"
+      value="{{shift.endTime}}" >
+
+    <label for="ShiftFormDriveTimeInput" >Drive Time</label>
+    <input
+      type="time"
+      class="form-control"
+      id="ShiftFormDriveTimeInput"
+      [(ngModel)]="shift.driveTime"
+      name="driveTime"
+      value="{{shift.driveTime}}" >
+
+    <label for="ShiftFormWorkTimeInput" >Work Time</label>
+    <input
+      type="time"
+      class="form-control"
+      id="ShiftFormWorkTimeInput"
+      [(ngModel)]="shift.workTime"
+      name="workTime"
+      value="{{shift.workTime}}">
+
+    <label for="ShiftFormOtherWorkInput" >Other Work</label>
+    <input
+      type="time"
+      class="form-control"
+      id="ShiftFormOtherWorkInput"
+      [(ngModel)]="shift.otherWorkTime"
+      name="otherWorkTime"
+      value="{{shift.otherWorkTime}}">
+
+
 </div>

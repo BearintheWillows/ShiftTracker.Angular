@@ -10,10 +10,10 @@ import {NavComponent} from "./nav/nav.component";
 import { AppRoutingModule } from './app-routing.module';
 import { RunsComponent } from './runs/runs.component';
 import { ShopsComponent } from './shops/shops.component';
-import { ShiftDetailComponent } from './shifts/shift-detail/shift-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShiftEditComponent } from './shifts/shift-edit/shift-edit.component';
 import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row.component';
+import {DatePipe} from "@angular/common";
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +21,6 @@ import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row
     NavComponent,
     RunsComponent,
     ShopsComponent,
-    ShiftDetailComponent,
     ShiftEditComponent,
     ShiftTableRowComponent,
 
@@ -35,6 +34,7 @@ import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row
     BrowserAnimationsModule,
   ],
   providers: [
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
