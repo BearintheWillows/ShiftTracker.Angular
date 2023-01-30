@@ -159,7 +159,7 @@ public class ShiftController : ControllerBase
 			shift.WorkTime = shiftDto.WorkTime;
 
 			await _shiftService.UpdateAsync( shift );
-			return Ok( "Shift Updated Successfully" );
+			return Ok();
 		}
 		catch ( Exception e )
 		{
