@@ -30,6 +30,7 @@ export class ShiftService {
     return this.http.get<IShift>(`${this._baseUrl}/${id}`);
   }
 
+
   setFilterOptions(includeRun?: boolean, includeTimeData?: boolean, includeBreaks?: boolean): void {
     if(includeRun) {
       //turn bool to string
@@ -45,6 +46,7 @@ export class ShiftService {
   }
 
   updateShift(shift: IShift) {
+    console.log(shift)
     return this.http.put<IShift>(`${this._baseUrl}/${shift.id}`, shift);
   }
 }
