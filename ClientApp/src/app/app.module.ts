@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShiftEditComponent } from './shifts/shift-edit/shift-edit.component';
 import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row.component';
 import {DatePipe} from "@angular/common";
+import { ShiftEditReactiveComponent } from './shifts/shift-edit-reactive/shift-edit-reactive.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import {DatePipe} from "@angular/common";
     ShopsComponent,
     ShiftEditComponent,
     ShiftTableRowComponent,
+    ShiftEditReactiveComponent,
 
   ],
   imports: [
@@ -32,6 +34,7 @@ import {DatePipe} from "@angular/common";
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [
     DatePipe

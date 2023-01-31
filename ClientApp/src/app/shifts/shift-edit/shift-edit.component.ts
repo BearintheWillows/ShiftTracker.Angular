@@ -14,6 +14,7 @@ import {DatePipe} from "@angular/common";
 })
 export class ShiftEditComponent implements OnInit {
   public shift$: Observable<IShift> | undefined;
+  public shift = {} as IShift;
   public runs: IRun[] = [];
   public submitted: boolean = false;
   public selectedRun: IRun = {} as IRun;
@@ -23,38 +24,43 @@ export class ShiftEditComponent implements OnInit {
   }
 
 
-
-
+//
+//
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.getShiftById(params['id']);
-    });
-      this.getAllRuns();
+    // this.route.params.subscribe(params => {
+    //   this.getShiftById(params['id']);
+    // });
+    //   this.getAllRuns();
 
   }
-
-
-
+//
+//
+//
   getShiftById(id: number) {
     this.shift$ = this.shiftService.getShiftById(id)
   }
-
+//
   async getAllRuns() {
     (await this.runService.getAll()).subscribe((runs: IRun[]) => {
       this.runs = runs;
     });
   }
-
-
-  onSubmit() {
-    this.submitted = true;
-    this.shift$?.subscribe((shift: IShift) => {
-      shift.runId = this.selectedRun.id;
-        this.shiftService.updateShift(shift).subscribe(() => console.log("Shift updated"));
-    });
-  }
-
-  onSelectRun(run: IRun) {
-    this.selectedRun = run;
-  }
-}
+//
+//
+//   onSubmit() {
+//     this.submitted = true;
+//     this.shift$?.subscribe((shift: IShift) => {
+//       console.log("submit" + shift);
+//       shift.runId = this.selectedRun.id ?? shift.runId;
+//         this.shiftService.updateShift(shift).subscribe(() => console.log("Shift updated"));
+//     });
+//   }
+//
+//   onSelectRun(run: IRun) {
+//     this.selectedRun = run;
+//   }
+//
+//   checkShift(shift: IShift){
+//     console.log(shift);
+//   }
+ }

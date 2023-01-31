@@ -1,0 +1,34 @@
+<form [formGroup]="shiftForm" (ngSubmit)="onSubmit()">
+  <label for="date">Date: </label>
+  <input id="date" class="form-control" type="date" formControlName="date" >
+
+  <label for="runNumber">Run Number:</label>
+  <select id="runNumber" class="form-control" formControlName="runNumber" >
+    <option *ngFor="let run of this.runs" [selected]="this.shift.run.number">{{run.number}}</option>
+  </select>
+  <div formGroupName="timeData">
+  <h2>Time Data:</h2>
+  <label for="startTime">Start Time:</label>
+  <input id="startTime" class="form-control" type="time" formControlName="startTime" >
+
+  <label for="endTime">End Time:</label>
+  <input id="endTime" class="form-control" type="time" formControlName="endTime" >
+
+  <label for="driveTime">Drive Time</label>
+  <input id="driveTime" class="form-control" type="time" formControlName="driveTime" >
+
+  <label for="workTime">Work Time</label>
+  <input id="workTime" class="form-control" type="time" formControlName="workTime" >
+
+  <label for="otherWorkTime">Other Work Time</label>
+  <input id="otherWorkTime" class="form-control" type="time" formControlName="otherWorkTime" >
+  </div>
+  <button type="submit" [disabled]="!shiftForm.valid">Confirm</button>
+</form>
+
+<!--  <label for="runNumber">Run #:</label>-->
+<!--  <select class="form-control" id="runNumber" [(ngModel)]="shift.run.number" name="runNumber" required>-->
+<!--    <option *ngFor="let run of runs" (click)="this.selectedRun = run">-->
+<!--      {{run.number}}-->
+<!--    </option>-->
+<!--  </select>-->
