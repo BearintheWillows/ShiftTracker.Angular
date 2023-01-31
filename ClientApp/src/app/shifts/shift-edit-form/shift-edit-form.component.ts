@@ -6,18 +6,22 @@ import {ActivatedRoute} from "@angular/router";
 import {RunService} from "../../../services/runService/run.service";
 import {DatePipe, formatDate} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
+import {Validators} from "@angular/forms";
+import {NotInFutureValidator} from "../../../Validators/Date/not-in-future.directive";
 
 @Component({
-  selector: 'app-shift-edit-reactive',
-  templateUrl: './shift-edit-reactive.component.html',
-  styleUrls: ['./shift-edit-reactive.component.scss']
+  selector: 'app-shift-edit-form',
+  templateUrl: './shift-edit-form.component.html',
+  styleUrls: ['./shift-edit-form.component.scss']
 })
-export class ShiftEditReactiveComponent implements OnInit {
+export class ShiftEditFormComponent implements OnInit {
 
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
   shiftForm = this.fb.group({
-    date         : [''],
+    date         : ['', [Validators.required,
+      Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
+      NotInFutureValidator()]],
     runNumber    : [0],
     timeData     : this.fb.group({
       endTime      : [''],
@@ -69,5 +73,9 @@ export class ShiftEditReactiveComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.shiftForm.value);
+  }
+
+  get date() {
+    return this.shiftForm.get('date');
   }
 }

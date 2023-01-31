@@ -11,10 +11,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { RunsComponent } from './runs/runs.component';
 import { ShopsComponent } from './shops/shops.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ShiftEditComponent } from './shifts/shift-edit/shift-edit.component';
 import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row.component';
 import {DatePipe} from "@angular/common";
-import { ShiftEditReactiveComponent } from './shifts/shift-edit-reactive/shift-edit-reactive.component';
+import {ShiftEditFormComponent} from './shifts/shift-edit-form/shift-edit-form.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,9 +22,9 @@ import { ShiftEditReactiveComponent } from './shifts/shift-edit-reactive/shift-e
     NavComponent,
     RunsComponent,
     ShopsComponent,
-    ShiftEditComponent,
     ShiftTableRowComponent,
-    ShiftEditReactiveComponent,
+    ShiftEditFormComponent,
+
 
   ],
   imports: [
