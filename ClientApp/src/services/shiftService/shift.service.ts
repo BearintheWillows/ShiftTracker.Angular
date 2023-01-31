@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
+import {HttpClient, HttpEvent} from "@angular/common/http";
+import {BehaviorSubject, map, Observable, ReplaySubject, Subject, tap} from "rxjs";
 import {IShift} from "../../interfaces/iShift";
 
 @Injectable({
@@ -48,5 +48,13 @@ export class ShiftService {
   updateShift(shift: IShift) {
     console.log(shift)
     return this.http.put<IShift>(`${this._baseUrl}/${shift.id}`, shift);
+  }
+
+  checkIfDateIsUsed(date: Date): Observable<boolean> {
+    return this.http.get<boolean>(`${this._baseUrl}/checkdateinuse?date=${date}`).pipe(
+      tap((resp: boolean) => {
+        console.log(resp)
+      })
+    );
   }
 }

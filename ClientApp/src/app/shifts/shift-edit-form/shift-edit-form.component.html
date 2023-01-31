@@ -1,9 +1,15 @@
 <form [formGroup]="shiftForm" (ngSubmit)="onSubmit()">
   <label for="date">Date: </label>
-  <input id="date" class="form-control" type="date" formControlName="date" >
+  <input id="date" class="form-control" type="date" formControlName="date"  >
 
+  <div *ngIf="date?.errors?.['required'] && (date?.dirty || date?.touched)" class="alert alert-danger">
+    <p>Date is required</p>
+  </div>
   <div *ngIf="date?.errors?.['notInFuture'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Date must be in past</p>
+  </div>
+  <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">
+    <p>Shift with the date {{date?.value}} already exists</p>
   </div>
 
   <label for="runNumber">Run Number:</label>

@@ -7,7 +7,7 @@ import {RunService} from "../../../services/runService/run.service";
 import {DatePipe, formatDate} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
 import {Validators} from "@angular/forms";
-import {NotInFutureValidator} from "../../../Validators/Date/not-in-future.directive";
+import {DateAlreadyUsedValidator, NotInFutureValidator} from "../../../Validators/Date/date-validators.directive";
 
 @Component({
   selector: 'app-shift-edit-form',
@@ -21,7 +21,9 @@ export class ShiftEditFormComponent implements OnInit {
   shiftForm = this.fb.group({
     date         : ['', [Validators.required,
       Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
-      NotInFutureValidator()]],
+      NotInFutureValidator(),
+      DateAlreadyUsedValidator(this.shiftService)],
+    ],
     runNumber    : [0],
     timeData     : this.fb.group({
       endTime      : [''],
@@ -77,5 +79,29 @@ export class ShiftEditFormComponent implements OnInit {
 
   get date() {
     return this.shiftForm.get('date');
+  }
+
+  get runNumber() {
+    return this.shiftForm.get('runNumber');
+  }
+
+  get startTime() {
+    return this.shiftForm.get('timeData.startTime');
+  }
+
+  get endTime() {
+    return this.shiftForm.get('timeData.endTime');
+  }
+
+  get driveTime() {
+    return this.shiftForm.get('timeData.driveTime');
+  }
+
+  get workTime() {
+    return this.shiftForm.get('timeData.workTime');
+  }
+
+  get otherWorkTime() {
+    return this.shiftForm.get('timeData.otherWorkTime');
   }
 }

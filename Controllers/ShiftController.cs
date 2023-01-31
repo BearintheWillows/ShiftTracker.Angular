@@ -1,5 +1,6 @@
 ﻿namespace ShiftTracker.Angular.Controllers;
 
+using System.Globalization;
 using DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -29,8 +30,8 @@ public class ShiftController : ControllerBase
 	/// </returns>
 	[HttpGet]
 	public async Task<IActionResult> GetAllShifts(
-		[FromQuery] bool includeRun = true    ,
-		bool             includeBreaks = false   ,
+		[FromQuery] bool includeRun      = true,
+		bool             includeBreaks   = false,
 		bool             includeTimeData = true
 	)
 	{
@@ -38,10 +39,11 @@ public class ShiftController : ControllerBase
 		{
 			var shiftResultAsync =
 				await _shiftService.GetAllAsync( includeBreaks, includeRun, includeTimeData );
-			Console.WriteLine("Shift Controller" + "" + shiftResultAsync.Count);
-			var shifts = shiftResultAsync.Select( s => ShiftDto.CreateDto(s, (includeBreaks, includeRun, includeTimeData)
-			                                      )).ToList();
-		return Ok( shifts );
+			Console.WriteLine( "Shift Controller" + "" + shiftResultAsync.Count );
+			var shifts = shiftResultAsync
+			            .Select( s => ShiftDto.CreateDto( s, ( includeBreaks, includeRun, includeTimeData ) ) )
+			            .ToList();
+			return Ok( shifts );
 		}
 		catch ( Exception e )
 		{
@@ -68,7 +70,7 @@ public class ShiftController : ControllerBase
 	{
 		try
 		{
-			var shift = await _shiftService.GetShiftByIdAsync( id);
+			var shift = await _shiftService.GetShiftByIdAsync( id );
 
 			if ( shift != null ) return ShiftDto.CreateDto( shift, ( includeBreaks, includeRun, includeTimeData ) );
 
@@ -165,6 +167,23 @@ public class ShiftController : ControllerBase
 		{
 			Console.WriteLine( e );
 			return BadRequest( "Error updating shift" );
+		}
+	}
+
+	[HttpGet( "checkDateInUse" )]
+	public async Task<ActionResult> checkDateInUse([FromQuery]string date)
+	{
+		DateTime date1 = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+		bool shift = await _shiftService.GetShiftByDateAsync( date1);
+
+		Console.WriteLine("Shift Controller" + "" + shift);
+		if (shift)
+		{
+			return Ok(true);
+		}
+		else
+		{
+			return NotFound(false);
 		}
 	}
 }

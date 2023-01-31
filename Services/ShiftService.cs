@@ -12,7 +12,8 @@ public interface IShiftService : IBaseCrudService<Shift>
 	Task<List<Shift>> GetAllAsync(bool includeBreaks, bool includeRun,    bool includeTimeData);
 	Task<bool>        ExistsAsync(int? id);
 
-	bool TimeEntryValidator(ShiftDto shiftDto);
+	bool         TimeEntryValidator(ShiftDto  shiftDto);
+	Task<bool> GetShiftByDateAsync(DateTime date);
 }
 
 public class ShiftService : BaseCrudService<Shift>, IShiftService
@@ -66,5 +67,17 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 		              shiftDto.DriveTime.Ticks
 		)
 	);
-	
+
+	public async Task<bool> GetShiftByDateAsync(DateTime date)
+	{
+		var findDate = await _context.Shifts.AsNoTracking().FirstOrDefaultAsync( s => s.Date == date );
+
+		if ( findDate != null )
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
 }
