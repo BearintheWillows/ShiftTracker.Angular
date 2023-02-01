@@ -183,7 +183,7 @@ public class ShiftController : ControllerBase
 		}
 		else
 		{
-			return NotFound(false);
+			return Ok(false);
 		}
 	}
 }

@@ -8,6 +8,7 @@ import {DatePipe, formatDate} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
 import {Validators} from "@angular/forms";
 import {DateAlreadyUsedValidator, NotInFutureValidator} from "../../../Validators/Date/date-validators.directive";
+import {ShiftTimesEqualShiftLength} from "../../../Validators/Time/time-validators.directive";
 
 @Component({
   selector: 'app-shift-edit-form',
@@ -18,11 +19,11 @@ export class ShiftEditFormComponent implements OnInit {
 
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
+
   shiftForm = this.fb.group({
     date         : ['', [Validators.required,
       Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
-      NotInFutureValidator(),
-      DateAlreadyUsedValidator(this.shiftService)],
+      NotInFutureValidator()],
     ],
     runNumber    : [0],
     timeData     : this.fb.group({
@@ -31,7 +32,7 @@ export class ShiftEditFormComponent implements OnInit {
       startTime    : [''],
       workTime     : [''],
       otherWorkTime: [''],
-    }),
+    }, {validators: ShiftTimesEqualShiftLength()})
 })
 
 
@@ -103,5 +104,9 @@ export class ShiftEditFormComponent implements OnInit {
 
   get otherWorkTime() {
     return this.shiftForm.get('timeData.otherWorkTime');
+  }
+
+  get timeData() {
+    return this.shiftForm.get('timeData');
   }
 }

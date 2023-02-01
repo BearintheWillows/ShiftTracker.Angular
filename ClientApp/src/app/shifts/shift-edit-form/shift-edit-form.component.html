@@ -8,9 +8,9 @@
   <div *ngIf="date?.errors?.['notInFuture'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Date must be in past</p>
   </div>
-  <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">
-    <p>Shift with the date {{date?.value}} already exists</p>
-  </div>
+<!--  <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">-->
+<!--    <p>Shift with the date {{date?.value}} already exists</p>-->
+<!--  </div>-->
 
   <label for="runNumber">Run Number:</label>
   <select id="runNumber" class="form-control" formControlName="runNumber" >
@@ -18,6 +18,10 @@
   </select>
   <div formGroupName="timeData">
   <h2>Time Data:</h2>
+    <div *ngIf="timeData?.errors?.['ShiftTimesEqualShiftLength']" class="alert alert-danger">
+        <p>Times do not equal shift length</p>
+
+    </div>
   <label for="startTime">Start Time:</label>
   <input id="startTime" class="form-control" type="time" formControlName="startTime" >
 
