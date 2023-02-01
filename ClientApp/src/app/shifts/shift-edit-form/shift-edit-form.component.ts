@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {IRun} from "../../../interfaces/iRun";
 import {ShiftService} from "../../../services/shiftService/shift.service";
 import {ActivatedRoute} from "@angular/router";
 import {RunService} from "../../../services/runService/run.service";
-import {DatePipe, formatDate} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
 import {Validators} from "@angular/forms";
-import {DateAlreadyUsedValidator, NotInFutureValidator} from "../../../Validators/Date/date-validators.directive";
-import {ShiftTimesEqualShiftLength} from "../../../Validators/Time/time-validators.directive";
+import {
+  DateValidators
+} from "../../../Validators/Date/date-validators.directive";
+import { TimeValidators } from "../../../Validators/Time/time-validators.directive";
 
 @Component({
   selector: 'app-shift-edit-form',
@@ -20,20 +22,54 @@ export class ShiftEditFormComponent implements OnInit {
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
 
-  shiftForm = this.fb.group({
-    date         : ['', [Validators.required,
-      Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
-      NotInFutureValidator()],
-    ],
-    runNumber    : [0],
+  shiftForm: FormGroup = this.fb.group({
+    date         : ['', {
+      validators: [
+        Validators.required,
+        Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
+        DateValidators.IsDateInFuture(),
+        ],
+      asyncValidators: [],
+    }],
+    runNumber    : [0, {
+      validators: [
+        Validators.required,
+      ],
+      asyncValidators: [],
+      updateOn: 'change'
+    }],
     timeData     : this.fb.group({
-      endTime      : [''],
-      driveTime    : [''],
-      startTime    : [''],
-      workTime     : [''],
-      otherWorkTime: [''],
-    }, {validators: ShiftTimesEqualShiftLength()})
-})
+      startTime    : [' ', {
+        validators: [
+          Validators.required,
+        ],
+        asyncValidators: [],
+
+      }],
+      endTime      : ['', {
+        validators     : [
+          Validators.required,
+        ],
+        asyncValidators: [],
+      }],
+        driveTime      : [''],
+        workTime       : ['', {
+          validators     : [],
+          asyncValidators: [],
+        }],
+        otherWorkTime  : ['', {
+          validators     : [],
+          asyncValidators: [],
+        }]
+
+    },
+      {
+        validators: [],
+        asyncValidators: [TimeValidators.IsShiftTimesEqualShiftLength()],
+        updateOn: 'blur'
+      })
+  });
+
 
 
   constructor(private shiftService: ShiftService,
@@ -45,9 +81,11 @@ export class ShiftEditFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.getShiftById(params['id']);
+
     });
 
     this.getAllRuns();
+
   }
 
 

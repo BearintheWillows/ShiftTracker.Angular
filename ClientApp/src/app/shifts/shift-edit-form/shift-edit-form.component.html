@@ -1,6 +1,6 @@
-<form [formGroup]="shiftForm" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="shiftForm">
   <label for="date">Date: </label>
-  <input id="date" class="form-control" type="date" formControlName="date"  >
+  <input class="form-control" formControlName="date" id="date" type="date">
 
   <div *ngIf="date?.errors?.['required'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Date is required</p>
@@ -8,37 +8,48 @@
   <div *ngIf="date?.errors?.['notInFuture'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Date must be in past</p>
   </div>
-<!--  <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">-->
-<!--    <p>Shift with the date {{date?.value}} already exists</p>-->
-<!--  </div>-->
+  <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">
+    <p>Shift with the date {{date?.value}} already exists</p>
+  </div>
 
   <label for="runNumber">Run Number:</label>
-  <select id="runNumber" class="form-control" formControlName="runNumber" >
+  <select class="form-control" formControlName="runNumber" id="runNumber">
     <option *ngFor="let run of this.runs" [selected]="this.shift.run.number">{{run.number}}</option>
   </select>
-  <div formGroupName="timeData">
-  <h2>Time Data:</h2>
-    <div *ngIf="timeData?.errors?.['ShiftTimesEqualShiftLength']" class="alert alert-danger">
-        <p>Times do not equal shift length</p>
+  <div formGroupName="timeData" >
+    <h2>Time Data:</h2>
 
+    <label for="startTime">Start Time:</label>
+    <input class="form-control" formControlName="startTime" id="startTime" type="time">
+
+    <label for="endTime">End Time:</label>
+    <input class="form-control" formControlName="endTime" id="endTime" type="time">
+
+    <div *ngIf="endTime?.errors?.['required'] && (endTime?.touched || endTime?.dirty)">
+      <p>End Time is Required.</p>
+      </div>
+    <div *ngIf="endTime?.errors?.['isEndTimeAfterStartTime'] && (endTime?.touched || endTime?.dirty)">
+      <p>End time must be after start time</p>
     </div>
-  <label for="startTime">Start Time:</label>
-  <input id="startTime" class="form-control" type="time" formControlName="startTime" >
 
-  <label for="endTime">End Time:</label>
-  <input id="endTime" class="form-control" type="time" formControlName="endTime" >
 
-  <label for="driveTime">Drive Time</label>
-  <input id="driveTime" class="form-control" type="time" formControlName="driveTime" >
+    <label for="driveTime">Drive Time</label>
+    <input class="form-control" formControlName="driveTime" id="driveTime" type="time">
 
-  <label for="workTime">Work Time</label>
-  <input id="workTime" class="form-control" type="time" formControlName="workTime" >
+    <label for="workTime">Work Time</label>
+    <input class="form-control" formControlName="workTime" id="workTime" type="time">
 
-  <label for="otherWorkTime">Other Work Time</label>
-  <input id="otherWorkTime" class="form-control" type="time" formControlName="otherWorkTime" >
+    <label for="otherWorkTime">Other Work Time</label>
+    <input class="form-control" formControlName="otherWorkTime" id="otherWorkTime" type="time">
+
+    <div *ngIf="timeData?.errors?.['isShiftTimesEqualShiftLength'] && (timeData?.dirty || timeData?.touched)"
+         class="alert alert-danger">
+        <p>Shift times must equal shift length</p>
+    </div>
+
   </div>
-  <button type="submit" [disabled]="!shiftForm.valid">Confirm</button>
+
+
+  <button [disabled]="!shiftForm.valid" type="submit">Confirm</button>
 </form>
-
 <p>Form Status: {{shiftForm.status}}</p>
-
