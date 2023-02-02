@@ -23,54 +23,45 @@ export class ShiftEditFormComponent implements OnInit {
   public runs: IRun[] = [];
 
   shiftForm: FormGroup = this.fb.group({
-    date         : ['', {
-      validators: [
+    date     : ['', {
+      validators     : [
         Validators.required,
-        Validators.pattern('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'),
-        DateValidators.IsDateInFuture(),
-        ],
+        DateValidators.IsDateInFuture()],
       asyncValidators: [],
     }],
-    runNumber    : [0, {
+    runNumber: [0, {
       validators: [
-        Validators.required,
-      ],
-      asyncValidators: [],
-      updateOn: 'change'
+        Validators.required],
     }],
-    timeData     : this.fb.group({
-      startTime    : [' ', {
-        validators: [
-          Validators.required,
-        ],
-        asyncValidators: [],
-
-      }],
-      endTime      : ['', {
-        validators     : [
-          Validators.required,
-        ],
-        asyncValidators: [],
-      }],
-        driveTime      : [''],
-        workTime       : ['', {
-          validators     : [],
-          asyncValidators: [],
+      timeData : this.fb.group({
+        startTime: ['', {
+          validators: [
+            Validators.required],
         }],
-        otherWorkTime  : ['', {
-          validators     : [],
-          asyncValidators: [],
-        }]
-
-    },
-      {
-        validators: [],
-        asyncValidators: [TimeValidators.IsShiftTimesEqualShiftLength()],
-        updateOn: 'blur'
-      })
+        endTime  : ['', {
+          validators: [
+            Validators.required],
+        }],
+        driveTime: ['', {
+          validators: [
+            Validators.required],
+        }],
+        workTime: ['', {
+          validators: [
+            Validators.required],
+        }],
+        otherWorkTime: ['', {
+          validators: [
+            Validators.required],
+        }],
+      },{
+      validators: [
+        TimeValidators.IsShiftStartBeforeShiftEnd(),
+        TimeValidators.IsWorkTimeEqualToShiftLength()],
+        }),
+  },{
+    validators: [],
   });
-
-
 
   constructor(private shiftService: ShiftService,
               private route: ActivatedRoute,
@@ -132,17 +123,17 @@ export class ShiftEditFormComponent implements OnInit {
     return this.shiftForm.get('timeData.endTime');
   }
 
-  get driveTime() {
-    return this.shiftForm.get('timeData.driveTime');
-  }
-
-  get workTime() {
-    return this.shiftForm.get('timeData.workTime');
-  }
-
-  get otherWorkTime() {
-    return this.shiftForm.get('timeData.otherWorkTime');
-  }
+  // get driveTime() {
+  //   return this.shiftForm.get('timeData.driveTime');
+  // }
+  //
+  // get workTime() {
+  //   return this.shiftForm.get('timeData.workTime');
+  // }
+  //
+  // get otherWorkTime() {
+  //   return this.shiftForm.get('timeData.otherWorkTime');
+  // }
 
   get timeData() {
     return this.shiftForm.get('timeData');

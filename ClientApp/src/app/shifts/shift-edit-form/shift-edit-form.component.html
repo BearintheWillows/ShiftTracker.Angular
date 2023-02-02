@@ -16,36 +16,46 @@
   <select class="form-control" formControlName="runNumber" id="runNumber">
     <option *ngFor="let run of this.runs" [selected]="this.shift.run.number">{{run.number}}</option>
   </select>
+
+
+
   <div formGroupName="timeData" >
     <h2>Time Data:</h2>
 
     <label for="startTime">Start Time:</label>
     <input class="form-control" formControlName="startTime" id="startTime" type="time">
 
+    <div *ngIf="startTime?.errors?.['required'] && (startTime?.dirty || startTime?.touched)" class="alert alert-danger">
+      <p>Start Time is Required.</p>
+    </div>
+
     <label for="endTime">End Time:</label>
     <input class="form-control" formControlName="endTime" id="endTime" type="time">
 
-    <div *ngIf="endTime?.errors?.['required'] && (endTime?.touched || endTime?.dirty)">
+    <div *ngIf="endTime?.errors?.['required'] && (endTime?.dirty || endTime?.touched)" class="alert alert-danger">
       <p>End Time is Required.</p>
-      </div>
-    <div *ngIf="endTime?.errors?.['isEndTimeAfterStartTime'] && (endTime?.touched || endTime?.dirty)">
-      <p>End time must be after start time</p>
     </div>
-
 
     <label for="driveTime">Drive Time</label>
     <input class="form-control" formControlName="driveTime" id="driveTime" type="time">
 
+<!--  <div *ngIf="driveTime?.errors?.['required'] && (driveTime?.dirty || driveTime?.touched)" class="alert alert-danger">-->
+<!--    <p>Drive Time is Required.</p>-->
+<!--  </div>-->
+
     <label for="workTime">Work Time</label>
     <input class="form-control" formControlName="workTime" id="workTime" type="time">
+
+<!--  <div *ngIf="workTime?.errors?.['required'] && (workTime?.dirty || workTime?.touched)" class="alert alert-danger">-->
+<!--    <p>Working Time is Required.</p>-->
+<!--  </div>-->
 
     <label for="otherWorkTime">Other Work Time</label>
     <input class="form-control" formControlName="otherWorkTime" id="otherWorkTime" type="time">
 
-    <div *ngIf="timeData?.errors?.['isShiftTimesEqualShiftLength'] && (timeData?.dirty || timeData?.touched)"
-         class="alert alert-danger">
-        <p>Shift times must equal shift length</p>
-    </div>
+<!--  <div *ngIf="otherWorkTime?.errors?.['required'] && (otherWorkTime?.dirty || otherWorkTime?.touched)" class="alert alert-danger">-->
+<!--    <p>Other Work / POA Time is Required.</p>-->
+<!--  </div>-->
 
   </div>
 
