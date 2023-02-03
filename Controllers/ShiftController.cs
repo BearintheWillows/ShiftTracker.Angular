@@ -140,6 +140,7 @@ public class ShiftController : ControllerBase
 	}
 
 	[HttpPut( "{id}" )]
+	
 	public async Task<IActionResult> UpdateShift(int id, [FromBody] ShiftDto shiftDto)
 	{
 			shiftDto.BreakDuration = new TimeSpan(0,0,0);
@@ -148,11 +149,10 @@ public class ShiftController : ControllerBase
 
 		try
 		{
-			var shift = await _shiftService.GetAsync( id );
+			var shift = await _shiftService.GetShiftByIdAsync( id );
 			if ( shift == null ) return NotFound( "Shift not found" );
-
+		
 			shift.Date = shiftDto.Date;
-			shift.RunId = shiftDto.RunId;
 			shift.StartTime = shiftDto.StartTime;
 			shift.EndTime = shiftDto.EndTime;
 			//TODO: Fix this to update break from form
@@ -162,7 +162,12 @@ public class ShiftController : ControllerBase
 			shift.OtherWorkTime = shiftDto.OtherWorkTime;
 			shift.WorkTime = shiftDto.WorkTime;
 			shift.ShiftDuration = shiftDto.ShiftDuration;
-
+			shift.RunId = shiftDto.RunId;
+			var run = await _runService.GetAsync( shiftDto.RunId );
+			if ( run != null)
+			{
+				shift.Run = run;
+			}
 			await _shiftService.UpdateAsync( shift );
 			return Ok();
 		}

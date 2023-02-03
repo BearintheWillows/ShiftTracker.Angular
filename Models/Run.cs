@@ -2,8 +2,8 @@
 
 public class Run
 {
-	public int      Id        { get; set; }
-	public int      Number    { get; set; }
+	public int     Id        { get; set; }
+	public int     Number    { get; set; }
 	public TimeSpan StartTime { get; set; }
 
 	public ICollection<Shift>           Shifts     { get; set; }

@@ -14,7 +14,7 @@
 
   <label for="runNumber">Run Number:</label>
   <select class="form-control" formControlName="runNumber" id="runNumber">
-    <option *ngFor="let run of this.runs" [selected]="this.shift.run.number">{{run.number}}</option>
+    <option *ngFor="let run of this.runs" value="{{run.number}}">{{run.number}}</option>
   </select>
 
 

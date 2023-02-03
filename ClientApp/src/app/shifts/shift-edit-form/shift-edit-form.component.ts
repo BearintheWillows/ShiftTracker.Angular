@@ -91,18 +91,18 @@ export class ShiftEditFormComponent implements OnInit {
   getShiftById(id: number) {
     this.shiftService.getShiftById(id).subscribe((shift: IShift) => {
       this.shift = shift;
-      console.log(this.shift);
+
       this.shiftForm.setValue({
-        date     : this.datePipe.transform(this.shift.date, 'yyyy-MM-dd'),
-        runNumber: this.shift.run.number,
+        date     : this.datePipe.transform(shift.date, 'yyyy-MM-dd'),
+        runNumber: shift.run.number,
 
         timeData: {
-          startTime    : this.shift.startTime.toString(),
-          endTime      : this.shift.endTime.toString(),
-          shiftDuration: this.shift.shiftDuration.toString(),
-          driveTime    : this.shift.driveTime.toString(),
-          workTime     : this.shift.workTime.toString(),
-          otherWorkTime: this.shift.otherWorkTime.toString(),
+          startTime    : shift.startTime.toString(),
+          endTime      : shift.endTime.toString(),
+          shiftDuration: shift.shiftDuration.toString(),
+          driveTime    : shift.driveTime.toString(),
+          workTime     : shift.workTime.toString(),
+          otherWorkTime: shift.otherWorkTime.toString(),
         }
     });
   });
@@ -122,7 +122,9 @@ export class ShiftEditFormComponent implements OnInit {
     this.shift.workTime = this.workTime?.value;
     this.shift.otherWorkTime = this.otherWorkTime?.value;
     this.shift.shiftDuration = this.shiftDuration?.value;
+    this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
 
+    console.log(this.shift);
     this.shiftService.updateShift(this.shift).subscribe();
   }
 

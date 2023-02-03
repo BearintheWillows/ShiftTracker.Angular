@@ -6,7 +6,7 @@ public class ShiftDto
 {
 	public int?     Id        { get; set; }
 	public DateTime Date      { get; set; }
-	public int?     RunId     { get; set; }
+	public int     RunId     { get; set; }
 
 	public RunDto? Run { get; set; }
 
@@ -41,7 +41,7 @@ public class ShiftDto
 						}
 				).ToList()
 				: null,
-			Run = opts.includeRun ? new RunDto { Id = shift.Run.Id, Number = shift.Run.Number } : null,
+			Run = opts.includeRun ? new RunDto { Id = shift.Run.Id, Number = shift.Run.Number, StartTime = shift.Run.StartTime} : null,
 			StartTime = opts.includeTimeData ? shift.StartTime : new TimeSpan( 00, 00, 00 ),
 			EndTime = opts.includeTimeData ? shift.EndTime : new TimeSpan( 00, 00, 00 ),
 			DriveTime = opts.includeTimeData ? shift.DriveTime : new TimeSpan( 00, 00, 00 ),
