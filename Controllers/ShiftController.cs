@@ -142,8 +142,9 @@ public class ShiftController : ControllerBase
 	[HttpPut( "{id}" )]
 	public async Task<IActionResult> UpdateShift(int id, [FromBody] ShiftDto shiftDto)
 	{
-		// if ( !_shiftService.TimeEntryValidator( shiftDto ) )
-		// 	return BadRequest( "Time entries do not add up to shift duration total" );
+			shiftDto.BreakDuration = new TimeSpan(0,0,0);
+		if ( !_shiftService.TimeEntryValidator( shiftDto ) )
+			return BadRequest( "Time entries do not add up to shift duration total" );
 
 		try
 		{
@@ -154,11 +155,13 @@ public class ShiftController : ControllerBase
 			shift.RunId = shiftDto.RunId;
 			shift.StartTime = shiftDto.StartTime;
 			shift.EndTime = shiftDto.EndTime;
+			//TODO: Fix this to update break from form
 			shift.BreakDuration = shiftDto.BreakDuration;
 			shift.DriveTime = shiftDto.DriveTime;
 			shift.ShiftDuration = shiftDto.ShiftDuration;
 			shift.OtherWorkTime = shiftDto.OtherWorkTime;
 			shift.WorkTime = shiftDto.WorkTime;
+			shift.ShiftDuration = shiftDto.ShiftDuration;
 
 			await _shiftService.UpdateAsync( shift );
 			return Ok();

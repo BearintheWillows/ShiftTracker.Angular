@@ -42,6 +42,12 @@ export class ShiftEditFormComponent implements OnInit {
           validators: [
             Validators.required],
         }],
+        shiftDuration: [
+          {value: '', disabled: true} , {
+            validators: [],
+          }],
+
+
         driveTime: ['', {
           validators: [
             Validators.required],
@@ -58,6 +64,8 @@ export class ShiftEditFormComponent implements OnInit {
       validators: [
         TimeValidators.IsShiftStartBeforeShiftEnd(),
         TimeValidators.IsWorkTimeEqualToShiftLength()],
+        asyncValidators: [],
+        updateOn: 'blur'
         }),
   },{
     validators: [],
@@ -83,12 +91,15 @@ export class ShiftEditFormComponent implements OnInit {
   getShiftById(id: number) {
     this.shiftService.getShiftById(id).subscribe((shift: IShift) => {
       this.shift = shift;
+      console.log(this.shift);
       this.shiftForm.setValue({
         date     : this.datePipe.transform(this.shift.date, 'yyyy-MM-dd'),
         runNumber: this.shift.run.number,
+
         timeData: {
           startTime    : this.shift.startTime.toString(),
           endTime      : this.shift.endTime.toString(),
+          shiftDuration: this.shift.shiftDuration.toString(),
           driveTime    : this.shift.driveTime.toString(),
           workTime     : this.shift.workTime.toString(),
           otherWorkTime: this.shift.otherWorkTime.toString(),
@@ -104,7 +115,15 @@ export class ShiftEditFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.shiftForm.value);
+    this.shift.date = this.date?.value;
+    this.shift.startTime = this.startTime?.value;
+    this.shift.endTime = this.endTime?.value;
+    this.shift.driveTime = this.driveTime?.value;
+    this.shift.workTime = this.workTime?.value;
+    this.shift.otherWorkTime = this.otherWorkTime?.value;
+    this.shift.shiftDuration = this.shiftDuration?.value;
+
+    this.shiftService.updateShift(this.shift).subscribe();
   }
 
   get date() {
@@ -123,19 +142,25 @@ export class ShiftEditFormComponent implements OnInit {
     return this.shiftForm.get('timeData.endTime');
   }
 
-  // get driveTime() {
-  //   return this.shiftForm.get('timeData.driveTime');
-  // }
-  //
-  // get workTime() {
-  //   return this.shiftForm.get('timeData.workTime');
-  // }
-  //
-  // get otherWorkTime() {
-  //   return this.shiftForm.get('timeData.otherWorkTime');
-  // }
+  get driveTime() {
+    return this.shiftForm.get('timeData.driveTime');
+  }
+
+  get workTime() {
+    return this.shiftForm.get('timeData.workTime');
+  }
+
+  get otherWorkTime() {
+    return this.shiftForm.get('timeData.otherWorkTime');
+  }
 
   get timeData() {
     return this.shiftForm.get('timeData');
   }
+
+  get shiftDuration() {
+    return this.shiftForm.get('timeData.shiftDuration');
+  }
+
+
 }

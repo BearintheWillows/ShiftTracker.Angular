@@ -44,6 +44,7 @@ public class ShiftDto
 			Run = opts.includeRun ? new RunDto { Id = shift.Run.Id, Number = shift.Run.Number } : null,
 			StartTime = opts.includeTimeData ? shift.StartTime : new TimeSpan( 00, 00, 00 ),
 			EndTime = opts.includeTimeData ? shift.EndTime : new TimeSpan( 00, 00, 00 ),
+			DriveTime = opts.includeTimeData ? shift.DriveTime : new TimeSpan( 00, 00, 00 ),
 			ShiftDuration = opts.includeTimeData ? shift.ShiftDuration : new TimeSpan( 00, 00, 00 ),
 			BreakDuration = opts.includeTimeData ? shift.BreakDuration : new TimeSpan( 00, 00, 00 ),
 			OtherWorkTime = opts.includeTimeData ? shift.OtherWorkTime : new TimeSpan( 00, 00, 00 ),

@@ -18,7 +18,6 @@
   </select>
 
 
-
   <div formGroupName="timeData" >
     <h2>Time Data:</h2>
 
@@ -35,6 +34,10 @@
     <div *ngIf="endTime?.errors?.['required'] && (endTime?.dirty || endTime?.touched)" class="alert alert-danger">
       <p>End Time is Required.</p>
     </div>
+
+    <label for="shiftDuration">Shift Duration</label>
+    <input class="form-control" formControlName="shiftDuration" id="shiftDuration" type="time" >
+
 
     <label for="driveTime">Drive Time</label>
     <input class="form-control" formControlName="driveTime" id="driveTime" type="time">
