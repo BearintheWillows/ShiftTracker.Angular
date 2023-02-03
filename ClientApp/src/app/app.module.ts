@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShiftTableRowComponent } from './shifts/shift-table-row/shift-table-row.component';
 import {DatePipe} from "@angular/common";
 import {ShiftEditFormComponent} from './shifts/shift-edit-form/shift-edit-form.component';
+import { ConfirmModalComponent } from './Helpers/confirm-modal/confirm-modal.component';
+import {ModalModule} from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import {ShiftEditFormComponent} from './shifts/shift-edit-form/shift-edit-form.c
     ShopsComponent,
     ShiftTableRowComponent,
     ShiftEditFormComponent,
+    ConfirmModalComponent,
 
 
   ],
@@ -34,7 +37,8 @@ import {ShiftEditFormComponent} from './shifts/shift-edit-form/shift-edit-form.c
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule.forRoot()
   ],
   providers: [
     DatePipe

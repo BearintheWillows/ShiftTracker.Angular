@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IRun} from "../../../interfaces/iRun";
 import {ShiftService} from "../../../services/shiftService/shift.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RunService} from "../../../services/runService/run.service";
 import {DatePipe} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
@@ -11,6 +11,8 @@ import {
   DateValidators
 } from "../../../Validators/Date/date-validators.directive";
 import { TimeValidators } from "../../../Validators/Time/time-validators.directive";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import {ConfirmModalComponent} from "../../Helpers/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-shift-edit-form',
@@ -21,6 +23,7 @@ export class ShiftEditFormComponent implements OnInit {
 
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
+  modalRef?: BsModalRef;
 
   shiftForm: FormGroup = this.fb.group({
     date     : ['', {
@@ -75,7 +78,10 @@ export class ShiftEditFormComponent implements OnInit {
               private route: ActivatedRoute,
               private runService: RunService,
               private datePipe: DatePipe,
-              private fb: FormBuilder){}
+              private fb: FormBuilder,
+              private modalService: BsModalService,
+              private router: Router
+){}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -114,7 +120,24 @@ export class ShiftEditFormComponent implements OnInit {
     });
   }
 
+  onSubmitPress() {
+ this.modalRef = this.modalService.show(ConfirmModalComponent, {
+   initialState: {
+     runNumber: this.runNumber?.value,
+   }
+ });
+  this.modalRef.content.onClose.subscribe((result: boolean) => {
+    if (result === true) {
+      console.log(result);
+      this.onSubmit();
+    } else {
+      this.modalService.hide(1);
+    }
+  });
+}
+
   onSubmit() {
+
     this.shift.date = this.date?.value;
     this.shift.startTime = this.startTime?.value;
     this.shift.endTime = this.endTime?.value;
@@ -125,7 +148,10 @@ export class ShiftEditFormComponent implements OnInit {
     this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
 
     console.log(this.shift);
-    this.shiftService.updateShift(this.shift).subscribe();
+    this.shiftService.updateShift(this.shift).subscribe(() => {
+      this.router.navigate(['/shifts']);
+    }
+    );
   }
 
   get date() {
