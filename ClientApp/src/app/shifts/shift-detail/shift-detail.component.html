@@ -6,9 +6,15 @@
  <div class="card-body">
     <p>Start: {{formatTime(shift.startTime)}}</p>
     <p>Finish: {{formatTime(shift.endTime)}}</p>
-    <p>Duration: {{formatTime(shift.shiftDuration)}}</p>
+    <p>Duration: {{formatTimeToHours(shift.shiftDuration)}}</p>
     <H6>Data:</H6>
+    <p>Drive Time: {{formatTimeToHours(shift.driveTime)}}</p>
+    <p>Work Time: {{formatTimeToHours(shift.workTime)}}</p>
+    <p>Other Work: {{formatTimeToHours(shift.otherWorkTime)}}</p>
 
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+    <a routerLink="/shifts" class="btn btn-primary">Back</a>
+   <a type="button" routerLink="/shifts/{{shift?.id}}/edit" class="btn btn-info">Edit</a>
   </div>
+
 </div>

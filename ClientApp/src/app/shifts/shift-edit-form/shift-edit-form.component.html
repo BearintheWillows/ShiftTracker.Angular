@@ -67,7 +67,7 @@
 
 
   <button class="btn btn-success" [disabled]="!shiftForm.valid" (click)="this.onSubmitPress()" type="button" >Confirm</button>
-  <button class="btn btn-danger" type="button" routerLink="/shifts" >Cancel </button>
+  <button class="btn btn-danger" type="button" (click)="goBack()" >Cancel </button>
 </form>
 <p>Form Status: {{shiftForm.status}}</p>
 

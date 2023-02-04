@@ -4,7 +4,7 @@ import {IRun} from "../../../interfaces/iRun";
 import {ShiftService} from "../../../services/shiftService/shift.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RunService} from "../../../services/runService/run.service";
-import {DatePipe} from "@angular/common";
+import {DatePipe, Location} from "@angular/common";
 import {IShift} from "../../../interfaces/iShift";
 import {Validators} from "@angular/forms";
 import {
@@ -23,6 +23,7 @@ export class ShiftEditFormComponent implements OnInit {
 
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
+  public previousUrl: string = '';
   modalRef?: BsModalRef;
 
   shiftForm: FormGroup = this.fb.group({
@@ -80,7 +81,8 @@ export class ShiftEditFormComponent implements OnInit {
               private datePipe: DatePipe,
               private fb: FormBuilder,
               private modalService: BsModalService,
-              private router: Router
+              private router: Router,
+              private location: Location
 ){}
 
   ngOnInit(): void {
@@ -91,6 +93,7 @@ export class ShiftEditFormComponent implements OnInit {
 
     this.getAllRuns();
 
+    this.previousUrl = this.route.snapshot.queryParams['previousUrl'] ?? '/shifts';
   }
 
 
@@ -188,6 +191,11 @@ export class ShiftEditFormComponent implements OnInit {
 
   get shiftDuration() {
     return this.shiftForm.get('timeData.shiftDuration');
+  }
+
+  // go back to previous component
+  goBack(): void {
+    this.location.back();
   }
 
 

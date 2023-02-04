@@ -41,5 +41,13 @@ export class ShiftDetailComponent implements OnInit{
       let newTime = new Date("1970-01-01T" + time + "Z");
       return newTime.toLocaleTimeString('en-EN', {hour: '2-digit', minute: '2-digit'});
   }
+
+  formatTimeToHours(time: Date): string {
+    let newTime = new Date("1970-01-01T" + time);
+    let hours = newTime.getHours();
+    let minutes = newTime.getMinutes();
+
+    return hours + " hrs and " + minutes + " mins";
+  }
 }
 
