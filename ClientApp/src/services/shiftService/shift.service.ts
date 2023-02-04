@@ -30,6 +30,10 @@ export class ShiftService {
     return this.http.get<IShift>(`${this._baseUrl}/${id}`);
   }
 
+  postCreateShift(shift: IShift): Observable<IShift> {
+    return this.http.post<IShift>(this._baseUrl, );
+  }
+
   postDeleteShift(id: number): Observable<IShift> {
     return this.http.delete<IShift>(`${this._baseUrl}/${id}`);
   }

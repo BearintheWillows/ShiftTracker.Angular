@@ -15,6 +15,7 @@ import {ShiftEditFormComponent} from './shifts/shift-edit-form/shift-edit-form.c
 import { ConfirmModalComponent } from './Helpers/confirm-modal/confirm-modal.component';
 import {ModalModule} from "ngx-bootstrap/modal";
 import { ShiftDetailComponent } from './shifts/shift-detail/shift-detail.component';
+import { ShiftCreateFormComponent } from './shifts/shift-create-form/shift-create-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ShiftDetailComponent } from './shifts/shift-detail/shift-detail.compone
     ShiftEditFormComponent,
     ConfirmModalComponent,
     ShiftDetailComponent,
+    ShiftCreateFormComponent,
 
 
   ],
