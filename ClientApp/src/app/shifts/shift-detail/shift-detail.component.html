@@ -1,1 +1,14 @@
-<h1>Shift Detail</h1>
+<div class="card" style="width: 18rem;">
+ <div class="card-header">
+   <h2>{{this.dateString}}</h2>
+   <h5 class="card-title">Run {{shift.run.number}}</h5>
+ </div>
+ <div class="card-body">
+    <p>Start: {{formatTime(shift.startTime)}}</p>
+    <p>Finish: {{formatTime(shift.endTime)}}</p>
+    <p>Duration: {{formatTime(shift.shiftDuration)}}</p>
+    <H6>Data:</H6>
+
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>

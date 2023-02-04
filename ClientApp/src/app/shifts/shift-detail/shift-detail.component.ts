@@ -11,6 +11,8 @@ import {IShift} from "../../../interfaces/iShift";
 export class ShiftDetailComponent implements OnInit{
 
     shift: IShift = {} as IShift;
+    dateString: string = '';
+  private newDate: Date = new Date()
 
     constructor(
       private shiftService: ShiftService,
@@ -20,13 +22,24 @@ export class ShiftDetailComponent implements OnInit{
       this.route.params.subscribe(params => {
         this.getShiftById(params['id']);
       });
+
+
     }
 
     getShiftById(id: number): void {
       this.shiftService.getShiftById(id).subscribe(
-        shift => this.shift = shift
+        shift => {
+          this.shift = shift
+          this.newDate = new Date(this.shift.date);
+          this.dateString = this.newDate.toLocaleDateString('en-EN', {day: 'numeric', month: 'long', year: 'numeric'});
+
+    }
       );
     }
 
+    formatTime(time: Date): string {
+      let newTime = new Date("1970-01-01T" + time + "Z");
+      return newTime.toLocaleTimeString('en-EN', {hour: '2-digit', minute: '2-digit'});
+  }
 }
 
