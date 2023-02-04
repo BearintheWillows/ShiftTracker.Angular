@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {IShift} from "../../interfaces/iShift";
 import {ShiftService} from "../../services/shiftService/shift.service";
-import {IsActiveMatchOptions} from "@angular/router";
+import { Router} from "@angular/router";
 
 @Component({
   selector: 'app-shifts',
@@ -16,7 +16,8 @@ export class ShiftsComponent implements OnInit {
   selectedEditShift?: IShift;
   selectedFunction?: string;
 
-  constructor(shiftService: ShiftService) {
+  constructor(shiftService: ShiftService,
+              private router: Router) {
 
     this.shiftService = shiftService;
 }
@@ -56,6 +57,10 @@ export class ShiftsComponent implements OnInit {
     }
 
     deleteShift(shift: IShift): void {
+    }
+
+    goToDetail(shift: IShift): void {
+      this.router.navigate([`/shifts/${shift.id}/detail`]);
     }
 }
 

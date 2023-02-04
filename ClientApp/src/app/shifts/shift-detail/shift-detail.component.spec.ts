@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShiftTableRowComponent } from './shift-table-row.component';
+import { ShiftDetailComponent } from './shift-detail.component';
 
-describe('ShiftTableRowComponent', () => {
-  let component: ShiftTableRowComponent;
-  let fixture: ComponentFixture<ShiftTableRowComponent>;
+describe('ShiftDetailComponent', () => {
+  let component: ShiftDetailComponent;
+  let fixture: ComponentFixture<ShiftDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShiftTableRowComponent ]
+      declarations: [ ShiftDetailComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ShiftTableRowComponent);
+    fixture = TestBed.createComponent(ShiftDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

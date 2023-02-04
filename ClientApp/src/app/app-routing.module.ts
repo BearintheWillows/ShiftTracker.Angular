@@ -4,10 +4,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {RunsComponent} from "./runs/runs.component";
 import {ShopsComponent} from "./shops/shops.component";
 import {ShiftEditFormComponent} from "./shifts/shift-edit-form/shift-edit-form.component";
+import {ShiftDetailComponent} from "./shifts/shift-detail/shift-detail.component";
 
 const routes: Routes = [
   { path: 'shifts', component: ShiftsComponent },
   { path: 'shifts/:id/edit', component: ShiftEditFormComponent},
+  { path: 'shifts/:id/detail', component: ShiftDetailComponent},
   { path: 'runs', component: RunsComponent },
   { path: 'shops', component: ShopsComponent },
   { path: '', redirectTo: '/shifts', pathMatch: 'full' },
