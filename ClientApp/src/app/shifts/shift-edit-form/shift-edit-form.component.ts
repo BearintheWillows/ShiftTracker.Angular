@@ -23,7 +23,6 @@ export class ShiftEditFormComponent implements OnInit {
 
   public shift: IShift = {} as IShift;
   public runs: IRun[] = [];
-  public previousUrl: string = '';
   modalRef?: BsModalRef;
 
   shiftForm: FormGroup = this.fb.group({
@@ -92,8 +91,6 @@ export class ShiftEditFormComponent implements OnInit {
     });
 
     this.getAllRuns();
-
-    this.previousUrl = this.route.snapshot.queryParams['previousUrl'] ?? '/shifts';
   }
 
 
@@ -124,8 +121,11 @@ export class ShiftEditFormComponent implements OnInit {
   }
 
   onSubmitPress() {
+    let newDate = new Date(this.date?.value);
  this.modalRef = this.modalService.show(ConfirmModalComponent, {
    initialState: {
+      title: 'Confirm Shift Update',
+      message: `Are you sure you want to update the shift for ${newDate.toLocaleDateString('en-EN', {day: 'numeric', month: 'long', year: 'numeric'})}`,
      runNumber: this.runNumber?.value,
    }
  });
@@ -197,6 +197,7 @@ export class ShiftEditFormComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
 
 
 }

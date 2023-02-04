@@ -30,6 +30,11 @@ export class ShiftService {
     return this.http.get<IShift>(`${this._baseUrl}/${id}`);
   }
 
+  postDeleteShift(id: number): Observable<IShift> {
+    return this.http.delete<IShift>(`${this._baseUrl}/${id}`);
+  }
+
+
 
   setFilterOptions(includeRun?: boolean, includeTimeData?: boolean, includeBreaks?: boolean): void {
     if(includeRun) {

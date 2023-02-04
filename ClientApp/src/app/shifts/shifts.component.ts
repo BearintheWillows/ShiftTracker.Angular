@@ -1,26 +1,30 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {IShift} from "../../interfaces/iShift";
 import {ShiftService} from "../../services/shiftService/shift.service";
-import { Router} from "@angular/router";
+import {Router} from "@angular/router";
+import {ConfirmModalComponent} from "../Helpers/confirm-modal/confirm-modal.component";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
-  selector: 'app-shifts',
+  selector   : 'app-shifts',
   templateUrl: './shifts.component.html',
-  styleUrls: ['./shifts.component.scss']
+  styleUrls  : ['./shifts.component.scss']
 })
 export class ShiftsComponent implements OnInit {
 
   public shifts: IShift[] = []
   private shiftService: ShiftService;
+  modalRef?: BsModalRef;
 
   selectedEditShift?: IShift;
   selectedFunction?: string;
 
   constructor(shiftService: ShiftService,
-              private router: Router) {
+              private router: Router,
+              private modalService: BsModalService) {
 
     this.shiftService = shiftService;
-}
+  }
 
 
   ngOnInit(): void {
@@ -29,9 +33,9 @@ export class ShiftsComponent implements OnInit {
   }
 
   populateShifts(): void {
-      this.shiftService.getShifts(false, false, false).subscribe((shifts: IShift[]) => {
+    this.shiftService.getShifts(false, false, false).subscribe((shifts: IShift[]) => {
       this.shifts = shifts;
-        console.log(this.shifts)
+      console.log(this.shifts)
     });
   }
 
@@ -41,27 +45,51 @@ export class ShiftsComponent implements OnInit {
 
     switch (func.toLowerCase()) {
       case "edit":
-          break;
-       case "cancel":
-          this.selectedEditShift = undefined;
-          break;
-       case "confirm":
-          this.selectedEditShift = undefined;
-          this.shiftService.updateShift(shift).subscribe((shift: IShift) => {
-             this.populateShifts();
-          });
+        break;
+      case "cancel":
+        this.selectedEditShift = undefined;
+        break;
+      case "confirm":
+        this.selectedEditShift = undefined;
+        this.shiftService.updateShift(shift).subscribe((shift: IShift) => {
+          this.populateShifts();
+        });
     }
   }
-    editShift(shift: IShift): void {
 
-    }
+  editShift(shift: IShift): void {
 
-    deleteShift(shift: IShift): void {
-    }
+  }
 
-    goToDetail(shift: IShift): void {
-      this.router.navigate([`/shifts/${shift.id}/detail`]);
-    }
+  deleteShift(shift: IShift): void {
+    this.shiftService.postDeleteShift(shift.id).subscribe((shift: IShift) => {
+      this.populateShifts();
+    });
+  }
+
+  onDeleteConfirm(shift: IShift): void {
+
+    let newDate = new Date(shift.date);
+    this.modalRef = this.modalService.show(ConfirmModalComponent, {
+      initialState: {
+        title  : 'Confirm Delete Shift',
+        message: `Are you sure you want to update the shift for ${newDate.toLocaleDateString('en-EN', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        })}`,
+      }
+    });
+    this.modalRef.content.onClose.subscribe((result: boolean) => {
+      if(result) {
+        this.deleteShift(shift);
+      } else {
+        this.modalService.hide(1);
+      }
+    });
+  }
+
+  goToDetail(shift: IShift): void {
+    this.router.navigate([`/shifts/${shift.id}/detail`]);
+  }
 }
 
 

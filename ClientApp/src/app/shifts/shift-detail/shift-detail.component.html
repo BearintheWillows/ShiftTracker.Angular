@@ -13,8 +13,9 @@
     <p>Other Work: {{formatTimeToHours(shift.otherWorkTime)}}</p>
 
 
-    <a routerLink="/shifts" class="btn btn-primary">Back</a>
+    <a (click)="goBack()" class="btn btn-primary">Back</a>
    <a type="button" routerLink="/shifts/{{shift?.id}}/edit" class="btn btn-info">Edit</a>
-  </div>
+    <a type="button" (click)="deleteConfirm()" class="btn btn-danger">Delete</a>
+ </div>
 
 </div>

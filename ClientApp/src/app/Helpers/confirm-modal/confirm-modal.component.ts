@@ -7,8 +7,11 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
   styleUrls: ['./confirm-modal.component.css']
 })
 export class ConfirmModalComponent {
-
+  @Input() title: string = '';
+  @Input() message: string = '';
+  @Input() template: string = '';
   @Input() runNumber: number = 0;
+
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(public bsModalRef: BsModalRef) {
