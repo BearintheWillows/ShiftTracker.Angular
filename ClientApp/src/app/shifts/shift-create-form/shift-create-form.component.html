@@ -14,7 +14,7 @@
 
   <label for="runNumber">Run Number:</label>
   <select class="form-control" formControlName="runNumber" id="runNumber">
-    <option *ngFor="let run of this.runs" selected="{{runs[0].number}}">{{run.number}}</option>
+    <option *ngFor="let run of this.runs" value="{{run.number}}" selected="{{runs[0].number}}">{{run.number}}</option>
   </select>
 
   <div *ngIf="runNumber?.errors?.['required'] && (runNumber?.dirty || runNumber?.touched)">
@@ -75,4 +75,4 @@
 </form>
 <p>Form Status: {{shiftForm.status}}</p>
 
-
+<button (click)="onSubmitPress()">click</button>

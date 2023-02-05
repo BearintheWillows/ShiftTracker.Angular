@@ -115,19 +115,29 @@ export class ShiftCreateFormComponent implements OnInit {
 
   onSubmit() {
 
+    // ":00 appended to each value to satisfy C# Timespan conversion criteria.
     this.shift.date = this.date?.value;
-    this.shift.startTime = this.startTime?.value;
-    this.shift.endTime = this.endTime?.value;
-    this.shift.driveTime = this.driveTime?.value;
-    this.shift.workTime = this.workTime?.value;
-    this.shift.otherWorkTime = this.otherWorkTime?.value;
+    this.shift.startTime = this.startTime?.value + ":00";
+    this.shift.endTime = this.endTime?.value + ":00";
+    this.shift.driveTime = this.driveTime?.value + ":00";
+    this.shift.workTime = this.workTime?.value + ":00";
+    this.shift.otherWorkTime = this.otherWorkTime?.value + ":00";
     this.shift.shiftDuration = this.shiftDuration?.value;
-    this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
+    this.shift.breakDuration = "00:00:00"
 
-    this.shiftService.postCreateShift(this.shift).subscribe(() => {
-      console.log("Added Successfully")
-      this.router.navigate(['/shifts']);
-    });
+    this.runService.getRunIdFromRunNumber(this.runNumber?.value).subscribe(
+      (runId: number) => {
+        this.shift.runId = runId;
+        this.shiftService.postShift(this.shift).subscribe(() => {
+          console.log("Added Successfully")
+          this.router.navigate(['/shifts']);
+        });
+
+      }
+    );
+
+
+
 
   }
 

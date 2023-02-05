@@ -1,9 +1,11 @@
 ﻿namespace ShiftTracker.Angular.Controllers;
 
 using System.Globalization;
+using System.Text.Json.Serialization;
 using DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json;
 using Services;
 
 [ApiController]
@@ -90,12 +92,12 @@ public class ShiftController : ControllerBase
 	/// </summary>
 	/// <param name="shiftDto"></param>
 	/// <returns></returns>
-	[HttpPost]
+	[HttpPost("create")]
 	public async Task<ActionResult?> AddShift([FromBody] ShiftDto shiftDto)
 	{
 		if ( !_shiftService.TimeEntryValidator( shiftDto ) )
 			return BadRequest( "Time entries do not add up to shift duration total" );
-
+		
 		try
 		{
 			var shift = new Shift
@@ -151,7 +153,7 @@ public class ShiftController : ControllerBase
 		{
 			var shift = await _shiftService.GetShiftByIdAsync( id );
 			if ( shift == null ) return NotFound( "Shift not found" );
-		
+			Console.WriteLine(shift.StartTime);
 			shift.Date = shiftDto.Date;
 			shift.StartTime = shiftDto.StartTime;
 			shift.EndTime = shiftDto.EndTime;
@@ -162,7 +164,7 @@ public class ShiftController : ControllerBase
 			shift.OtherWorkTime = shiftDto.OtherWorkTime;
 			shift.WorkTime = shiftDto.WorkTime;
 			shift.ShiftDuration = shiftDto.ShiftDuration;
-			shift.RunId = shiftDto.RunId;
+			shift.RunId = -2;
 			var run = await _runService.GetAsync( shiftDto.RunId );
 			if ( run != null)
 			{

@@ -30,4 +30,19 @@ public class RunController : Controller
 				return BadRequest();
 			}
 		}
+		
+		[HttpGet( "/runNumber/{runNumber}" )]
+		public async Task<IActionResult> GetRunByRunNumber( int runNumber )
+		{
+			try
+			{
+				var runResultAsync = await _runService.getByNumber( runNumber );
+				return Ok( runResultAsync );
+			}
+			catch ( Exception e )
+			{
+				Console.WriteLine( e );
+				return BadRequest();
+			}
+		}
 	}

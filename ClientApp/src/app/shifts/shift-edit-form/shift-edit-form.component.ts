@@ -150,7 +150,7 @@ export class ShiftEditFormComponent implements OnInit {
     this.shift.shiftDuration = this.shiftDuration?.value;
     this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
 
-    console.log(this.shift);
+    console.log("Edit: -- " + this.shift);
     this.shiftService.updateShift(this.shift).subscribe(() => {
       this.router.navigate(['/shifts']);
     }

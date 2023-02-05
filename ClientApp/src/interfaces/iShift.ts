@@ -10,11 +10,11 @@ export interface IShift{
   run: IRun;
 
   breaks?: IBreak[];
-  startTime: Date;
-  endTime: Date;
-  driveTime: Date;
-  breakDuration: Date;
-  shiftDuration: Date;
-  otherWorkTime: Date;
-  workTime: Date;
+  startTime: string;
+  endTime: string
+  driveTime: string;
+  breakDuration: string;
+  shiftDuration: string;
+  otherWorkTime: string;
+  workTime: string;
 }
