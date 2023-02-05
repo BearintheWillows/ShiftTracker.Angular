@@ -32,8 +32,16 @@
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="ClientApp\src\app\Helpers" />
-      <Folder Include="ClientApp\src\Validators\Time" />
+      <Folder Include="ClientApp\src\app\Core\components" />
+      <Folder Include="ClientApp\src\app\Core\models" />
+      <Folder Include="ClientApp\src\app\Feature\runs\components" />
+      <Folder Include="ClientApp\src\app\Feature\runs\pages" />
+      <Folder Include="ClientApp\src\app\Feature\shifts\components\shifts-list-table" />
+      <Folder Include="ClientApp\src\app\Feature\shifts\directives" />
+      <Folder Include="ClientApp\src\app\Feature\shifts\pipes" />
+      <Folder Include="ClientApp\src\app\Shared\layout\footer" />
+      <Folder Include="ClientApp\src\app\Shared\layout\header" />
+      <Folder Include="ClientApp\src\app\Shared\pipes" />
       <Folder Include="Pages\Shared" />
     </ItemGroup>
 
