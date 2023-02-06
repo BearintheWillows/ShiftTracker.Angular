@@ -1,5 +1,6 @@
-import {IRun} from "../../../../interfaces/iRun";
+
 import {IBreak} from "../../../../interfaces/iBreak";
+import {IRun} from "../../runs/models/iRun";
 
 export interface IShift{
   id: number;

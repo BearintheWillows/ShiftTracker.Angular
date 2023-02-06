@@ -1,6 +1,10 @@
 import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from "@angular/forms";
-import {ShiftService} from "../../services/shiftService/shift.service";
+import {Inject} from "@angular/core";
+import {ShiftService} from "../../../Root/services/shift.service";
 import {map} from "rxjs";
+
+@Inject(ShiftService)
+
 
 export class DateValidators {
   static IsDateInFuture(): ValidatorFn {

@@ -1,29 +1,28 @@
 import {Component, OnInit} from '@angular/core';
-import {IShift} from "../../interfaces/iShift";
-import {ShiftService} from "../../services/shiftService/shift.service";
+import {IShift} from "../../models/iShift";
 import {Router} from "@angular/router";
-import {ConfirmModalComponent} from "../Helpers/confirm-modal/confirm-modal.component";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import {ShiftService} from "../../../../Root/services/shift.service";
+import { ConfirmModalComponent } from 'src/app/Shared/components/modals/confirmModal/confirm-modal.component';
 
 @Component({
   selector: 'app-shifts-list-table',
   templateUrl: './shifts-list-table.component.html',
-  styleUrls: ['./shifts-list-table.component.scss']
+  styleUrls: ['./shifts-list-table.component.scss'],
+  providers: [ShiftService]
 })
 export class ShiftsListTableComponent implements OnInit {
 
   public shifts: IShift[] = []
-  private shiftService: ShiftService;
   modalRef?: BsModalRef;
 
   selectedEditShift?: IShift;
   selectedFunction?: string;
 
-  constructor(shiftService: ShiftService,
+  constructor(private shiftService: ShiftService,
               private router: Router,
               private modalService: BsModalService) {
 
-    this.shiftService = shiftService;
   }
 
 

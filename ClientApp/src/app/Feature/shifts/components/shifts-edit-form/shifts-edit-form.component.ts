@@ -1,23 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {IRun} from "../../../interfaces/iRun";
-import {ShiftService} from "../../../services/shiftService/shift.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {RunService} from "../../../services/runService/run.service";
-import {DatePipe, Location} from "@angular/common";
-import {IShift} from "../../../interfaces/iShift";
-import {Validators} from "@angular/forms";
-import {
-  DateValidators
-} from "../../../Validators/Date/date-validators.directive";
-import { TimeValidators } from "../../../Validators/Time/time-validators.directive";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {IShift} from "../../models/iShift";
+import {IRun} from "../../../runs/models/iRun";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {ConfirmModalComponent} from "../../Helpers/confirm-modal/confirm-modal.component";
-
+import {DateValidators} from "../../../../Shared/Validators/Date/date-validators.directive";
+import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators.directive";
+import {ShiftService} from "../../../../Root/services/shift.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {RunService} from "../../../../Root/services/run.service";
+import {DatePipe} from "@angular/common";
+import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
 @Component({
   selector: 'app-shifts-edit-form',
   templateUrl: './shifts-edit-form.component.html',
-  styleUrls: ['./shifts-edit-form.component.scss']
+  styleUrls: ['./shifts-edit-form.component.scss'],
+  providers: [ShiftService, RunService]
 })
 export class ShiftsEditFormComponent implements OnInit {
 
@@ -81,7 +78,7 @@ export class ShiftsEditFormComponent implements OnInit {
               private fb: FormBuilder,
               private modalService: BsModalService,
               private router: Router,
-              private location: Location
+              private location: Location,
   ){}
 
   ngOnInit(): void {
@@ -194,9 +191,9 @@ export class ShiftsEditFormComponent implements OnInit {
   }
 
   // go back to previous component
-  goBack(): void {
-    this.location.back();
-  }
+  // goBack(): void {
+  //   this.location.back();
+  // }
 
 
 

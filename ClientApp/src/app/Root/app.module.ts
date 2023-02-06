@@ -4,6 +4,9 @@ import { AppComponent } from './app.component';
 import {CoreModule} from "../Core/core.module";
 import {ShiftsModule} from "../Feature/shifts/shifts.module";
 import {RouterOutlet} from "@angular/router";
+import {AppRoutingModule} from "./app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {ModalModule} from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -12,7 +15,10 @@ import {RouterOutlet} from "@angular/router";
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     CoreModule,
-    RouterOutlet,
+    HttpClientModule,
+    ShiftsModule,
+    AppRoutingModule,
+    ModalModule.forRoot(),
   ],
   providers: [
   ],

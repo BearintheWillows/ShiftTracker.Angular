@@ -36,7 +36,6 @@
       <Folder Include="ClientApp\src\app\Core\models" />
       <Folder Include="ClientApp\src\app\Feature\runs\components" />
       <Folder Include="ClientApp\src\app\Feature\runs\pages" />
-      <Folder Include="ClientApp\src\app\Feature\shifts\components\shifts-list-table" />
       <Folder Include="ClientApp\src\app\Feature\shifts\directives" />
       <Folder Include="ClientApp\src\app\Feature\shifts\pipes" />
       <Folder Include="ClientApp\src\app\Shared\layout\footer" />

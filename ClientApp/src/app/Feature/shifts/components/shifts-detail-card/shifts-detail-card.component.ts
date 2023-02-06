@@ -1,10 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {ShiftService} from "../../../services/shiftService/shift.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {IShift} from "../../../interfaces/iShift";
 import {Location} from "@angular/common";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {ConfirmModalComponent} from "../../Helpers/confirm-modal/confirm-modal.component";
+import {IShift} from "../../models/iShift";
+import {ShiftService} from "../../../../Root/services/shift.service";
+import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
 
 @Component({
   selector: 'app-shifts-detail-card',
@@ -62,12 +62,12 @@ export class ShiftsDetailCardComponent implements OnInit{
     });
   }
 
-  formatTime(time: Date): string {
+  formatTime(time: string): string {
     let newTime = new Date("1970-01-01T" + time + "Z");
     return newTime.toLocaleTimeString('en-EN', {hour: '2-digit', minute: '2-digit'});
   }
 
-  formatTimeToHours(time: Date): string {
+  formatTimeToHours(time: string): string {
     let newTime = new Date("1970-01-01T" + time);
     let hours = newTime.getHours();
     let minutes = newTime.getMinutes();

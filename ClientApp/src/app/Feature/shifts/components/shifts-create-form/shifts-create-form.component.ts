@@ -6,15 +6,16 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DateValidators} from "../../../../Shared/Validators/Date/date-validators.directive";
 import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators.directive";
-import {ShiftService} from "../../../../services/shiftService/shift.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RunService} from "../../../../services/runService/run.service";
 import {DatePipe} from "@angular/common";
+import {ShiftService} from "../../../../Root/services/shift.service";
+import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
 
 @Component({
   selector: 'app-shifts-create-form',
-  templateUrl: './shifts-create-form.html',
-  styleUrls: ['./shifts-create-form.scss']
+  templateUrl: './shifts-create-form.component.html',
+  styleUrls: ['./shifts-create-form.scss'],
 })
 export class ShiftsCreateFormComponent implements OnInit {
 
@@ -121,7 +122,7 @@ export class ShiftsCreateFormComponent implements OnInit {
     this.shift.shiftDuration = this.shiftDuration?.value;
     this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
 
-    this.shiftService.postCreateShift(this.shift).subscribe(() => {
+    this.shiftService.postShift(this.shift).subscribe(() => {
       console.log("Added Successfully")
       this.router.navigate(['/shifts']);
     });
@@ -165,9 +166,9 @@ export class ShiftsCreateFormComponent implements OnInit {
   }
 
   // go back to previous component
-  goBack(): void {
-    this.location.back();
-  }
+  // goBack(): void {
+  //   this.location.back();
+  // }
 
 
 
