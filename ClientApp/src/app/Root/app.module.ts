@@ -7,6 +7,7 @@ import {RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {ModalModule} from "ngx-bootstrap/modal";
+import {NavComponent} from "../Core/components/nav/nav.component";
 
 @NgModule({
   declarations: [

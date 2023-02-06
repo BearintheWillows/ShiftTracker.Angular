@@ -1,2 +1,13 @@
-<p>HOME</p>
-<app-shifts-list-table></app-shifts-list-table>
+<h1>Below are your most recent Shifts</h1>
+<div *ngIf="shifts.length == 0">
+  Loading...
+</div>
+
+<div *ngIf=" shifts.length > 0">
+<app-shifts-list-table
+  [shifts]="shifts"
+  (populateTable)="populateShifts()"
+></app-shifts-list-table>
+</div>
+
+<a type="button" class="btn btn-primary" routerLink="/shifts/create" >Add Shift</a>

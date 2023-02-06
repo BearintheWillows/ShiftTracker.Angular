@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IShift} from "../../models/iShift";
 import {Router} from "@angular/router";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
@@ -13,7 +13,8 @@ import { ConfirmModalComponent } from 'src/app/Shared/components/modals/confirmM
 })
 export class ShiftsListTableComponent implements OnInit {
 
-  public shifts: IShift[] = []
+  @Input() shifts: IShift[] = []
+  @Output() populateTable = new EventEmitter();
   modalRef?: BsModalRef;
 
   selectedEditShift?: IShift;
@@ -27,33 +28,7 @@ export class ShiftsListTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.populateShifts();
 
-  }
-
-  populateShifts(): void {
-    this.shiftService.getShifts(false, false, false).subscribe((shifts: IShift[]) => {
-      this.shifts = shifts;
-      console.log(this.shifts)
-    });
-  }
-
-  onSelectFunction(shift: IShift, func: string): void {
-    this.selectedEditShift = shift;
-    this.selectedFunction = func.toLowerCase();
-
-    switch (func.toLowerCase()) {
-      case "edit":
-        break;
-      case "cancel":
-        this.selectedEditShift = undefined;
-        break;
-      case "confirm":
-        this.selectedEditShift = undefined;
-        this.shiftService.updateShift(shift).subscribe((shift: IShift) => {
-          this.populateShifts();
-        });
-    }
   }
 
   editShift(shift: IShift): void {
@@ -62,7 +37,6 @@ export class ShiftsListTableComponent implements OnInit {
 
   deleteShift(shift: IShift): void {
     this.shiftService.postDeleteShift(shift.id).subscribe((shift: IShift) => {
-      this.populateShifts();
     });
   }
 
@@ -72,7 +46,7 @@ export class ShiftsListTableComponent implements OnInit {
     this.modalRef = this.modalService.show(ConfirmModalComponent, {
       initialState: {
         title  : 'Confirm Delete Shift',
-        message: `Are you sure you want to update the shift for ${newDate.toLocaleDateString('en-EN', {
+        message: `Are you sure you want to DELETE the shift for ${newDate.toLocaleDateString('en-EN', {
           day: 'numeric', month: 'long', year: 'numeric'
         })}`,
       }
@@ -80,6 +54,7 @@ export class ShiftsListTableComponent implements OnInit {
     this.modalRef.content.onClose.subscribe((result: boolean) => {
       if(result) {
         this.deleteShift(shift);
+        this.populateTable.emit()
       } else {
         this.modalService.hide(1);
       }

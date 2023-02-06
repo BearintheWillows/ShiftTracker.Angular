@@ -41,6 +41,7 @@
       <Folder Include="ClientApp\src\app\Shared\layout\footer" />
       <Folder Include="ClientApp\src\app\Shared\layout\header" />
       <Folder Include="ClientApp\src\app\Shared\pipes" />
+      <Folder Include="ClientApp\src\app\Shared\Standalone\confirmModal" />
       <Folder Include="Pages\Shared" />
     </ItemGroup>
 

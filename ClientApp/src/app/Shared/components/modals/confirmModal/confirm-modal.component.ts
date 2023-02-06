@@ -5,7 +5,6 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.css'],
-  standalone: true,
 
 })
 export class ConfirmModalComponent {

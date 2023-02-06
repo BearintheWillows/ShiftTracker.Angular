@@ -1,6 +1,6 @@
 <div class="inner-container">
   <div *ngIf="shifts" class="table-container">
-    <table class="table table-hover">
+    <table class="table table-hover" [(ngModel)]="shifts">
       <thead>
       <tr>
         <th class="text-center" >Date</th>
@@ -18,7 +18,7 @@
         <td>{{shift?.endTime}}
         <td></td>
 
-        <a type="button"  (click)="this.onSelectFunction(shift, 'edit')" class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></a>
+        <a type="button"   class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></a>
         <a type="button"  (click)="this.onDeleteConfirm(shift)"  class="cBtn cBtn-Del"><i class="fa-regular fa-square-minus"></i></a>
       </tr>
 
@@ -28,10 +28,7 @@
 
       </tbody>
     </table>
-    <a type="button"class="btn btn-primary" >Add Shift</a>
   </div>
 
-  <div *ngIf="!shifts">
-    Loading...
-  </div>
+
 </div>

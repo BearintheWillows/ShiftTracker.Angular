@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IShift} from "../../models/iShift";
 import {IRun} from "../../../runs/models/iRun";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {DateValidators} from "../../../../Shared/Validators/Date/date-validators.directive";
-import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators.directive";
-import {ShiftService} from "../../../../Root/services/shift.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DateValidators} from "../../../../Shared/Validators/Date/date-validators";
+import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators";
+import { ShiftService } from 'src/app/Root/services/shift.service';
 import {ActivatedRoute, Router} from "@angular/router";
-import {RunService} from "../../../../Root/services/run.service";
-import {DatePipe} from "@angular/common";
-import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
+import { RunService } from 'src/app/Root/services/run.service';
+import {DatePipe, Location} from "@angular/common";
+import { ConfirmModalComponent } from 'src/app/Shared/components/modals/confirmModal/confirm-modal.component';
+
 @Component({
   selector: 'app-shifts-edit-form',
   templateUrl: './shifts-edit-form.component.html',
   styleUrls: ['./shifts-edit-form.component.scss'],
-  providers: [ShiftService, RunService]
 })
 export class ShiftsEditFormComponent implements OnInit {
 
@@ -190,10 +190,9 @@ export class ShiftsEditFormComponent implements OnInit {
     return this.shiftForm.get('timeData.shiftDuration');
   }
 
-  // go back to previous component
-  // goBack(): void {
-  //   this.location.back();
-  // }
+  goBack(): void {
+    this.location.back();
+  }
 
 
 

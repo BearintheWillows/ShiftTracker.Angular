@@ -12,9 +12,15 @@ const routes: Routes = [
     component: ShiftsComponent,
     children: [
       {
-        path: ':id', component: ShiftsHomePageComponent }
+        path: ':id', component: ShiftsHomePageComponent
+      },
+      {
+        path: 'create', component: ShiftsCreatePageComponent
+      },
+      {
+        path: '', component: ShiftsHomePageComponent
+      },
       ]
-
   },
 ];
 
