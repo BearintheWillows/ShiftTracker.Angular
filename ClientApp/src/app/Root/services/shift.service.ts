@@ -7,13 +7,8 @@ import {IShift} from "../../Feature/shifts/models/iShift";
   providedIn: 'root'
 })
 export class ShiftService {
-  private includeRun: string = "false";
-  private includeTimeData: string = "false";
-  private includeBreaks: string = "false";
 
   private readonly _baseUrl = `https://localhost:7004/api/shift`;
-  private readonly _baseUrlWithFilter = `https://localhost:7004/api/shift`;
-
   constructor(
     private http: HttpClient
   ) {
@@ -40,20 +35,6 @@ export class ShiftService {
 
 
 
-
-  setFilterOptions(includeRun?: boolean, includeTimeData?: boolean, includeBreaks?: boolean): void {
-    if(includeRun) {
-      //turn bool to string
-
-      this.includeRun = JSON.parse(String(includeRun));
-    }
-    if(includeTimeData) {
-      this.includeTimeData = JSON.parse(String(includeTimeData))
-    }
-    if(includeBreaks) {
-      this.includeBreaks = JSON.parse(String(includeBreaks));
-    }
-  }
 
   updateShift(shift: IShift) {
     console.log(shift)

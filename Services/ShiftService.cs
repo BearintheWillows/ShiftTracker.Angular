@@ -8,12 +8,12 @@ using Models;
 
 public interface IShiftService : IBaseCrudService<Shift>
 {
-	Task<Shift?>       GetShiftByIdAsync(int     id);
-	Task<List<Shift>> GetAllAsync(bool includeBreaks, bool includeRun,    bool includeTimeData);
-	Task<bool>        ExistsAsync(int? id);
-
-	bool         TimeEntryValidator(ShiftDto  shiftDto);
+	Task<Shift?> GetShiftByIdAsync(int id);
+	Task<bool>   ExistsAsync(int?      id);
+	
 	Task<bool> GetShiftByDateAsync(DateTime date);
+
+	Task<List<Shift>> GetAllShiftsAsync();
 }
 
 public class ShiftService : BaseCrudService<Shift>, IShiftService
@@ -29,7 +29,8 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 
 	public async Task<Shift?> GetShiftByIdAsync(int id) =>
 		await _context.Shifts
-		              .IncludeExtraShiftData( false, true,true )
+		              .Include(s => s.Breaks)
+		              .Include(s => s.Run)
 		              .FirstOrDefaultAsync( s => s.Id == id );
 
 	/// <summary>
@@ -38,35 +39,24 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 	/// <param name="includeRun"></param>
 	/// <param name="includeTimeData"></param>
 	/// <returns></returns>
-	public async Task<List<Shift>> GetAllAsync(
-		bool includeBreaks,
-		bool includeRun,
-		bool includeTimeData
-	)
+	public async Task<List<Shift>> GetAllShiftsAsync()
 	{
 		
-		 var shifts = await _context.Shifts.AsQueryable().IncludeExtraShiftData( includeBreaks, includeRun, includeTimeData )
-        	                   .ToListAsync();
-		 foreach ( var VARIABLE in shifts )
-		 {
-			 Console.WriteLine(VARIABLE.Id);
-		 }
-
+		 var shifts = await _context.Shifts.Include(s => s.Run).ToListAsync();
 		 return shifts;
 	}
 
-	public async Task<bool> ExistsAsync(int? id) => await _context.Shifts.AnyAsync( x => x.Id == id );
-
+	public async Task<bool> ExistsAsync(int?            id)       => await _context.Shifts.AnyAsync( x => x.Id == id );
+	
 	/// <summary>
 	///     Checks if the shift times add up to the shift duration.
 	/// </summary>
 	/// <param name="shiftDto"></param>
 	/// <returns>True/False</returns>
-	public bool TimeEntryValidator(ShiftDto shiftDto) => shiftDto.ShiftDuration.Equals(
-		new TimeSpan( shiftDto.BreakDuration.Ticks + shiftDto.WorkTime.Ticks + shiftDto.OtherWorkTime.Ticks +
-		              shiftDto.DriveTime.Ticks
-		)
-	);
+	// public bool TimeEntryValidator(ShiftDto shiftDto) => shiftDto.ShiftDuration.Equals(
+	// 	new TimeSpan(
+	// 	)
+	// );
 
 	public async Task<bool> GetShiftByDateAsync(DateTime date)
 	{

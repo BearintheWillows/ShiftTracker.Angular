@@ -29,7 +29,7 @@ import {ShiftsRoutingModule} from "./shifts.routing.module";
   providers:[
   ],
   exports: [
-    ShiftsRoutingModule,
+
 
 
   ]
