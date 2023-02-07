@@ -31,21 +31,13 @@ public class ShiftController : ControllerBase
 	///     All Shift entities
 	/// </returns>
 	[HttpGet]
-	public async Task<IActionResult> GetAllShifts(
-		[FromQuery] bool includeRun      = true,
-		bool             includeBreaks   = false,
-		bool             includeTimeData = true
-	)
+	public async Task<IActionResult> GetAllShifts()
 	{
 		try
 		{
-			var shiftResultAsync =
-				await _shiftService.GetAllAsync( includeBreaks, includeRun, includeTimeData );
-			Console.WriteLine( "Shift Controller" + "" + shiftResultAsync.Count );
-			var shifts = shiftResultAsync
-			            .Select( s => ShiftDto.CreateDto( s, ( includeBreaks, includeRun, includeTimeData ) ) )
-			            .ToList();
-			return Ok( shifts );
+			var shiftResultAsync = await _shiftService.GetAllAsync();
+			
+			return Ok( shiftResultAsync );
 		}
 		catch ( Exception e )
 		{

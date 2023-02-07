@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {RouterLink, RouterModule, RouterOutlet} from "@angular/router";
 import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-modal.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,9 @@ import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-mo
     FormsModule,
     ReactiveFormsModule,
     RouterOutlet,
-    RouterLink
+    RouterLink,
+    HttpClientModule,
+    RouterModule,
   ],
   exports: [
     CommonModule,
@@ -22,7 +25,9 @@ import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-mo
     ReactiveFormsModule,
     RouterOutlet,
     ConfirmModalComponent,
-    RouterLink
+    RouterLink,
+    HttpClientModule,
+    RouterModule
   ]
 })
 export class SharedModule { }

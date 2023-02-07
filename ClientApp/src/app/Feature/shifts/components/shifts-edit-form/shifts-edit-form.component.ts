@@ -60,6 +60,11 @@ export class ShiftsEditFormComponent implements OnInit {
         validators: [
           Validators.required],
       }],
+      breakDuration: ['', {
+        validators: [
+          Validators.required
+        ]
+      }]
     },{
       validators: [
         TimeValidators.IsShiftStartBeforeShiftEnd(),
@@ -100,12 +105,13 @@ export class ShiftsEditFormComponent implements OnInit {
         runNumber: shift.run.number,
 
         timeData: {
-          startTime    : shift.startTime.toString(),
-          endTime      : shift.endTime.toString(),
-          shiftDuration: shift.shiftDuration.toString(),
-          driveTime    : shift.driveTime.toString(),
-          workTime     : shift.workTime.toString(),
-          otherWorkTime: shift.otherWorkTime.toString(),
+          startTime    : shift.startTime,
+          endTime      : shift.endTime,
+          shiftDuration: shift.shiftDuration,
+          driveTime    : shift.driveTime,
+          workTime     : shift.workTime,
+          otherWorkTime: shift.otherWorkTime,
+          breakDuration: shift.breakDuration
         }
       });
     });

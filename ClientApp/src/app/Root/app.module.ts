@@ -8,6 +8,8 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {NavComponent} from "../Core/components/nav/nav.component";
+import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
+import {SharedModule} from "../Shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,9 +19,9 @@ import {NavComponent} from "../Core/components/nav/nav.component";
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     CoreModule,
     HttpClientModule,
+    ModalModule.forRoot(),
     ShiftsModule,
     AppRoutingModule,
-    ModalModule.forRoot(),
   ],
   providers: [
   ],

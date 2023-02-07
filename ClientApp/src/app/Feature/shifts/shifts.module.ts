@@ -9,6 +9,7 @@ import { ShiftsHomePageComponent } from './pages/shifts-home-page/shifts-home-pa
 import {SharedModule} from "../../Shared/shared.module";
 import {ConfirmModalComponent} from "../../Shared/components/modals/confirmModal/confirm-modal.component";
 import {RouterLink} from "@angular/router";
+import {ShiftsRoutingModule} from "./shifts.routing.module";
 
 @NgModule({
   declarations: [
@@ -23,10 +24,16 @@ import {RouterLink} from "@angular/router";
   ],
   imports: [
     SharedModule,
+    ShiftsRoutingModule
   ],
   providers:[
   ],
   exports: [
+    ShiftsRoutingModule,
+
+
   ]
 })
-export class ShiftsModule { }
+export class ShiftsModule {
+
+}

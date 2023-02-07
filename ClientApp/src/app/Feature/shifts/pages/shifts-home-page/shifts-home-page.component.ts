@@ -24,7 +24,7 @@ export class ShiftsHomePageComponent implements OnInit{
   }
 
   populateShifts(): void {
-    this._shiftService.getShifts(false, false, false).subscribe((shifts: IShift[]) => {
+    this._shiftService.getShifts().subscribe((shifts: IShift[]) => {
       this.shifts = shifts;
       console.log(this.shifts)
     });

@@ -14,8 +14,8 @@ import {ConfirmModalComponent} from "../../../../Shared/components/modals/confir
 
 @Component({
   selector: 'app-shifts-create-form',
-  templateUrl: './shifts-create-form.component.html',
-  styleUrls: ['./shifts-create-form.scss'],
+  templateUrl: 'shifts-create-form.component.html',
+  styleUrls: ['shifts-create-form.component.scss'],
 })
 export class ShiftsCreateFormComponent implements OnInit {
 

@@ -7,27 +7,25 @@ import {ShiftsComponent} from "./shifts.component";
 import {ShiftsDetailCardComponent} from "./components/shifts-detail-card/shifts-detail-card.component";
 import {ShiftsHomePageComponent} from "./pages/shifts-home-page/shifts-home-page.component";
 
-const routes: Routes = [
+const ShiftsRoutes: Routes = [
   { path: 'shifts',
     component: ShiftsComponent,
     children: [
       {
-        path: ':id', component: ShiftsHomePageComponent
-      },
-      {
-        path: 'create', component: ShiftsCreatePageComponent
-      },
-      {
         path: '', component: ShiftsHomePageComponent
       },
-      ]
-  },
-];
+      {
 
+        path: 'create', component: ShiftsCreatePageComponent
+      }
+        ]
+      },
+    ]
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(ShiftsRoutes)
   ],
   exports: [RouterModule]
 })
