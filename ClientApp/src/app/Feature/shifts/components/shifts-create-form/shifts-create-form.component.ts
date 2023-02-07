@@ -8,7 +8,7 @@ import {DateValidators} from "../../../../Shared/Validators/Date/date-validators
 import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RunService} from "../../../../services/runService/run.service";
-import {DatePipe} from "@angular/common";
+import {DatePipe, Location} from "@angular/common";
 import {ShiftService} from "../../../../Root/services/shift.service";
 import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
 
@@ -75,7 +75,6 @@ export class ShiftsCreateFormComponent implements OnInit {
   constructor(private shiftService: ShiftService,
               private route: ActivatedRoute,
               private runService: RunService,
-              private datePipe: DatePipe,
               private fb: FormBuilder,
               private modalService: BsModalService,
               private router: Router,
@@ -114,11 +113,11 @@ export class ShiftsCreateFormComponent implements OnInit {
   onSubmit() {
 
     this.shift.date = this.date?.value;
-    this.shift.startTime = this.startTime?.value;
-    this.shift.endTime = this.endTime?.value;
-    this.shift.driveTime = this.driveTime?.value;
-    this.shift.workTime = this.workTime?.value;
-    this.shift.otherWorkTime = this.otherWorkTime?.value;
+    this.shift.startTime = this.startTime?.value + ":00";
+    this.shift.endTime = this.endTime?.value + ":00";
+    this.shift.driveTime = this.driveTime?.value + ":00";
+    this.shift.workTime = this.workTime?.value + ":00";
+    this.shift.otherWorkTime = this.otherWorkTime?.value + ":00";
     this.shift.shiftDuration = this.shiftDuration?.value;
     this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id ?? 0
 
@@ -165,10 +164,9 @@ export class ShiftsCreateFormComponent implements OnInit {
     return this.shiftForm.get('timeData.shiftDuration');
   }
 
-  // go back to previous component
-  // goBack(): void {
-  //   this.location.back();
-  // }
+  goBack(): void {
+    this.location.back();
+  }
 
 
 

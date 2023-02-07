@@ -94,12 +94,12 @@ public class ShiftController : ControllerBase
 		{
 			var shift = new Shift
 				{
-				Date = shiftDto.Date,
-				RunId = shiftDto.RunId,
+				Date = shiftDto.Date ,
+				RunId = -2,
 				Breaks = new List<Break>(),
 				StartTime = shiftDto.StartTime,
 				EndTime = shiftDto.EndTime,
-				BreakDuration = shiftDto.BreakDuration,
+				BreakDuration = new TimeSpan(0,0,0),
 				DriveTime = shiftDto.DriveTime,
 				ShiftDuration = shiftDto.ShiftDuration,
 				OtherWorkTime = shiftDto.OtherWorkTime,

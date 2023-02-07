@@ -4,10 +4,12 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink, RouterModule, RouterOutlet} from "@angular/router";
 import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-modal.component";
 import {HttpClientModule} from "@angular/common/http";
+import { TimeFormatForUiPipe } from './pipes/time-format-for-ui.pipe';
 
 @NgModule({
   declarations: [
     ConfirmModalComponent,
+    TimeFormatForUiPipe,
 
   ],
   imports: [
@@ -27,7 +29,8 @@ import {HttpClientModule} from "@angular/common/http";
     ConfirmModalComponent,
     RouterLink,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    TimeFormatForUiPipe,
   ]
 })
 export class SharedModule { }
