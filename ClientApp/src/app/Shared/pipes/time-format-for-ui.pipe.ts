@@ -6,8 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeFormatForUiPipe implements PipeTransform {
 
   transform(value: string): string {
-    const [hours, minutes, seconds] = value.split(':');
-
-    return `${hours}:${minutes}`;
+    let formattedTime = value.match(/\d{2}:\d{2}/)?.[0];
+     return formattedTime ? formattedTime : value;
   }
 }

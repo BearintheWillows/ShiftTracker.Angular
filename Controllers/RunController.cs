@@ -32,11 +32,11 @@ public class RunController : Controller
 		}
 		
 		[HttpGet( "/runNumber/{runNumber}" )]
-		public async Task<IActionResult> GetRunByRunNumber( int runNumber )
+		public IActionResult GetRunByRunNumber( int runNumber )
 		{
 			try
 			{
-				var runResultAsync = await _runService.getByNumber( runNumber );
+				var runResultAsync = _runService.GetRunIdByNumber( runNumber );
 				return Ok( runResultAsync );
 			}
 			catch ( Exception e )

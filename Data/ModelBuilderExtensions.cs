@@ -49,8 +49,8 @@ public static class ModelBuilderExtentions
 			                      {
 			                      Id = -1,
 			                      Date = new DateTime( 2023, 01, 03 ),
-			                      StartTime = new TimeSpan( 08, 00, 00 ),
-			                      EndTime = new TimeSpan( 16, 00, 00 ),
+			                      StartTime = new DateTime(1970,01,01, 05,0,0 ),
+			                      EndTime = new DateTime( 1970,01,01, 20, 0, 0 ),
 			                      BreakDuration = new TimeSpan( 01, 30, 00 ),
 			                      DriveTime = new TimeSpan( 02, 55, 00 ),
 			                      OtherWorkTime = new TimeSpan( 02, 05, 00 ),
@@ -62,8 +62,8 @@ public static class ModelBuilderExtentions
 			                      {
 			                      Id = -2,
 			                      Date = new DateTime( 2023, 01, 02 ),
-			                      StartTime = new TimeSpan( 10, 00, 00 ),
-			                      EndTime = new TimeSpan( 16, 00, 00 ),
+			                      StartTime = new DateTime(1970,01,01, 03,30,0),
+			                      EndTime = new DateTime( 1970,01,01,10, 30, 0 ),
 			                      BreakDuration = new TimeSpan( 0, 30, 00 ),
 			                      DriveTime = new TimeSpan( 02, 00, 00 ),
 			                      OtherWorkTime = new TimeSpan( 02, 00, 00 ),

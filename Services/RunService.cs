@@ -8,12 +8,12 @@ using Models;
 public interface IRunService : IBaseCrudService<Run>
 {
 	Task<List<Run>> GetAllAsync(bool includeDRP);
-	Task<Run?>      GetAsync(int     id, bool includeDRP);
 	Task<bool>      ExistsAsync(int  id);
 
 	Task<List<Tuple<int, int>>> GetAllNumbersAndIds();
-
-	Task<Run> getByNumber(int number);
+	
+	int        GetRunIdByNumber(int runNumber);
+	Task<Run?> GetRunByIdAsync(int  runId, bool includeDRP);
 }
 
 public class RunService : BaseCrudService<Run>, IRunService
@@ -32,12 +32,12 @@ public class RunService : BaseCrudService<Run>, IRunService
 		return await _context.Runs.ToListAsync();
 	}
 
-	public async Task<Run?> GetAsync(int id, bool includeDRP)
+	public async Task<Run?> GetRunByIdAsync(int runId, bool includeDRP)
 	{
-		if ( !await ExistsAsync( id ) ) return null;
+		if ( !await ExistsAsync( runId ) ) return null;
 		return await _context.Runs.AsQueryable()
 		                     .IncludeDailyDoutePlans( includeDRP )
-		                     .FirstOrDefaultAsync( s => s.Id == id );
+		                     .FirstOrDefaultAsync( s => s.Id == runId );
 	}
 
 	public async Task<bool> ExistsAsync(int id) => await _context.Runs.AnyAsync( r => r.Id == id );
@@ -48,7 +48,10 @@ public class RunService : BaseCrudService<Run>, IRunService
 	/// <returns>Tuple</returns>
 	public async Task<List<Tuple<int, int>>> GetAllNumbersAndIds() =>
 		await _context.Runs.Select( r => new Tuple<int, int>( r.Id, r.Number ) ).ToListAsync();
-	
-	
-	public async Task<Run> getByNumber(int number) => await _context.Runs.FirstOrDefaultAsync(r => r.Number == number);
+
+
+	public int GetRunIdByNumber(int runNumber)
+	{
+		return _context.Runs.AsQueryable().Where( r => r.Number == runNumber ).Select( r => r.Id ).FirstOrDefault();
+	}
 }

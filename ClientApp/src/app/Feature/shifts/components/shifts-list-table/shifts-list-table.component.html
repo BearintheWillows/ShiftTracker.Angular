@@ -13,9 +13,10 @@
 
       <tr class="clickable" *ngFor="let shift of shifts" (click)="goToDetail(shift)">
         <td >{{shift.date | date:'dd/MM/yyyy'}}</td>
-        <td>{{shift.run.number }}</td>
-        <td>{{shift.startTime }}</td>
-        <td>{{shift.endTime }}
+        <td>{{shift.run.number}}</td>
+        <td>{{shift.startTime | timeFormatForUi }}</td>
+        <td>{{shift.endTime | timeFormatForUi}}</td>
+
         <td></td>
 
         <a type="button"   class="cBtn cBtn-Edit"><i class="fa-regular fa-pen-to-square"></i></a>

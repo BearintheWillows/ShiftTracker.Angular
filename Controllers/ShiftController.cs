@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
 using Services;
+using static Helpers.TimeConverter;
 
 [ApiController]
 [Route( "api/[controller]" )]
@@ -51,6 +52,38 @@ public class ShiftController : ControllerBase
 			return BadRequest();
 		}
 	}
+	
+	[HttpPost("create")]
+	public async Task<IActionResult> CreateShift([FromBody] ShiftDto shiftDto)
+	{
+		var shift = new Shift
+			{
+			Date = shiftDto.Date,
+			StartTime = shiftDto.StartTime,
+			EndTime = shiftDto.EndTime,
+			BreakDuration = shiftDto.BreakDuration,
+			DriveTime = shiftDto.DriveTime,
+			ShiftDuration = shiftDto.ShiftDuration,
+			OtherWorkTime = shiftDto.OtherWorkTime,
+			WorkTime = shiftDto.WorkTime,
+			RunId = shiftDto.Run.Id,
+			Run = await _runService.GetRunByIdAsync(shiftDto.Run.Id, false),
+			Breaks = new List<Break>()
+			};
+		try
+		{
+			Console.WriteLine(shift);
+			
+			await _shiftService.AddAsync( shift );
+			return Ok();
+		}
+		catch ( Exception e )
+		{
+			Console.WriteLine( e );
+			return BadRequest( "Error creating shift" );
+		}
+	}
+	
 
 	/// <summary>
 	///     Get Shift by Id
