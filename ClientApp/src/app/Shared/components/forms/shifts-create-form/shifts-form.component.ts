@@ -54,8 +54,6 @@ export class ShiftsFormComponent implements OnInit {
         {value: '', disabled: true} , {
           validators: [],
         }],
-
-
       driveTime: ['', {
         validators: [
           Validators.required],

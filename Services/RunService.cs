@@ -28,15 +28,21 @@ public class RunService : BaseCrudService<Run>, IRunService
 	{
 		if ( includeDRP )
 			return await Context.Runs.Include( r => r.RoutePlans ).ThenInclude( r => r.Shop ).ToListAsync();
-		return await Context.Runs.ToListAsync();
+		
+		var runs = await Context.Runs.ToListAsync();
+		Log.Information( "RunService.GetAllAsync returned {@runs}.", runs.Count );
+		
+		return runs;
 	}
 
 	public async Task<Run?> GetRunByIdAsync(int runId, bool includeDRP)
 	{
 		if ( !await ExistsAsync( runId ) ) return null;
+		Log.Information("RunService.GetRunByIdAsync({@runId}) returned successfully", runId);
 		return await Context.Runs.AsQueryable()
 		                     .IncludeDailyDoutePlans( includeDRP )
 		                     .FirstOrDefaultAsync( s => s.Id == runId );
+		
 	}
 
 	public async Task<bool> ExistsAsync(int id) => await Context.Runs.AnyAsync( r => r.Id == id );

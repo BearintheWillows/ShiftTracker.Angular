@@ -37,13 +37,14 @@ export class TimeValidators {
       const otherWorkTime = control.get('otherWorkTime')?.value;
       const breakDuration = control.get('breakDuration')?.value;
 
-      if (startTime && endTime && driveTime && workTime && otherWorkTime) {
+      if (startTime && endTime && driveTime && workTime && otherWorkTime && breakDuration)   {
         const startMinutes = TimeValidators.timeToMinutes(startTime);
         const endMinutes = TimeValidators.timeToMinutes(endTime);
         const driveMinutes = TimeValidators.timeToMinutes(driveTime);
         const workMinutes = TimeValidators.timeToMinutes(workTime);
         const otherWorkMinutes = TimeValidators.timeToMinutes(otherWorkTime);
         const breakMinutes = TimeValidators.timeToMinutes(breakDuration);
+
         const shiftLength = endMinutes - startMinutes;
         const workLength = driveMinutes + workMinutes + otherWorkMinutes + breakMinutes;
 

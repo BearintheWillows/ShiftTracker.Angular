@@ -60,7 +60,6 @@ public class ShiftController : ControllerBase
 	public async Task<IActionResult> CreateShift([FromBody] ShiftDto shiftDto)
 	{
 		var shift = new Shift();
-		Log.Information( "ShiftDto: {@shiftDto}", shiftDto );
 		shift = new Shift()
 			{
 			Date = shiftDto.Date,
@@ -75,11 +74,12 @@ public class ShiftController : ControllerBase
 			Run = await _runService.GetRunByIdAsync(shiftDto.RunId, false),
 			Breaks = new List<Break>(),
 			};
-		Log.Information( "Shift: {@shift}", shift );
-
+	
 		try
 		{
+			
 			await _shiftService.AddAsync( shift );
+			Log.Information("Shift {@shift.Id} saved", shift.Id);
 			return Ok();
 		}
 		catch ( Exception e )
