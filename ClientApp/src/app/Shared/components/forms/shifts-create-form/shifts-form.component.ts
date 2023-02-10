@@ -1,26 +1,33 @@
 
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {IShift} from "../../models/iShift";
-import {IRun} from "../../../runs/models/iRun";
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DateValidators} from "../../../../Shared/Validators/Date/date-validators";
-import {TimeValidators} from "../../../../Shared/Validators/Time/time-validators";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe, Location} from "@angular/common";
 import {ShiftService} from "../../../../Root/services/shift.service";
-import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
 import { RunService } from 'src/app/Root/services/run.service';
+import {DateValidators} from "../../../Validators/Date/date-validators";
+import {TimeValidators} from "../../../Validators/Time/time-validators";
+import {ConfirmModalComponent} from "../../modals/confirmModal/confirm-modal.component";
+import {IShift} from "../../../../Feature/shifts/models/iShift";
+import {IRun} from "../../../../Feature/runs/models/iRun";
+import {FormType} from "../../../enums/form-type";
+import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe} from "../../../pipes/time-format.pipe";
 
 @Component({
-  selector: 'app-shifts-create-form',
-  templateUrl: 'shifts-create-form.component.html',
-  styleUrls: ['shifts-create-form.component.scss'],
+  selector: 'app-shifts-form',
+  templateUrl: 'shifts-form.component.html',
+  styleUrls: ['shifts-form.component.scss'],
 })
-export class ShiftsCreateFormComponent implements OnInit {
+export class ShiftsFormComponent implements OnInit {
+
+
+  @Input() formType: FormType = null as unknown as FormType;
+  @Input() runs: IRun[] = [];
 
   public shift: IShift = {} as IShift;
-  public runs: IRun[] = [];
+
+
   modalRef?: BsModalRef;
 
   shiftForm: FormGroup = this.fb.group({
@@ -28,9 +35,9 @@ export class ShiftsCreateFormComponent implements OnInit {
       validators     : [
         Validators.required,
         DateValidators.IsDateInFuture()],
-      asyncValidators: [],
+      asyncValidators: [DateValidators.IsDateAlreadyUsed(this.shiftService)],
     }],
-    runNumber: [0, {
+    runNumber: ['', {
       validators: [
         Validators.required],
     }],
@@ -61,6 +68,10 @@ export class ShiftsCreateFormComponent implements OnInit {
         validators: [
           Validators.required],
       }],
+      breakDuration: ['', {
+        validators: [
+          Validators.required],
+      }],
     },{
       validators: [
         TimeValidators.IsShiftStartBeforeShiftEnd(),
@@ -81,16 +92,19 @@ export class ShiftsCreateFormComponent implements OnInit {
               private location: Location
   ){}
 
+
   ngOnInit(): void {
-    this.getAllRuns();
+    if(this.formType === FormType.Create){
+      this.shiftForm.get('date')?.setValue(new Date().toISOString().substring(0, 10));
+
+    }
   }
 
-
-
-  async getAllRuns() {
-    (await this.runService.getAll()).subscribe((runs: IRun[]) => {
-      this.runs = runs;
-    });
+  //Works when runs is retrieved from parent component
+  ngOnChanges(): void {
+    if(this.formType === FormType.Create) {
+      this.runNumber?.setValue(this.runs[0].number)
+    }
   }
 
   onSubmitPress() {
@@ -113,15 +127,15 @@ export class ShiftsCreateFormComponent implements OnInit {
   onSubmit() {
 
     this.shift.date = this.date?.value;
-    this.shift.startTime = this.startTime?.value;
-    this.shift.endTime = this.endTime?.value;
-    this.shift.driveTime = this.driveTime?.value;
-    this.shift.workTime = this.workTime?.value;
-    this.shift.otherWorkTime = this.otherWorkTime?.value;
+    this.shift.startTime = TimeFormatForDateTimePipe.prototype.transform(this.startTime?.value);
+    this.shift.endTime = TimeFormatForDateTimePipe.prototype.transform(this.endTime?.value);
+    this.shift.driveTime = TimeFormatForTimeSpanPipe.prototype.transform(this.driveTime?.value);
+    this.shift.workTime = TimeFormatForTimeSpanPipe.prototype.transform(this.workTime?.value);
+    this.shift.otherWorkTime = TimeFormatForTimeSpanPipe.prototype.transform(this.otherWorkTime?.value);
     this.shift.shiftDuration = this.shiftDuration?.value;
-    this.shift.runId = this.shift.run?.id;
-    this.shift.breakDuration = "00:00"
-
+    this.shift.runId = this.runs.find(run => run.number === this.runNumber?.value)?.id as number;
+    this.shift.breakDuration = TimeFormatForTimeSpanPipe.prototype.transform(this.breakDuration?.value);
+    console.log(this.shift);
     this.shiftService.postShift(this.shift).subscribe(() => {
       console.log("Added Successfully")
       this.router.navigate(['/shifts']);
@@ -163,6 +177,10 @@ export class ShiftsCreateFormComponent implements OnInit {
 
   get shiftDuration() {
     return this.shiftForm.get('timeData.shiftDuration');
+  }
+
+  get breakDuration() {
+    return this.shiftForm.get('timeData.breakDuration');
   }
 
   goBack(): void {

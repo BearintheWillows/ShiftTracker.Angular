@@ -4,9 +4,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink, RouterModule, RouterOutlet} from "@angular/router";
 import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-modal.component";
 import {HttpClientModule} from "@angular/common/http";
-import { TimeFormatForUiPipe} from './pipes/time-format-for-ui.pipe';
-import { TimeFormatForDateTimePipe } from './pipes/time-format-for-date-time.pipe';
-import { TimeFormatForTimeSpanPipe } from './pipes/time-format-for-time-span.pipe';
+import {ShiftsFormComponent} from "./components/forms/shifts-create-form/shifts-form.component";
+import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPipe} from "./pipes/time-format.pipe";
 
 @NgModule({
   declarations: [
@@ -14,6 +13,7 @@ import { TimeFormatForTimeSpanPipe } from './pipes/time-format-for-time-span.pip
     TimeFormatForUiPipe,
     TimeFormatForDateTimePipe,
     TimeFormatForTimeSpanPipe,
+    ShiftsFormComponent,
 
   ],
   imports: [
@@ -35,6 +35,7 @@ import { TimeFormatForTimeSpanPipe } from './pipes/time-format-for-time-span.pip
     HttpClientModule,
     RouterModule,
     TimeFormatForUiPipe,
+    ShiftsFormComponent,
   ]
 })
 export class SharedModule { }

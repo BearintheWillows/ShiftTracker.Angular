@@ -35,6 +35,7 @@ export class TimeValidators {
       const driveTime = control.get('driveTime')?.value;
       const workTime = control.get('workTime')?.value;
       const otherWorkTime = control.get('otherWorkTime')?.value;
+      const breakDuration = control.get('breakDuration')?.value;
 
       if (startTime && endTime && driveTime && workTime && otherWorkTime) {
         const startMinutes = TimeValidators.timeToMinutes(startTime);
@@ -42,9 +43,9 @@ export class TimeValidators {
         const driveMinutes = TimeValidators.timeToMinutes(driveTime);
         const workMinutes = TimeValidators.timeToMinutes(workTime);
         const otherWorkMinutes = TimeValidators.timeToMinutes(otherWorkTime);
-
+        const breakMinutes = TimeValidators.timeToMinutes(breakDuration);
         const shiftLength = endMinutes - startMinutes;
-        const workLength = driveMinutes + workMinutes + otherWorkMinutes;
+        const workLength = driveMinutes + workMinutes + otherWorkMinutes + breakMinutes;
 
         return shiftLength !== workLength ? {isTimeValid: true} : null;
       }

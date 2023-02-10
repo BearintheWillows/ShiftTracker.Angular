@@ -14,7 +14,7 @@
 
   <label for="runNumber">Run Number:</label>
   <select class="form-control" formControlName="runNumber" id="runNumber">
-    <option *ngFor="let run of this.runs" selected="{{runs[0].number}}">{{run.number}}</option>
+    <option *ngFor="let run of this.runs" [value]="run.number" selected="{{run.number}}">{{run.number}}</option>
   </select>
 
   <div *ngIf="runNumber?.errors?.['required'] && (runNumber?.dirty || runNumber?.touched)">
@@ -62,6 +62,13 @@
 
     <div *ngIf="otherWorkTime?.errors?.['required'] && (otherWorkTime?.dirty || otherWorkTime?.touched)" class="alert alert-danger">
       <p>Other Work / POA Time is Required.</p>
+    </div>
+
+    <label for="breakDuration">Break Duration</label>
+    <input class="form-control" formControlName="breakDuration" id="breakDuration" type="time">
+
+    <div *ngIf="breakDuration?.errors?.['required'] && (breakDuration?.dirty || breakDuration?.touched)" class="alert alert-danger">
+      <p>Break Duration is Required.</p>
     </div>
 
     <div *ngIf="timeData?.errors?.['isTimeValid'] && (timeData?.dirty || timeData?.touched)" class="alert alert-danger">

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import {ShiftsCreateFormComponent} from "./components/shifts-create-form/shifts-create-form.component";
 import {ShiftsCreatePageComponent} from "./pages/shifts-create-page/shifts-create-page.component";
 import {ShiftsListTableComponent} from "./components/shifts-list-table/shifts-list-table.component";
 import {ShiftsComponent} from "./shifts.component";
@@ -13,7 +12,6 @@ import {ShiftsRoutingModule} from "./shifts.routing.module";
 
 @NgModule({
   declarations: [
-    ShiftsCreateFormComponent,
     ShiftsDetailCardComponent,
     ShiftsEditFormComponent,
     ShiftsComponent,
