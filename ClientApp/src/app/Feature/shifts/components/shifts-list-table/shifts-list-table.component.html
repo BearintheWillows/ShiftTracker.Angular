@@ -11,7 +11,7 @@
       </thead>
       <tbody>
 
-      <tr class="clickable" *ngFor="let shift of shifts" (click)="goToDetail(shift)">
+      <tr class="clickable" *ngFor="let shift of shifts" routerLink="detail/{{shift.id}}" >
         <td >{{shift.date | date:'dd/MM/yyyy'}}</td>
         <td>{{shift.run.number}}</td>
         <td>{{shift.startTime | timeFormatForUi }}</td>

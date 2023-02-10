@@ -139,21 +139,24 @@ export class ShiftsFormComponent implements OnInit {
     });
 
   } else if (this.formType === FormType.Edit) {
-    this.modalRef = this.modalService.show(ConfirmModalComponent, {
-      initialState: {
-        title: 'Edit Shift',
-        message: `Are you sure you want to edit the shift for ${newDate.toLocaleDateString('en-EN', {day: 'numeric', month: 'long', year: 'numeric'})}`,
+      this.modalRef = this.modalService.show(ConfirmModalComponent, {
+        initialState: {
+          title: 'Edit Shift',
+          message: `Are you sure you want to edit the shift for ${newDate.toLocaleDateString('en-EN', {
+            day: 'numeric', month: 'long', year: 'numeric'
+          })}`,
+        }
+      });
     }
-  });
 
     this.modalRef?.content.onClose.subscribe((result: boolean) => {
-      if (result === true) {
+      if (result == true) {
         this.onSubmit();
+
       } else {
         this.modalService.hide(1);
       }
     });
-  }
 }
 
   onSubmit() {

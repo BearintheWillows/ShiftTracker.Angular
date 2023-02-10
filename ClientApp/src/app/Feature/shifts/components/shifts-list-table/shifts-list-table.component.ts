@@ -62,7 +62,13 @@ export class ShiftsListTableComponent implements OnInit {
   }
 
   goToDetail(shift: IShift): void {
-    this.router.navigate([`/shifts/${shift.id}/detail`]);
+    this.router.navigate([`/shifts/detail/${shift.id}`]);
   }
+
+  goToEdit(shift: IShift): void {
+    this.router.navigate([`/shifts/edit/${shift.id}`]);
+  }
+
+
 }
 

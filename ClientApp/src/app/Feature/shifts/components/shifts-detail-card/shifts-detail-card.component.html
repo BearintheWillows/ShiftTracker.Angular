@@ -4,8 +4,8 @@
     <h5 class="card-title">Run {{shift.run.number}}</h5>
   </div>
   <div class="card-body">
-    <p>Start: {{formatTime(shift.startTime)}}</p>
-    <p>Finish: {{formatTime(shift.endTime)}}</p>
+    <p>Start: {{shift.startTime | timeFormatForUi}}</p>
+    <p>Finish: {{shift.endTime | timeFormatForUi}}</p>
     <p>Duration: {{formatTimeToHours(shift.shiftDuration)}}</p>
     <H6>Data:</H6>
     <p>Drive Time: {{formatTimeToHours(shift.driveTime)}}</p>
@@ -14,8 +14,9 @@
 
 
 
-    <a type="button" class="btn btn-info">Edit</a>
+    <a type="button" routerLink="../../edit/{{shift.id}}" class="btn btn-info">Edit</a>
     <a type="button" (click)="deleteConfirm()" class="btn btn-danger">Delete</a>
+    <a type="button" routerLink="../../" class="btn btn-secondary">Back</a>
   </div>
 
 </div>

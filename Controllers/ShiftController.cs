@@ -171,12 +171,15 @@ public class ShiftController : ControllerBase
 			{
 				shift.Run = run;
 			}
+			
 			await _shiftService.UpdateAsync( shift );
+			Log.Information( "ShiftController.UpdateShift ... Shift with Id {@id} has been updated", id );
 			return Ok();
 		}
 		catch ( Exception e )
 		{
-			Console.WriteLine( e );
+			Log.Error( "ShiftController.UpdateShift ... Shift with Id {@id} has not been updated", id );
+			Log.Debug( "ShiftController.UpdateShift ... Error {@e}", e );
 			return BadRequest( "Error updating shift" );
 		}
 	}

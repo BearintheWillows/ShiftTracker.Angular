@@ -9,6 +9,7 @@ import {ConfirmModalComponent} from "../../Shared/components/modals/confirmModal
 import {RouterLink} from "@angular/router";
 import {ShiftsRoutingModule} from "./shifts.routing.module";
 import { ShiftsEditPageComponent } from './pages/shifts-edit-page/shifts-edit-page.component';
+import { ShiftsDetailPageComponent } from './pages/shifts-detail-page/shifts-detail-page.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ShiftsEditPageComponent } from './pages/shifts-edit-page/shifts-edit-pa
     ShiftsListTableComponent,
     ShiftsHomePageComponent,
     ShiftsEditPageComponent,
+    ShiftsDetailPageComponent,
 
   ],
   imports: [
