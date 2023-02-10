@@ -31,17 +31,23 @@ export class ShiftsListTableComponent implements OnInit {
 
   }
 
+  ngOnChanges(): void{
+    this.shifts = this.shifts;
+  }
+
   editShift(shift: IShift): void {
 
   }
 
   deleteShift(shift: IShift): void {
     this.shiftService.postDeleteShift(shift.id).subscribe((shift: IShift) => {
+      console.log('shift deleted');
+      this.populateTable.emit();
     });
   }
 
   onDeleteConfirm(shift: IShift): void {
-
+    event?.stopPropagation();
     let newDate = new Date(shift.date);
     this.modalRef = this.modalService.show(ConfirmModalComponent, {
       initialState: {
@@ -53,8 +59,9 @@ export class ShiftsListTableComponent implements OnInit {
     });
     this.modalRef.content.onClose.subscribe((result: boolean) => {
       if(result) {
+        console.log('delete shift')
         this.deleteShift(shift);
-        this.populateTable.emit()
+
       } else {
         this.modalService.hide(1);
       }

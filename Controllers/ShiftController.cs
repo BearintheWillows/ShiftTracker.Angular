@@ -3,6 +3,7 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
 using DTOs;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
@@ -109,16 +110,16 @@ public class ShiftController : ControllerBase
 			{
 				Log.Information("ShiftController-GetShiftById ... Shift {@shift} found", shift.Id);
 
-				return ShiftDto.CreateDto( shift );
+				return Ok(ShiftDto.CreateDto( shift ));
 			}
 			Log.Error("ShiftController-GetShiftById ... Shift {@shift} not found", shift.Id);
-			return BadRequest( "Shift not found" );
+			return BadRequest( new { Message = "Shift not found" } );
 		}
 		catch ( Exception e )
 		{
 			Log.Error("ShiftController-GetShiftById ... Shift with Id of {Id} not found", id);
 			Log.Debug("ShiftController-GetShiftById ... Error {@e}", e);
-			return BadRequest( "Error getting shift" );
+			return BadRequest( new { Message =  "Error getting shift" });
 		}
 	}
 
@@ -138,7 +139,8 @@ public class ShiftController : ControllerBase
 			if ( !await _shiftService.ExistsAsync( id ) ) return NotFound( "Shift not found" );
 
 			await _shiftService.DeleteAsync( id );
-			return Ok( "Shift Deleted Successfully" );
+			Log.Information("ShiftController.DeleteShift ... Shift with Id {@id} has been deleted", id);
+			return Ok( new { Message = "Shift Deleted Successfully" } );
 		}
 		catch ( Exception e )
 		{
@@ -174,13 +176,13 @@ public class ShiftController : ControllerBase
 			
 			await _shiftService.UpdateAsync( shift );
 			Log.Information( "ShiftController.UpdateShift ... Shift with Id {@id} has been updated", id );
-			return Ok();
+			return Ok(new { Message = "Shift Updated." });
 		}
 		catch ( Exception e )
 		{
 			Log.Error( "ShiftController.UpdateShift ... Shift with Id {@id} has not been updated", id );
 			Log.Debug( "ShiftController.UpdateShift ... Error {@e}", e );
-			return BadRequest( "Error updating shift" );
+			return BadRequest( new { Message = "Error updating shift" });
 		}
 	}
 

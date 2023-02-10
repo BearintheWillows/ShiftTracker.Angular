@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, NgZone, OnInit, Output} from '@angular/core';
 import {ShiftService} from "../../../../Root/services/shift.service";
 import {IShift} from "../../models/iShift";
 
@@ -14,12 +14,15 @@ export class ShiftsHomePageComponent implements OnInit{
   shifts: IShift[] = []
 
   constructor(
-    private _shiftService: ShiftService
+    private _shiftService: ShiftService,
+    private ngZone: NgZone
     ) {
   }
 
-  ngOnInit() {
-    this.populateShifts();
+  async ngOnInit(){
+    await this.ngZone.run(async () => {
+      this.populateShifts();
+    })
   }
 
   populateShifts(): void {
