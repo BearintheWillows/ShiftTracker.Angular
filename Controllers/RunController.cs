@@ -2,6 +2,7 @@
 
 namespace ShiftTracker.Angular.Controllers;
 
+using Serilog;
 using Services;
 
 [ApiController]
@@ -10,10 +11,12 @@ using Services;
 public class RunController : Controller
 {
 	private readonly IRunService _runService;
+	private ILogger Log { get; }
 	
-		public RunController(IRunService runService)
+		public RunController(IRunService runService, ILogger logger)
 	{
 		_runService = runService;
+		Log = logger;
 	}
 		
 		[HttpGet]
@@ -22,11 +25,13 @@ public class RunController : Controller
 			try
 			{
 				var runResultAsync = await _runService.GetAllAsync();
+				Log.Information("RunController.GetAllRuns() returned {@runResultAsync} Successfully", runResultAsync.Count());
 				return Ok( runResultAsync );
+				
 			}
 			catch ( Exception e )
 			{
-				Console.WriteLine( e );
+				
 				return BadRequest();
 			}
 		}

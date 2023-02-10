@@ -6,6 +6,7 @@ using DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
+using Serilog;
 using Services;
 using static Helpers.TimeConverter;
 
@@ -15,11 +16,13 @@ public class ShiftController : ControllerBase
 {
 	private readonly IRunService   _runService;
 	private readonly IShiftService _shiftService;
-
-	public ShiftController(IShiftService shiftService, IRunService runService)
+	private          ILogger       Log { get; set; }
+	
+	public ShiftController(ILogger logger,IShiftService shiftService, IRunService runService)
 	{
 		_shiftService = shiftService;
 		_runService = runService;
+		Log = logger;
 	}
 
 	/// <summary>
@@ -56,7 +59,9 @@ public class ShiftController : ControllerBase
 	[HttpPost("create")]
 	public async Task<IActionResult> CreateShift([FromBody] ShiftDto shiftDto)
 	{
-		var shift = new Shift
+		var shift = new Shift();
+		Log.Information( "ShiftDto: {@shiftDto}", shiftDto );
+		shift = new Shift()
 			{
 			Date = shiftDto.Date,
 			StartTime = shiftDto.StartTime,
@@ -66,21 +71,20 @@ public class ShiftController : ControllerBase
 			ShiftDuration = shiftDto.ShiftDuration,
 			OtherWorkTime = shiftDto.OtherWorkTime,
 			WorkTime = shiftDto.WorkTime,
-			Run = await _runService.GetRunByIdAsync(shiftDto.Run.Id, false),
-			Breaks = new List<Break>()
+			RunId = shiftDto.RunId,
+			Run = await _runService.GetRunByIdAsync(shiftDto.RunId, false),
+			Breaks = new List<Break>(),
 			};
-		
-			shift.RunId = shift.Run.Id;
+		Log.Information( "Shift: {@shift}", shift );
+
 		try
 		{
-			Console.WriteLine(shift);
-			
 			await _shiftService.AddAsync( shift );
 			return Ok();
 		}
 		catch ( Exception e )
 		{
-			Console.WriteLine( e );
+			Log.Error( "Shift did it save" );
 			return BadRequest( "Error creating shift" );
 		}
 	}

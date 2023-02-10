@@ -42,6 +42,7 @@
       <Folder Include="ClientApp\src\app\Feature\runs\pages" />
       <Folder Include="ClientApp\src\app\Feature\shifts\directives" />
       <Folder Include="ClientApp\src\app\Feature\shifts\pipes" />
+      <Folder Include="ClientApp\src\app\Shared\enums" />
       <Folder Include="ClientApp\src\app\Shared\layout\footer" />
       <Folder Include="ClientApp\src\app\Shared\layout\header" />
       <Folder Include="ClientApp\src\app\Shared\pipes" />
