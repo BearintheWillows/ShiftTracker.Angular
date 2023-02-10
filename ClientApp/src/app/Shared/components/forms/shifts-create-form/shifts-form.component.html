@@ -11,7 +11,6 @@
   <div *ngIf="date?.errors?.['dateAlreadyUsed'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Shift with the date {{date?.value}} already exists</p>
   </div>
-
   <label for="runNumber">Run Number:</label>
   <select class="form-control" formControlName="runNumber" id="runNumber">
     <option *ngFor="let run of this.runs" [value]="run.number" selected="{{run.number}}">{{run.number}}</option>
@@ -78,7 +77,7 @@
 
 
   <button class="btn btn-success" [disabled]="!shiftForm.valid" (click)="this.onSubmitPress()" type="button" >Confirm</button>
-  <button class="btn btn-danger" type="button" >Cancel </button>
+  <button class="btn btn-danger" (click)="goBack.emit()" type="button" >Cancel </button>
 </form>
 <p>Form Status: {{shiftForm.status}}</p>
 <p>create-form-shift works!</p>

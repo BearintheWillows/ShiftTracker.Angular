@@ -98,28 +98,29 @@ public class ShiftController : ControllerBase
 	/// <param name="includeBreaks"></param>
 	/// <param name="includeTimeData"></param>
 	/// <returns></returns>
-	// [HttpGet( "{id}" )]
-	// public async Task<ActionResult<ShiftDto?>> GetShiftById(
-	// 	int              id,
-	// 	[FromQuery] bool includeRun      = true,
-	// 	bool             includeBreaks   = false,
-	// 	bool             includeTimeData = true
-	// )
-	// {
-	// 	try
-	// 	{
-	// 		var shift = await _shiftService.GetShiftByIdAsync( id );
-	//
-	// 		if ( shift != null ) return ShiftDto.CreateDto( shift, ( includeBreaks, includeRun, includeTimeData ) );
-	//
-	// 		return BadRequest( "Shift not found" );
-	// 	}
-	// 	catch ( Exception e )
-	// 	{
-	// 		Console.WriteLine( e );
-	// 		return BadRequest( "Error getting shift" );
-	// 	}
-	// }
+	[HttpGet( "{id}" )]
+	public async Task<ActionResult<ShiftDto?>> GetShiftById(int id)
+	{
+		try
+		{
+			var shift = await _shiftService.GetShiftByIdAsync( id );
+			
+			if ( shift != null )
+			{
+				Log.Information("ShiftController-GetShiftById ... Shift {@shift} found", shift.Id);
+
+				return ShiftDto.CreateDto( shift );
+			}
+			Log.Error("ShiftController-GetShiftById ... Shift {@shift} not found", shift.Id);
+			return BadRequest( "Shift not found" );
+		}
+		catch ( Exception e )
+		{
+			Log.Error("ShiftController-GetShiftById ... Shift with Id of {Id} not found", id);
+			Log.Debug("ShiftController-GetShiftById ... Error {@e}", e);
+			return BadRequest( "Error getting shift" );
+		}
+	}
 
 
 	/// <summary>
@@ -146,44 +147,39 @@ public class ShiftController : ControllerBase
 		}
 	}
 
-	// [HttpPut( "{id}" )]
-	//
-	// public async Task<IActionResult> UpdateShift(int id, [FromBody] ShiftDto shiftDto)
-	// {
-	// 		shiftDto.BreakDuration = new TimeSpan(0,0,0);
-	// 	if ( !_shiftService.TimeEntryValidator( shiftDto ) )
-	// 		return BadRequest( "Time entries do not add up to shift duration total" );
-	//
-	// 	try
-	// 	{
-	// 		var shift = await _shiftService.GetShiftByIdAsync( id );
-	// 		if ( shift == null ) return NotFound( "Shift not found" );
-	// 		Console.WriteLine(shift.StartTime);
-	// 		shift.Date = shiftDto.Date;
-	// 		shift.StartTime = shiftDto.StartTime;
-	// 		shift.EndTime = shiftDto.EndTime;
-	// 		//TODO: Fix this to update break from form
-	// 		shift.BreakDuration = shiftDto.BreakDuration;
-	// 		shift.DriveTime = shiftDto.DriveTime;
-	// 		shift.ShiftDuration = shiftDto.ShiftDuration;
-	// 		shift.OtherWorkTime = shiftDto.OtherWorkTime;
-	// 		shift.WorkTime = shiftDto.WorkTime;
-	// 		shift.ShiftDuration = shiftDto.ShiftDuration;
-	// 		shift.RunId = -2;
-	// 		var run = await _runService.GetAsync( shiftDto.RunId );
-	// 		if ( run != null)
-	// 		{
-	// 			shift.Run = run;
-	// 		}
-	// 		await _shiftService.UpdateAsync( shift );
-	// 		return Ok();
-	// 	}
-	// 	catch ( Exception e )
-	// 	{
-	// 		Console.WriteLine( e );
-	// 		return BadRequest( "Error updating shift" );
-	// 	}
-	// }
+	[HttpPut( "{id}" )]
+	public async Task<IActionResult> UpdateShift(int id, [FromBody] ShiftDto shiftDto)
+	{
+		try
+		{
+			var shift = await _shiftService.GetShiftByIdAsync( id );
+			if ( shift == null ) return NotFound( "Shift not found" );
+			Log.Information( "ShiftController.UpdateShift ... Shift with Id {@id} has been found", id );
+			shift.Date = shiftDto.Date;
+			shift.StartTime = shiftDto.StartTime;
+			shift.EndTime = shiftDto.EndTime;
+			shift.BreakDuration = shiftDto.BreakDuration;
+			shift.DriveTime = shiftDto.DriveTime;
+			shift.ShiftDuration = shiftDto.ShiftDuration;
+			shift.OtherWorkTime = shiftDto.OtherWorkTime;
+			shift.WorkTime = shiftDto.WorkTime;
+			shift.ShiftDuration = shiftDto.ShiftDuration;
+			shift.RunId = shiftDto.RunId;
+			shift.Breaks = new List<Break>();
+			var run = await _runService.GetAsync( shiftDto.RunId );
+			if ( run != null)
+			{
+				shift.Run = run;
+			}
+			await _shiftService.UpdateAsync( shift );
+			return Ok();
+		}
+		catch ( Exception e )
+		{
+			Console.WriteLine( e );
+			return BadRequest( "Error updating shift" );
+		}
+	}
 
 	[HttpGet( "checkDateInUse" )]
 	public async Task<ActionResult> checkDateInUse([FromQuery]string date)

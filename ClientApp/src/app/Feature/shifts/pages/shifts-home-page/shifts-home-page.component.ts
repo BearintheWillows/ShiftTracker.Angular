@@ -20,13 +20,11 @@ export class ShiftsHomePageComponent implements OnInit{
 
   ngOnInit() {
     this.populateShifts();
-    console.log(this.shifts)
   }
 
   populateShifts(): void {
     this._shiftService.getShifts().subscribe((shifts: IShift[]) => {
       this.shifts = shifts;
-      console.log(this.shifts)
     });
   }
 

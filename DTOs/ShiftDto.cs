@@ -2,6 +2,7 @@
 
 using Models;
 using Newtonsoft.Json;
+using Serilog;
 
 public class ShiftDto
 {
@@ -38,6 +39,8 @@ public class ShiftDto
 			OtherWorkTime = shift.OtherWorkTime,
 			WorkTime = shift.WorkTime,
 			};
+		
+		Log.Information("ShiftDto-CreateDto ... Shift {@shiftDto} created and returned", shiftDto.Id);
 		return shiftDto;
 	}
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditFormShiftComponent } from './edit-form-shift.component';
+import { ShiftsEditPageComponent } from './shifts-edit-page.component';
 
-describe('EditFormShiftComponent', () => {
-  let component: EditFormShiftComponent;
-  let fixture: ComponentFixture<EditFormShiftComponent>;
+describe('ShiftsEditPageComponent', () => {
+  let component: ShiftsEditPageComponent;
+  let fixture: ComponentFixture<ShiftsEditPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditFormShiftComponent ]
+      declarations: [ ShiftsEditPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditFormShiftComponent);
+    fixture = TestBed.createComponent(ShiftsEditPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

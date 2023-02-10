@@ -2,6 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {FormType} from "../../../../Shared/enums/form-type";
 import {IRun} from "../../../runs/models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-shifts-create-page',
@@ -11,10 +12,8 @@ import {RunService} from "../../../../Root/services/run.service";
 export class ShiftsCreatePageComponent implements OnInit{
 
   formType: FormType = FormType.Create;
-  constructor(private runService: RunService, private ngZone: NgZone
-  ){
+  constructor(private runService: RunService, private ngZone: NgZone, private location: Location) { }
 
-  }
 
   runs: IRun[] = [];
   async ngOnInit(){
@@ -31,4 +30,8 @@ export class ShiftsCreatePageComponent implements OnInit{
         resolve(runs);
       });
     })};
+
+  goBack(): void {
+    this.location.back();
+  }
 }
