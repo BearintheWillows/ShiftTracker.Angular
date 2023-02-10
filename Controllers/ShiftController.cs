@@ -66,10 +66,11 @@ public class ShiftController : ControllerBase
 			ShiftDuration = shiftDto.ShiftDuration,
 			OtherWorkTime = shiftDto.OtherWorkTime,
 			WorkTime = shiftDto.WorkTime,
-			RunId = shiftDto.Run.Id,
 			Run = await _runService.GetRunByIdAsync(shiftDto.Run.Id, false),
 			Breaks = new List<Break>()
 			};
+		
+			shift.RunId = shift.Run.Id;
 		try
 		{
 			Console.WriteLine(shift);

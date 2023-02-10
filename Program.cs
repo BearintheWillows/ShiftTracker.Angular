@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 using ShiftTracker.Angular.Data;
 using ShiftTracker.Angular.Services;
 
@@ -7,6 +9,13 @@ var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 
+Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.File( "Logs/log-.txt", rollingInterval: RollingInterval.Day )
+               .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+               .CreateLogger();
+
+builder.Services.AddSingleton( Log.Logger );
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -64,6 +73,7 @@ app.MapControllerRoute( name: "default",
                         pattern: "{controller}/{action=Index}/{id?}"
 );
 app.MapRazorPages();
+
 
 app.MapFallbackToFile( "index.html" );
 

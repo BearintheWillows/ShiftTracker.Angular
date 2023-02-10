@@ -5,6 +5,7 @@ using DTOs;
 using Extentions;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Serilog;
 
 public interface IShiftService : IBaseCrudService<Shift>
 {
@@ -18,17 +19,15 @@ public interface IShiftService : IBaseCrudService<Shift>
 
 public class ShiftService : BaseCrudService<Shift>, IShiftService
 {
-	private readonly AppDbContext _context;
-	private readonly IBreakService        _breakService;
+	private readonly IBreakService _breakService;
 
-	public ShiftService(AppDbContext context, IBreakService breakService) : base( context )
+	public ShiftService(ILogger logger, AppDbContext context, IBreakService breakService) : base( context, logger )
 	{
-		_context = context;
 		_breakService = breakService;
 	}
 
 	public async Task<Shift?> GetShiftByIdAsync(int id) =>
-		await _context.Shifts
+		await Context.Shifts
 		              .Include(s => s.Breaks)
 		              .Include(s => s.Run)
 		              .FirstOrDefaultAsync( s => s.Id == id );
@@ -42,11 +41,12 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 	public async Task<List<Shift>> GetAllShiftsAsync()
 	{
 		
-		 var shifts = await _context.Shifts.Include(s => s.Run).ToListAsync();
+		 var shifts = await Context.Shifts.Include(s => s.Run).ToListAsync();
+		 Log.Information( "Shifts Retrieved from ShiftsService - GetAllShiftsAsync: {@shifts}", shifts.Count );
 		 return shifts;
 	}
 
-	public async Task<bool> ExistsAsync(int?            id)       => await _context.Shifts.AnyAsync( x => x.Id == id );
+	public async Task<bool> ExistsAsync(int?            id)       => await Context.Shifts.AnyAsync( x => x.Id == id );
 	
 	/// <summary>
 	///     Checks if the shift times add up to the shift duration.
@@ -60,7 +60,7 @@ public class ShiftService : BaseCrudService<Shift>, IShiftService
 
 	public async Task<bool> GetShiftByDateAsync(DateTime date)
 	{
-		var findDate = await _context.Shifts.AsNoTracking().FirstOrDefaultAsync( s => s.Date == date );
+		var findDate = await Context.Shifts.AsNoTracking().FirstOrDefaultAsync( s => s.Date == date );
 
 		if ( findDate != null )
 		{

@@ -4,6 +4,7 @@ using Data;
 using DTOs;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Serilog;
 
 public interface IShopService : IBaseCrudService<Shop>
 {
@@ -15,11 +16,10 @@ public interface IShopService : IBaseCrudService<Shop>
 
 public class ShopService : BaseCrudService<Shop>, IShopService
 {
-	private readonly AppDbContext _context;
 
-	public ShopService(AppDbContext context) : base( context )
+	public ShopService(AppDbContext context, ILogger logger) : base( context, logger )
 	{
-		_context = context;
+
 	}
 
 	/// <summary>
@@ -27,14 +27,14 @@ public class ShopService : BaseCrudService<Shop>, IShopService
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns>bool</returns>
-	public async Task<bool> ExistsAsync(int id) => await _context.Shops.AnyAsync( s => s.Id == id );
+	public async Task<bool> ExistsAsync(int id) => await Context.Shops.AnyAsync( s => s.Id == id );
 
 	/// <summary>
 	///     Get List of Shops with DayData
 	/// </summary>
 	/// <returns>List of Shops</returns>
 	public async Task<IEnumerable<Shop>> GetAllShopsWithDayData() =>
-		await _context.Shops.Include( s => s.DailyRoutePlan ).ToListAsync();
+		await Context.Shops.Include( s => s.DailyRoutePlan ).ToListAsync();
 
 	/// <summary>
 	///     Gets Singular Shop with Day data
@@ -42,7 +42,7 @@ public class ShopService : BaseCrudService<Shop>, IShopService
 	/// <param name="id"></param>
 	/// <returns>Shop Entity</returns>
 	public async Task<Shop?> GetShopWithDayData(int id) =>
-		await _context.Shops.Include( s => s.DailyRoutePlan ).FirstOrDefaultAsync( s => s.Id == id );
+		await Context.Shops.Include( s => s.DailyRoutePlan ).FirstOrDefaultAsync( s => s.Id == id );
 
 	/// <summary>
 	///     Check if a Shop with a given Name and Number Exists
@@ -50,5 +50,5 @@ public class ShopService : BaseCrudService<Shop>, IShopService
 	/// <param name="shopDto"></param>
 	/// <returns>boolean</returns>
 	public async Task<bool> IsNameAndNumberUnique(ShopDto shopDto) =>
-		await _context.Shops.AnyAsync( s => s.Name == shopDto.Name && s.Number == shopDto.Number );
+		await Context.Shops.AnyAsync( s => s.Name == shopDto.Name && s.Number == shopDto.Number );
 }

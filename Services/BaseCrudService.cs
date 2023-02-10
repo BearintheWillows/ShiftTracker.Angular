@@ -2,6 +2,7 @@
 
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 public interface IBaseCrudService<T> where T : class
 {
@@ -16,9 +17,12 @@ public interface IBaseCrudService<T> where T : class
 
 public abstract class BaseCrudService<T> : IBaseCrudService<T> where T : class
 {
-	public BaseCrudService(AppDbContext context)
+	internal ILogger Log;
+
+	public BaseCrudService(AppDbContext context, ILogger logger)
 	{
 		Context = context;
+		Log = logger;
 	}
 
 	internal AppDbContext Context { get; }
@@ -43,8 +47,20 @@ public abstract class BaseCrudService<T> : IBaseCrudService<T> where T : class
 	/// <returns>Created Entity</returns>
 	public async Task<T> AddAsync(T entity)
 	{
-		await Context.Set<T>().AddAsync( entity );
-		await Context.SaveChangesAsync();
+		try
+		{ 
+				await Context.Set<T>().AddAsync( entity );
+          		await Context.SaveChangesAsync();
+                Log.Information( "Entity Added to Database: {@entity}", entity );
+		}
+				
+		catch ( Exception e )
+		{
+			Log.Error( "Error Adding Entity to Database: {@entity}", entity );
+			Log.Fatal( "Error: {@e}", e );
+			throw;
+		}
+		
 		return entity;
 	}
 

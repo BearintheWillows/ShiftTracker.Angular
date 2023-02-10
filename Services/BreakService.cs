@@ -3,6 +3,7 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Serilog;
 
 public interface IBreakService : IBaseCrudService<Break>
 {
@@ -14,24 +15,23 @@ public interface IBreakService : IBaseCrudService<Break>
 
 public class BreakService : BaseCrudService<Break>, IBreakService
 {
-	private readonly AppDbContext _context;
 
-	public BreakService(AppDbContext context) : base( context )
+	public BreakService(AppDbContext context, ILogger logger) : base( context, logger )
 	{
-		_context = context;
+		Log = logger;
 	}
 
 	public async Task PostAllBreaksAsync(IEnumerable<Break> breaks)
 	{
-		await _context.Breaks.AddRangeAsync( breaks );
-		await _context.SaveChangesAsync();
+		await Context.Breaks.AddRangeAsync( breaks );
+		await Context.SaveChangesAsync();
 	}
 
-	public async Task<bool> ExistsAsync(int? id) => await _context.Breaks.AnyAsync( s => s.Id == id );
+	public async Task<bool> ExistsAsync(int? id) => await Context.Breaks.AnyAsync( s => s.Id == id );
 
 	public async Task<IEnumerable<Break>> GetAllAsyncByShiftId(int shiftId)
 	{
-		return await _context.Breaks.Where( s => s.ShiftId == shiftId ).ToListAsync();
+		return await Context.Breaks.Where( s => s.ShiftId == shiftId ).ToListAsync();
 		
 	}
 	

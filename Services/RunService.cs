@@ -4,6 +4,7 @@ using Data;
 using Extentions;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Serilog;
 
 public interface IRunService : IBaseCrudService<Run>
 {
@@ -18,40 +19,38 @@ public interface IRunService : IBaseCrudService<Run>
 
 public class RunService : BaseCrudService<Run>, IRunService
 {
-	private readonly AppDbContext _context;
 
-	public RunService(AppDbContext context) : base( context )
+	public RunService(AppDbContext context, ILogger logger) : base( context, logger )
 	{
-		_context = context;
 	}
 
 	public async Task<List<Run>> GetAllAsync(bool includeDRP)
 	{
 		if ( includeDRP )
-			return await _context.Runs.Include( r => r.RoutePlans ).ThenInclude( r => r.Shop ).ToListAsync();
-		return await _context.Runs.ToListAsync();
+			return await Context.Runs.Include( r => r.RoutePlans ).ThenInclude( r => r.Shop ).ToListAsync();
+		return await Context.Runs.ToListAsync();
 	}
 
 	public async Task<Run?> GetRunByIdAsync(int runId, bool includeDRP)
 	{
 		if ( !await ExistsAsync( runId ) ) return null;
-		return await _context.Runs.AsQueryable()
+		return await Context.Runs.AsQueryable()
 		                     .IncludeDailyDoutePlans( includeDRP )
 		                     .FirstOrDefaultAsync( s => s.Id == runId );
 	}
 
-	public async Task<bool> ExistsAsync(int id) => await _context.Runs.AnyAsync( r => r.Id == id );
+	public async Task<bool> ExistsAsync(int id) => await Context.Runs.AnyAsync( r => r.Id == id );
 
 	/// <summary>
 	///     Returns a List of tuples containing the Run Id {0} and the Run Number {1}
 	/// </summary>
 	/// <returns>Tuple</returns>
 	public async Task<List<Tuple<int, int>>> GetAllNumbersAndIds() =>
-		await _context.Runs.Select( r => new Tuple<int, int>( r.Id, r.Number ) ).ToListAsync();
+		await Context.Runs.Select( r => new Tuple<int, int>( r.Id, r.Number ) ).ToListAsync();
 
 
 	public int GetRunIdByNumber(int runNumber)
 	{
-		return _context.Runs.AsQueryable().Where( r => r.Number == runNumber ).Select( r => r.Id ).FirstOrDefault();
+		return Context.Runs.AsQueryable().Where( r => r.Number == runNumber ).Select( r => r.Id ).FirstOrDefault();
 	}
 }
