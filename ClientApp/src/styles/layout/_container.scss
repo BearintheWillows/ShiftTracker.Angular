@@ -1,1 +1,29 @@
-﻿
+﻿.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  width: 98%;
+  margin: 1% auto;
+
+}
+
+main,  {
+  width: 100%;
+  flex: 1 0 auto;
+  background-color: lightyellow;
+
+
+}
+
+header, footer {
+  width: 100%;
+  flex: 0 0 auto;
+
+
+}
+
+header{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}

@@ -10,6 +10,7 @@ import {ModalModule} from "ngx-bootstrap/modal";
 import {NavComponent} from "../Core/components/nav/nav.component";
 import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
 import {SharedModule} from "../Shared/shared.module";
+import {RunsModule} from "../Feature/runs/runs.module";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {SharedModule} from "../Shared/shared.module";
     HttpClientModule,
     ModalModule.forRoot(),
     ShiftsModule,
+    RunsModule,
     AppRoutingModule,
   ],
   providers: [

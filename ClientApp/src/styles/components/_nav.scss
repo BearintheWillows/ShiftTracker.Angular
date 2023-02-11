@@ -1,0 +1,47 @@
+﻿.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: royalblue;
+
+
+  .nav__leftDiv, .nav__rightDiv {
+    display: flex;
+    align-items: center;
+    width: 33.33%;
+    justify-content: space-around;
+
+    a{
+      color: orange;
+      font-size: 1.3rem;
+      text-decoration: none;
+      border: 1px solid orange;
+      padding: 0.2rem 1.5rem;
+      border-radius: 15px;
+      margin: 0 3rem;
+      transition: transform 0.1s ease-in-out;
+
+      &:hover{
+        background-color: orange;
+        color: royalblue;
+      }
+
+      &:active{
+        transform: scale(0.9);
+      }
+
+    }
+  }
+  .nav__leftDiv{
+    padding-left: 10rem;
+  }
+
+  .nav__rightDiv{
+    padding-right: 10rem;
+  }
+
+
+}
+
+
