@@ -4,12 +4,16 @@ import { RunsRoutingModule } from './runs.routing.module';
 import { RunsComponent } from './runs.component';
 import {RouterOutlet} from "@angular/router";
 import {SharedModule} from "../../Shared/shared.module";
+import { RunsHomePageComponent } from './pages/runs-home-page/runs-home-page.component';
+import { RunSelectorComponent } from './components/run-selector/run-selector.component';
 
 
 
 @NgModule({
   declarations: [
-    RunsComponent
+    RunsComponent,
+    RunsHomePageComponent,
+    RunSelectorComponent
   ],
   imports: [
     SharedModule,

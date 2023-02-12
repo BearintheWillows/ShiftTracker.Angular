@@ -7,12 +7,13 @@ import {ShiftsCreatePageComponent} from "../shifts/pages/shifts-create-page/shif
 import {ShiftsEditPageComponent} from "../shifts/pages/shifts-edit-page/shifts-edit-page.component";
 import {ShiftsDetailPageComponent} from "../shifts/pages/shifts-detail-page/shifts-detail-page.component";
 import {RunsComponent} from "./runs.component";
+import {RunsHomePageComponent} from "./pages/runs-home-page/runs-home-page.component";
 
 const RunsRoutes: Routes = [
   { path: 'runs',
     component: RunsComponent,
     children: [
-
+      { path: '', component: RunsHomePageComponent },
     ]
   },
 ]
