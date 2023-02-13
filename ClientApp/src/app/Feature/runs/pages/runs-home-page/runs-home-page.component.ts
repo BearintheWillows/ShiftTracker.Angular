@@ -10,18 +10,26 @@ import {RunService} from "../../../../Root/services/run.service";
 export class RunsHomePageComponent implements OnInit{
 
   runs: IRun[] = [];
+  selectedRun: IRun = {} as IRun
 
-  onSelect(run: IRun){
-    console.log(run);
-  }
+
 
   constructor(private runService: RunService,
               private ngZone: NgZone) { }
 
+  onSelectedRun(run: IRun) {
+    console.log(run)
+    let foundRun = this.runs.find(r => r.number === run.number);
+    if (foundRun) {
+      this.selectedRun = foundRun;
+      console.log(this.selectedRun);
+    }
+
+  }
+
   async ngOnInit(){
     await this.ngZone.run(async () => {
       this.runs = await this.getAllRuns();
-      console.log(this.runs);
     })
 
   }

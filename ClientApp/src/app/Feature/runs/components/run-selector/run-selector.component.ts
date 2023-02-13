@@ -11,10 +11,18 @@ export class RunSelectorComponent implements OnInit{
 
   @Input() runs: IRun[] = []
 
-  @Output() onSelect = new EventEmitter();
+  @Output() selectedRunChange: EventEmitter<IRun> = new EventEmitter<IRun>();
+
+  run: IRun = {} as IRun;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSelectedRunChange(run: IRun) {
+
+    this.selectedRunChange.emit(run);
   }
 
 }
