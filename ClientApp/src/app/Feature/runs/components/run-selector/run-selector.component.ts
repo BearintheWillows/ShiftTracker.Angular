@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, NgZone, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output} from '@angular/core';
 import {IRun} from "../../models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
 
@@ -13,16 +13,16 @@ export class RunSelectorComponent implements OnInit{
 
   @Output() selectedRunChange: EventEmitter<IRun> = new EventEmitter<IRun>();
 
-  run: IRun = {} as IRun;
-
+  selectedRun: IRun = {} as IRun;
   constructor() { }
 
   ngOnInit() {
   }
 
-  onSelectedRunChange(run: IRun) {
 
-    this.selectedRunChange.emit(run);
+
+  onRunSelected(selectedRun: IRun) {
+    this.selectedRunChange.emit(selectedRun);
+
   }
-
 }

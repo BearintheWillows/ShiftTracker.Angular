@@ -1,6 +1,7 @@
 import {Component, Input, NgZone, OnInit} from '@angular/core';
 import {IRun} from "../../models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-runs-home-page',
@@ -10,7 +11,8 @@ import {RunService} from "../../../../Root/services/run.service";
 export class RunsHomePageComponent implements OnInit{
 
   runs: IRun[] = [];
-  selectedRun: IRun = {} as IRun
+  selectedRun: IRun = {} as IRun;
+  $selectedRun: Observable<IRun> = new Observable<IRun>();
 
 
 
@@ -18,12 +20,10 @@ export class RunsHomePageComponent implements OnInit{
               private ngZone: NgZone) { }
 
   onSelectedRun(run: IRun) {
-    console.log(run)
-    let foundRun = this.runs.find(r => r.number === run.number);
-    if (foundRun) {
-      this.selectedRun = foundRun;
-      console.log(this.selectedRun);
-    }
+    this.$selectedRun = this.runService.getById(run.id).pipe() as Observable<IRun>;
+    this.$selectedRun.subscribe((run: IRun) => {
+      console.log(run);
+    })
 
   }
 

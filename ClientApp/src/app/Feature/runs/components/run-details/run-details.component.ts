@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {IRun} from "../../models/iRun";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-run-details',
@@ -8,7 +9,8 @@ import {IRun} from "../../models/iRun";
 })
 export class RunDetailsComponent implements OnInit, OnChanges{
 
-  @Input() run: IRun = {} as IRun;
+  @Input() $run: Observable<IRun> = new Observable<IRun>();
+  run: IRun = {} as IRun;
 
 
   constructor() { }
@@ -17,9 +19,7 @@ export class RunDetailsComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if(changes.run){
-      console.log(`Run Details - ${this.run}`)
-    }
+
 
   }
 

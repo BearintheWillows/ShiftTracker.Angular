@@ -2,6 +2,7 @@
 
 namespace ShiftTracker.Angular.Controllers;
 
+using Models;
 using Serilog;
 using Services;
 
@@ -50,4 +51,21 @@ public class RunController : Controller
 				return BadRequest();
 			}
 		}
-	}
+		
+		[HttpGet( "{runId}" )]
+		public async Task<ActionResult<Run>> GetRunById( int runId )
+		{
+			Run runResultAsync = await _runService.GetRunByIdAsync( runId, false );
+			Log.Information("RunController.GetRunById({@runId}) returned {@runResultAsync} Successfully", runId, runResultAsync);
+			try
+			{
+			return Ok( runResultAsync);
+			}
+			catch ( Exception e )
+			{
+				Console.WriteLine( e );
+				return BadRequest();
+			}
+		}
+
+}

@@ -1,1 +1,5 @@
-<p>run-detals works!</p>
+<div *ngIf="$run | async as run">
+<h1>{{run.id}}</h1>
+  <h2>{{run.number}}</h2>
+  <h3>{{run.startTime}}</h3>
+</div>

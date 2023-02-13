@@ -1,6 +1,6 @@
-<form >
+
   <label for="runNumber">Run Number:</label>
-  <select [(ngModel)]="run" (change)="onSelectedRunChange(run)" name="runNumber" class="form-control"  id="runNumber">
-    <option *ngFor="let run of runs" [value]="run.number" [selected]="run.number">{{run.number}}</option>
+  <select [(ngModel)]="selectedRun" (change)="onRunSelected(selectedRun)" class="form-control"  id="runNumber">
+    <option  *ngFor="let run of runs" [ngValue]="run" [selected]="run.number">{{run.number}}</option>
   </select>
-</form>
+

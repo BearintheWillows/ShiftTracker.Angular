@@ -1,2 +1,2 @@
 <app-run-selector [runs]="runs" (selectedRunChange)="onSelectedRun($event)" ></app-run-selector>
-<app-run-details [run]="selectedRun"></app-run-details>
+<app-run-details [$run]="$selectedRun"></app-run-details>

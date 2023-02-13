@@ -20,4 +20,8 @@ export class RunService {
     console.log(`${this._baseUrl}/runNumber/${runNumber}`);
     return this.http.get<number>(`${this._baseUrl}/runNumber/${runNumber}`);
   }
+
+  getById(id: number): Observable<IRun> {
+    return this.http.get<IRun>(`${this._baseUrl}/${id}`);
+  }
 }
