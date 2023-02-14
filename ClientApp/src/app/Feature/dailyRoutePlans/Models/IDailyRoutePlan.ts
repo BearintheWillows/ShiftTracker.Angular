@@ -1,6 +1,7 @@
 ﻿import {IRun} from "../../runs/models/iRun";
+import { IShop } from "../../shops/Models/IShop";
 
-interface IDailyRoutePlan {
+export interface IDailyRoutePlan {
   id: number,
 
   dayOfWeek: number,

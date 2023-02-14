@@ -2,6 +2,7 @@
 
 namespace ShiftTracker.Angular.Controllers;
 
+using DTOs;
 using Models;
 using Serilog;
 using Services;
@@ -64,6 +65,24 @@ public class RunController : Controller
 			catch ( Exception e )
 			{
 				Console.WriteLine( e );
+				return BadRequest();
+			}
+		}
+		
+		[HttpGet("{id}/includeDRP")]
+		public async Task<ActionResult<RunDto>> GetRunByIdWithDRP(int id)
+		{
+			Run runResultAsync = await _runService.GetRunByIdAsync(id, true);
+			Log.Information("RunController.GetRunByIdWithDRP({@id}) returned {@runResultAsync} Successfully", id, runResultAsync);
+			
+			RunDto resultConversion = RunDto.CreateRunDto(runResultAsync, true);
+			try
+			{
+				return Ok(resultConversion);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
 				return BadRequest();
 			}
 		}

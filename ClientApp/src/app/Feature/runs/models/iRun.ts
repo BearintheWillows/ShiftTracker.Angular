@@ -1,10 +1,10 @@
-import {IDailyRoutePlan} from "../../../../interfaces/iDailyRoutePlan";
+import {IDailyRoutePlan} from "../../dailyRoutePlans/Models/IDailyRoutePlan";
 
 export interface IRun {
   id: number;
   number: number;
-  Location: string;
+  location: string;
 
-  DailyRoutes: IDailyRoutePlan[]
+  dailyRoutes: IDailyRoutePlan[];
 
 }

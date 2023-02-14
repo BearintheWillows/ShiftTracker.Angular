@@ -1,5 +1,5 @@
 
-import {IBreak} from "../../../../interfaces/iBreak";
+
 import {IRun} from "../../runs/models/iRun";
 
 export interface IShift{
@@ -10,7 +10,6 @@ export interface IShift{
 
   run: IRun;
 
-  breaks?: IBreak[];
   startTime: string;
   endTime: string
   driveTime: string;

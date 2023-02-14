@@ -24,4 +24,9 @@ export class RunService {
   getById(id: number): Observable<IRun> {
     return this.http.get<IRun>(`${this._baseUrl}/${id}`);
   }
+
+  getByIdWithDailyRoutePlans(id: number): Observable<IRun> {
+    return this.http.get<IRun>(`${this._baseUrl}/${id}/includeDRP`);
+  }
+
 }

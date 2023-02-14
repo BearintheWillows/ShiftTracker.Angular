@@ -1,6 +1,6 @@
-﻿import {IDailyRoutePlan} from "../../../../interfaces/iDailyRoutePlan";
+﻿import {IDailyRoutePlan} from "../../dailyRoutePlans/Models/IDailyRoutePlan";
 
-interface IShop {
+export interface IShop {
 
   id: number;
   name: string;
