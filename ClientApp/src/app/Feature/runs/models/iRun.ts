@@ -1,6 +1,10 @@
+import {IDailyRoutePlan} from "../../../../interfaces/iDailyRoutePlan";
+
 export interface IRun {
   id: number;
   number: number;
-  startTime: Date;
+  Location: string;
+
+  DailyRoutes: IDailyRoutePlan[]
 
 }
