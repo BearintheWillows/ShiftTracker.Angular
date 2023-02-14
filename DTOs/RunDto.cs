@@ -6,7 +6,7 @@ public class RunDto
 {
 	public int      Id        { get; set; }
 	public int      Number    { get; set; }
-	public TimeSpan StartTime { get; set; }
+	public string Location  { get; set; }
 
 	public IEnumerable<DailyRoutePlanDto>? DailyRoutes { get; set; }
 
@@ -16,12 +16,13 @@ public class RunDto
 				{
 				Id = r.Id,
 				Number = r.Number,
-				StartTime = r.StartTime,
+				Location = r.Location,
 				DailyRoutes = includeDrp
 					? r.RoutePlans.Select( dr => new DailyRoutePlanDto
 							{
 							Id = dr.Id,
 							DayOfWeek = ( int ) dr.DayOfWeek,
+							StartTime = dr.StartTime,
 							Shop = new ShopDto
 								{
 								Id = dr.Shop.Id,
@@ -47,12 +48,13 @@ public class RunDto
 		{
 		Id = run.Id,
 		Number = run.Number,
-		StartTime = run.StartTime,
+		Location = run.Location,
 		DailyRoutes = includeDRP
 			? run.RoutePlans.Select( dr => new DailyRoutePlanDto
 					{
 					Id = dr.Id,
 					DayOfWeek = ( int ) dr.DayOfWeek,
+					StartTime = dr.StartTime,
 					Shop = new ShopDto
 						{
 						Id = dr.Shop.Id,

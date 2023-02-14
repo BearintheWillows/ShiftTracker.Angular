@@ -73,8 +73,8 @@ public static class ModelBuilderExtentions
 			                      }
 		             );
 
-		modelBuilder.Entity<Run>().HasData( new { Id = -1, Number = 68, StartTime = new TimeSpan( 08, 00, 00 ) },
-		                                    new { Id = -2, Number = 19, StartTime = new TimeSpan( 10, 00, 00 ) }
+		modelBuilder.Entity<Run>().HasData( new { Id = -1, Number = 68, Location = "Norwich" },
+		                                    new { Id = -2, Number = 19, Location = "Milton Keynes" }
 		);
 
 		modelBuilder.Entity<Shop>().HasData( new
@@ -144,6 +144,7 @@ public static class ModelBuilderExtentions
 			                                               Id = -1,
 			                                               SequenceNumber = 1,
 			                                               DayOfWeek = DayOfWeek.Monday,
+			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
 			                                               WindowOpenTime = new TimeSpan( 10, 15, 00 ),
 			                                               WindowCloseTime = new TimeSpan( 11, 15, 00 ),
 			                                               RunId = -1,
@@ -153,6 +154,7 @@ public static class ModelBuilderExtentions
 			                                               {
 			                                               Id = -2,
 			                                               SequenceNumber = 2,
+			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
 			                                               DayOfWeek = DayOfWeek.Monday,
 			                                               WindowOpenTime = new TimeSpan( 12, 15, 00 ),
 			                                               WindowCloseTime = new TimeSpan( 13, 15, 00 ),
@@ -163,6 +165,7 @@ public static class ModelBuilderExtentions
 			                                               {
 			                                               Id = -3,
 			                                               SequenceNumber = 3,
+			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
 			                                               DayOfWeek = DayOfWeek.Monday,
 			                                               WindowOpenTime = new TimeSpan( 14, 15, 00 ),
 			                                               WindowCloseTime = new TimeSpan( 14, 30, 00 ),
@@ -173,6 +176,7 @@ public static class ModelBuilderExtentions
 			                                               {
 			                                               Id = -4,
 			                                               SequenceNumber = 2,
+			                                               StartTime = new DateTime( 1930,01,01,03,00,00 ),
 			                                               DayOfWeek = DayOfWeek.Monday,
 			                                               WindowOpenTime = new TimeSpan( 10, 15, 00 ),
 			                                               WindowCloseTime = new TimeSpan( 11, 15, 00 ),
@@ -183,6 +187,7 @@ public static class ModelBuilderExtentions
 			                                               {
 			                                               Id = -5,
 			                                               SequenceNumber = 1,
+			                                               StartTime = new DateTime( 1930,01,01,03,00,00 ),
 			                                               DayOfWeek = DayOfWeek.Monday,
 			                                               WindowOpenTime = new TimeSpan( 12, 15, 00 ),
 			                                               WindowCloseTime = new TimeSpan( 13, 15, 00 ),

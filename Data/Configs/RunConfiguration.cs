@@ -10,7 +10,7 @@ public class RunConfiguration : IEntityTypeConfiguration<Run>
 	{
 		builder.ToTable( "Runs" );
 		builder.HasKey( r => r.Id );
-		builder.Property( r => r.StartTime ).IsRequired();
+		builder.Property( r => r.Location ).IsRequired();
 		builder.HasIndex( r => r.Number ).IsUnique();
 		builder.Property( r => r.Number ).IsRequired();
 	}

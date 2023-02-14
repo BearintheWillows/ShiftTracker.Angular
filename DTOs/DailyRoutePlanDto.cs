@@ -4,6 +4,8 @@ public class DailyRoutePlanDto
 {
 	public int? Id        { get; set; }
 	public int  DayOfWeek { get; set; }
+	
+	public DateTime StartTime { get; set; }
 
 	//Delivery Window Start/End Times
 	public TimeSpan? WindowOpenTime  { get; set; }
