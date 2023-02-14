@@ -6,7 +6,7 @@
 
 
 <div *ngFor="let dr of run.dailyRoutes ">
-  <h1>Day of Week -{{dr.dayOfWeek}}</h1>
+  <h1>Day of Week -{{dr.dayOfWeek | numToDayOfWeekString}}</h1>
   <h2>Id: {{ dr.id}}</h2>
   <h3>Start: {{dr.startTime | timeFormatForUi}}</h3>
 </div>

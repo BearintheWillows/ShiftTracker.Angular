@@ -6,6 +6,7 @@ import {ConfirmModalComponent} from "./components/modals/confirmModal/confirm-mo
 import {HttpClientModule} from "@angular/common/http";
 import {ShiftsFormComponent} from "./components/forms/shifts-create-form/shifts-form.component";
 import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPipe} from "./pipes/time-format.pipe";
+import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day-of-week-conversion.pipe';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,8 @@ import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPip
     TimeFormatForDateTimePipe,
     TimeFormatForTimeSpanPipe,
     ShiftsFormComponent,
+    DayOfWeekConversionPipe,
+    StrToDayOfWeekConversionPipe
 
   ],
   imports: [
@@ -36,6 +39,8 @@ import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPip
     RouterModule,
     TimeFormatForUiPipe,
     ShiftsFormComponent,
+    DayOfWeekConversionPipe,
+    StrToDayOfWeekConversionPipe,
   ]
 })
 export class SharedModule { }
