@@ -9,13 +9,13 @@ import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
 export class DailyRouteNavComponent implements OnInit, AfterViewInit {
 
   @Input() routes: IDailyRoutePlan[] = [];
-  mondayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  tuesdayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  wednesdayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  thursdayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  fridayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  saturdayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
-  sundayRoute: IDailyRoutePlan = {} as IDailyRoutePlan;
+  mondayRoute: IDailyRoutePlan[] = [];
+  tuesdayRoute: IDailyRoutePlan[] = []
+  wednesdayRoute: IDailyRoutePlan[] = []
+  thursdayRoute: IDailyRoutePlan[] = []
+  fridayRoute: IDailyRoutePlan[] = []
+  saturdayRoute: IDailyRoutePlan[] = []
+  sundayRoute: IDailyRoutePlan[] = []
 
   constructor(private renderer: Renderer2) {
   }
@@ -24,25 +24,25 @@ export class DailyRouteNavComponent implements OnInit, AfterViewInit {
     this.routes.forEach((route) => {
       switch (route.dayOfWeek) {
         case 1:
-          this.mondayRoute = route;
+          this.mondayRoute.push(route)
           break;
         case 2:
-          this.tuesdayRoute = route;
+          this.tuesdayRoute.push(route);
           break;
         case 3:
-          this.wednesdayRoute = route;
+          this.wednesdayRoute.push(route);
           break;
         case 4:
-          this.thursdayRoute = route;
+          this.thursdayRoute.push(route);
           break;
         case 5:
-          this.fridayRoute = route;
+          this.fridayRoute.push(route);
           break;
         case 6:
-          this.saturdayRoute = route;
+          this.saturdayRoute.push(route);
           break;
         case 7:
-          this.sundayRoute = route;
+          this.sundayRoute.push(route);
           break;
       }
     });

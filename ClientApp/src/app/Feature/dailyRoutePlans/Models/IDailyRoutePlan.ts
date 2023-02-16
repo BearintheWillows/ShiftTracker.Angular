@@ -16,7 +16,7 @@ export interface IDailyRoutePlan {
 
   shopId?: number,
 
-  IShop?: IShop,
+  shop?: IShop,
 
 
 }
