@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {IRun} from "../../models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
 
@@ -7,7 +7,7 @@ import {RunService} from "../../../../Root/services/run.service";
   templateUrl: './run-selector.component.html',
   styleUrls: ['./run-selector.component.css']
 })
-export class RunSelectorComponent implements OnInit{
+export class RunSelectorComponent implements OnChanges{
 
   @Input() runs: IRun[] = []
 
@@ -16,9 +16,11 @@ export class RunSelectorComponent implements OnInit{
   selectedRun: IRun = {} as IRun;
   constructor() { }
 
-  ngOnInit() {
-  }
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.selectedRunChange.emit(this.runs[this.runs.length - 1])
+  }
 
 
   onRunSelected(selectedRun: IRun) {
