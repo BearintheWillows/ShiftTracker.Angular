@@ -43,7 +43,7 @@ public class RunController : Controller
 		{
 			try
 			{
-				var runResultAsync = _runService.GetRunIdByNumber( runNumber );
+				var runResultAsync = _runService.GetRunIdByNumberAsync( runNumber );
 				return Ok( runResultAsync );
 			}
 			catch ( Exception e )
@@ -56,7 +56,7 @@ public class RunController : Controller
 		[HttpGet( "{runId}" )]
 		public async Task<ActionResult<Run>> GetRunById( int runId )
 		{
-			Run runResultAsync = await _runService.GetRunByIdAsync( runId);
+			IQueryable<Run> runResultAsync = await _runService.GetRunByIdAsync( runId);
 			Log.Information("RunController.GetRunById({@runId}) returned {@runResultAsync} Successfully", runId, runResultAsync);
 			try
 			{
@@ -68,23 +68,57 @@ public class RunController : Controller
 				return BadRequest();
 			}
 		}
-		
-		[HttpGet("{id}/includeDRP")]
-		public async Task<ActionResult<RunDto>> GetRunByIdWithDRP(int id)
+
+		[HttpPost]
+		public async Task<ActionResult<Run>> CreateRun([FromBody] RunDto runDto)
 		{
-			Run runResultAsync = await _runService.GetRunByIdAsync(id);
-			Log.Information("RunController.GetRunByIdWithDRP({@id}) returned {@runResultAsync} Successfully", id, runResultAsync);
-			
-			RunDto resultConversion = RunDto.CreateRunDto(runResultAsync);
-			try
+			var run = new Run(runDto.Number, runDto.Location);
 			{
-				return Ok(resultConversion);
+				try
+				{ 
+					var runResultAsync = await _runService.CreateAsync(run);
+                  				Log.Information( "RunController.CreateRun({@run}) returned {@runResultAsync} Successfully",
+                  				                 run,
+                  				                 runResultAsync
+                  				);
+					
+                                					return Ok( new RunDto(runResultAsync.Id, runResultAsync.Number, runResultAsync.Location, null));
+				}
+				catch ( Exception e )
+				{
+					Console.WriteLine( e );
+					throw;
+				}
+				
+				
 			}
-			catch (Exception e)
+			
+		}
+		
+		[HttpPost("{runId}/addDeliveryPoint")]
+		public async Task<ActionResult<Run>> AddDeliveryPointToRun(int runId,[FromQuery] DayOfWeek dayOfWeek, [FromBody] DeliveryPointDto deliveryPointDto)
+		{
+			var deliveryPoint = new DeliveryPoint(deliveryPointDto.DropNumber, (DayOfWeek)deliveryPointDto.DayOfWeek, deliveryPointDto.WindowOpenTime, deliveryPointDto.WindowCloseTime, deliveryPointDto.RunVariantId, deliveryPointDto.ShopId);
 			{
-				Console.WriteLine(e);
-				return BadRequest();
+				try
+				{
+					var runResultAsync = await _runService.AddDeliveryPointToRunAsync(runId, dayOfWeek, deliveryPoint);
+					Log.Information( "RunController.AddDeliveryPointToRun({@runId}, {@dayOfWeek}, {@deliveryPoint}) returned {@runResultAsync} Successfully",
+					                 runId,
+					                 dayOfWeek,
+					                 deliveryPoint,
+					                 runResultAsync
+					);
+					return Ok( new RunDto( runResultAsync.Id, runResultAsync.Number, runResultAsync.Location, null ) );
+				}
+				catch ( Exception e )
+				{
+					Console.WriteLine( e );
+					throw;
+				}
 			}
 		}
+		
+		
 
 }

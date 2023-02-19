@@ -169,10 +169,10 @@ public class ShiftController : ControllerBase
 			shift.RunId = shiftDto.RunId;
 			shift.Breaks = new List<Break>();
 			Run run = await _runService.GetAsync( shiftDto.RunId );
-			if ( run != null)
-			{
-				shift.Run = run;
-			}
+			// if ( run != null)
+			// {
+			// 	shift.Run = run;
+			// }
 			
 			await _shiftService.UpdateAsync( shift );
 			Log.Information( "ShiftController.UpdateShift ... Shift with Id {@id} has been updated", id );

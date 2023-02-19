@@ -7,7 +7,7 @@ public class RunVariantDto
 	public int? Id        { get; set; }
 	public int  DayOfWeek { get; set; }
 	
-	public DateTime StartTime { get; set; }
+	public DateTime? StartTime { get; set; }
 	
 	public int?    RunId { get; set; }
 	public RunDto? Run   { get; set; }
@@ -15,7 +15,7 @@ public class RunVariantDto
 	public ICollection<DeliveryPointDto>? DeliveryPoints { get; set; }
 
 
-	public static RunVariantDto CreateDto(RunVariant runVariant)
+	public static RunVariantDto CreateDto(RunVariantDto runVariant)
 	{
 		var runVariantDto = new RunVariantDto
 		{
@@ -23,7 +23,7 @@ public class RunVariantDto
 			DayOfWeek      = (int)runVariant.DayOfWeek,
 			StartTime      = runVariant.StartTime,
 			RunId          = runVariant.RunId,
-		// 	DeliveryPoints = runVariant.DeliveryPoints.Select( DeliveryPointDto.CreateDto ).ToList()
+			DeliveryPoints = runVariant.DeliveryPoints.Select( DeliveryPointDto.CreateDtoList ).ToList()
 		};
 		return runVariantDto;
 	}

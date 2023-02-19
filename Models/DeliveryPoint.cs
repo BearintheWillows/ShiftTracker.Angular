@@ -4,6 +4,18 @@ public class DeliveryPoint
 {
 	public int Id { get; set; }
 	private int _dropNumber;
+
+	public DeliveryPoint(int dropNumber, DayOfWeek dayOfWeek, DateTime? windowOpenTime, DateTime windowCloseTime, int runVariantId, int shopId)
+	{
+		_dropNumber = dropNumber;
+		
+		WindowOpenTime = windowOpenTime;
+		WindowCloseTime = windowCloseTime;
+		RunVariantId = runVariantId;
+		ShopId = shopId;
+		SetDayOfWeek(this.RunVariant, dayOfWeek);
+	}
+
 	public int DropNumber
 	{
 		get {return _dropNumber;}

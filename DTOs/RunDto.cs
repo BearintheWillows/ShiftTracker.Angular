@@ -10,26 +10,28 @@ public class RunDto
 
 	public IEnumerable<RunVariantDto>? DailyRoutes { get; set; }
 
-	public static IEnumerable<RunDto> CreateDtoList(List<Run> run, bool includeDrp)
+	public static IEnumerable<RunDto> CreateDtoList(List<Run> run)
 	{
 		var runDto = run.Select( r => new RunDto
 				{
 				Id = r.Id,
 				Number = r.Number,
 				Location = r.Location,
+				
 				}
 		);
 		return runDto;
 	}
 
-	public static RunDto CreateRunDto(Run run)
+	public RunDto (int Id, int Number, string Location, IEnumerable<RunVariantDto> DailyRoutes)
 	{
-		var runDto = new RunDto
-			{
-			Id = run.Id,
-			Number = run.Number,
-			Location = run.Location,
-			};
-		return runDto;
+		this.Id = Id;
+		this.Number = Number;
+		this.Location = Location;
+		this.DailyRoutes = DailyRoutes;
+	}
+
+	private RunDto()
+	{
 	}
 }

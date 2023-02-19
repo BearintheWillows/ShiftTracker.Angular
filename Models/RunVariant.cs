@@ -2,14 +2,14 @@
 
 public class RunVariant
 {
-	public int Id { get; set; }
+	public int       Id        { get; set; }
 	public DayOfWeek DayOfWeek { get; set; }
-	public DateTime StartTime { get; set; }
+	public DateTime? StartTime { get; set; } = null;
 
 	public int RunId { get; set; }
 	public Run Run { get; set; }
-	
-	public ICollection<DeliveryPoint> DeliveryPoints { get; set; }
+
+	public ICollection<DeliveryPoint> DeliveryPoints { get; set; } = new List<DeliveryPoint>();
 
 	public void UpdateDropNumbers()
 	{
