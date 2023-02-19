@@ -2,6 +2,12 @@ import {Component, Input, NgZone, OnInit} from '@angular/core';
 import {IRun} from "../../models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
 import {Observable} from "rxjs";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import {FormType} from "../../../../Shared/enums/form-type";
+import {ConfirmModalComponent} from "../../../../Shared/components/modals/confirmModal/confirm-modal.component";
+import {
+  ShopSelectionModealComponent
+} from "../../../../Shared/components/modals/shop-selection-modeal/shop-selection-modeal.component";
 
 @Component({
   selector: 'app-runs-home-page',
@@ -14,10 +20,11 @@ export class RunsHomePageComponent implements OnInit{
   selectedRun: IRun = {} as IRun;
   $selectedRun: Observable<IRun> = new Observable<IRun>();
 
-
+  modalRef?: BsModalRef;
 
   constructor(private runService: RunService,
-              private ngZone: NgZone) { }
+              private ngZone: NgZone,
+             ) { }
 
   onSelectedRun(run: IRun) {
     this.$selectedRun = this.runService.getByIdWithDailyRoutePlans(run.id).pipe() as Observable<IRun>;
@@ -33,6 +40,8 @@ export class RunsHomePageComponent implements OnInit{
     })
 
   }
+
+
 
   async getAllRuns(): Promise<IRun[]> {
     return new Promise(async (resolve) => {

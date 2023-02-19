@@ -28,4 +28,17 @@ public class ShopController : ControllerBase
 		}
 		return Ok(shopList);
 	}
+	
+	[HttpGet]
+	public async Task<IActionResult> GetAllShops()
+	{
+		var shopList = await _shopService.GetAllShops();
+		var shopDtoList = new List<ShopDto>();
+		
+		foreach (var shop in shopList)
+		{
+			shopDtoList.Add(ShopDto.CreateDto(shop));
+		}
+		return Ok(shopDtoList);
+	}
 }

@@ -1,0 +1,14 @@
+<div class="modal-header text-center">
+  <h2>{{title}}</h2>
+</div>
+<br><br>
+<div class="modal-body text-center">
+  <label for="shop">Pick a Shop...</label>
+  <div *ngIf="shops$ | async as shops">
+  <select [(ngModel)]="selectedShop"  class="form-control"  id="runNumber">
+    <option  *ngFor="let shop of shops" [ngValue]="shop" [selected]="shop.id">{{shop.name}} - {{shop.number}}</option>
+  </select>
+</div>
+  <button type="button" class="btn btn-default" (click)="confirm()"  >Yes, Confirm</button>
+  <button type="button" class="btn btn-primary" (click)="decline()" >No, take me back!</button>
+</div>

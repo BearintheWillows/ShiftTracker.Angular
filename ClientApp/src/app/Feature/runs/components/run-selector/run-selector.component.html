@@ -1,6 +1,13 @@
-
+<div class="run-selector-container">
+  <div class="run-selector">
   <label for="runNumber">Run Number:</label>
   <select [(ngModel)]="selectedRun" (change)="onRunSelected(selectedRun)" class="form-control"  id="runNumber">
     <option  *ngFor="let run of runs" [ngValue]="run" [selected]="run.number">{{run.number}}</option>
   </select>
+</div>
+  <div class="run-add-btn">
+    <button class="btn btn-primary" ><i class="fa-regular fa-plus"></i></button>
+  </div>
+</div>
+
 

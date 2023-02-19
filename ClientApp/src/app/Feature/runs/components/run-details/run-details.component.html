@@ -1,7 +1,10 @@
+
 <div class="card" *ngIf="$run | async as run">
-<div class="card-header">
-  <h1>Run Number {{run.number}}</h1>
-  <h2>Location {{run.location}}</h2>
+<div class="card-header run-card">
+  <div class="run-card-details">
+    <h1>Run Number {{run.number}}</h1>
+    <h2>Location {{run.location}}</h2>
+  </div>
 </div>
 <div class="card-body">
   <app-daily-route-nav [routes]="run.dailyRoutes"></app-daily-route-nav>

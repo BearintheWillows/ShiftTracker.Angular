@@ -1,0 +1,24 @@
+﻿.run-selector-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+.run-selector{
+      width: 80%;
+    }
+
+.run-add-btn {
+  width: 15%;
+
+
+
+  button {
+
+    margin-top: 1.5rem;
+  }
+}
+
+

@@ -12,7 +12,8 @@ public interface IShopService : IBaseCrudService<Shop>
 	Task<IEnumerable<Shop>> GetAllShopsWithDayData();
 	Task<Shop?>             GetShopWithDayData(int        id);
 	Task<bool>              IsNameAndNumberUnique(ShopDto shopDto);
-	Task<IEnumerable<Shop>>     GetShopListByRunId(int        runId);
+	Task<IEnumerable<Shop>> GetShopListByRunId(int        runId);
+	Task<IEnumerable<Shop>> GetAllShops();
 }
 
 public class ShopService : BaseCrudService<Shop>, IShopService
@@ -60,6 +61,13 @@ public class ShopService : BaseCrudService<Shop>, IShopService
 			.Where(s => s.DailyRoutePlan.Any(d => d.RunId == runId))
 			.ToListAsync();
 		Log.Information($"ShopService.GetShopListByRunId: List of {@shopList.Count} returned", shopList.Count);
+		return shopList;
+	}
+	
+	public async Task<IEnumerable<Shop>> GetAllShops()
+	{
+		var shopList = await Context.Shops.ToListAsync();
+		Log.Information($"ShopService.GetAllShops: List of {@shopList.Count} returned", shopList.Count);
 		return shopList;
 	}
 }

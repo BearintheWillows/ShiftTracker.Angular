@@ -7,6 +7,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ShiftsFormComponent} from "./components/forms/shifts-create-form/shifts-form.component";
 import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPipe} from "./pipes/time-format.pipe";
 import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day-of-week-conversion.pipe';
+import { ShopSelectionModealComponent } from './components/modals/shop-selection-modeal/shop-selection-modeal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day
     TimeFormatForTimeSpanPipe,
     ShiftsFormComponent,
     DayOfWeekConversionPipe,
-    StrToDayOfWeekConversionPipe
+    StrToDayOfWeekConversionPipe,
+    ShopSelectionModealComponent
 
   ],
   imports: [

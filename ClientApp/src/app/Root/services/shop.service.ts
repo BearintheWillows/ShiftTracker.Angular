@@ -16,6 +16,10 @@ export class ShopService {
 
   private readonly _baseUrl = `https://localhost:7004/api/shop`;
 
+  getShops(): Observable<IShop[]>{
+    return this.http.get<IShop[]>(`${this._baseUrl}`);
+  }
+
   getShopsByRunId(id: number): Observable<IShop[]>{
     return this.http.get<IShop[]>(`${this._baseUrl}/shoplist/run/${id}`);
   }

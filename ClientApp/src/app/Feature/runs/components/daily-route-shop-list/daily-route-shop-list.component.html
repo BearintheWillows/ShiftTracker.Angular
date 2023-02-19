@@ -1,7 +1,13 @@
+<div *ngIf="routes.length == 0">
+  <h2>It's quiet here...</h2>
+</div>
+
 <div *ngIf="routes.length > 1">
   <div *ngFor="let route of routes ">
     {{route.shop?.name}}
-
+  </div>
+  <div>
+    <button>Add Shop</button>
   </div>
 </div>
 
