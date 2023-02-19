@@ -14,5 +14,5 @@ public class Shop
 	public int     PhoneNumber { get; set; } = 0;
 
 
-	public ICollection<DailyRoutePlan> DailyRoutePlan { get; set; }
+	public ICollection<DeliveryPoint> DeliveryPoints { get; set; }
 }

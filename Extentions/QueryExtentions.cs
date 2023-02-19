@@ -88,16 +88,5 @@ public static class QueryExtentions
 
 		return query;
 	}
-
-	public static IQueryable<Shop> IncludeDayVariants(
-		this IQueryable<Shop> query,
-		bool                  includeVariants
-	) => query.Include( s => s.DailyRoutePlan );
-
-	public static IQueryable<Run> IncludeDailyDoutePlans(this IQueryable<Run> query, bool includeDRP)
-	{
-		if ( includeDRP ) return query.Include( s => s.RoutePlans ).ThenInclude( rp => rp.Shop );
-
-		return query;
-	}
+	
 }

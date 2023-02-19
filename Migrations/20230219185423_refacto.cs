@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShiftTracker.Angular.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class refacto : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +24,7 @@ namespace ShiftTracker.Angular.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false)
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,19 +52,40 @@ namespace ShiftTracker.Angular.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Run Variants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DayOfWeek = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RunId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Run Variants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Run Variants_Runs_RunId",
+                        column: x => x.RunId,
+                        principalTable: "Runs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shifts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BreakDuration = table.Column<TimeSpan>(type: "time", nullable: false),
                     DriveTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     ShiftDuration = table.Column<TimeSpan>(type: "time", nullable: false),
                     OtherWorkTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     WorkTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    RunId = table.Column<int>(type: "int", nullable: true)
+                    RunId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,31 +94,34 @@ namespace ShiftTracker.Angular.Migrations
                         name: "FK_Shifts_Runs_RunId",
                         column: x => x.RunId,
                         principalTable: "Runs",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DailyRoutes",
+                name: "Delivery Point",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DropNumber = table.Column<int>(type: "int", nullable: false),
                     DayOfWeek = table.Column<int>(type: "int", nullable: false),
-                    WindowOpenTime = table.Column<TimeSpan>(type: "time", nullable: true),
-                    WindowCloseTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    RunId = table.Column<int>(type: "int", nullable: true),
+                    WindowOpenTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WindowCloseTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RunVariantId = table.Column<int>(type: "int", nullable: false),
                     ShopId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DailyRoutes", x => x.Id);
+                    table.PrimaryKey("PK_Delivery Point", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DailyRoutes_Runs_RunId",
-                        column: x => x.RunId,
-                        principalTable: "Runs",
-                        principalColumn: "Id");
+                        name: "FK_Delivery Point_Run Variants_RunVariantId",
+                        column: x => x.RunVariantId,
+                        principalTable: "Run Variants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DailyRoutes_Shops_ShopId",
+                        name: "FK_Delivery Point_Shops_ShopId",
                         column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "Id",
@@ -128,11 +152,11 @@ namespace ShiftTracker.Angular.Migrations
 
             migrationBuilder.InsertData(
                 table: "Runs",
-                columns: new[] { "Id", "Number", "StartTime" },
+                columns: new[] { "Id", "Location", "Number" },
                 values: new object[,]
                 {
-                    { -2, 19, new TimeSpan(0, 10, 0, 0, 0) },
-                    { -1, 68, new TimeSpan(0, 8, 0, 0, 0) }
+                    { -2, "Milton Keynes", 19 },
+                    { -1, "Norwich", 68 }
                 });
 
             migrationBuilder.InsertData(
@@ -148,15 +172,12 @@ namespace ShiftTracker.Angular.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DailyRoutes",
-                columns: new[] { "Id", "DayOfWeek", "RunId", "ShopId", "WindowCloseTime", "WindowOpenTime" },
+                table: "Run Variants",
+                columns: new[] { "Id", "DayOfWeek", "RunId", "StartTime" },
                 values: new object[,]
                 {
-                    { -5, 1, -2, -5, new TimeSpan(0, 13, 15, 0, 0), new TimeSpan(0, 12, 15, 0, 0) },
-                    { -4, 1, -2, -4, new TimeSpan(0, 11, 15, 0, 0), new TimeSpan(0, 10, 15, 0, 0) },
-                    { -3, 1, -1, -3, new TimeSpan(0, 14, 30, 0, 0), new TimeSpan(0, 14, 15, 0, 0) },
-                    { -2, 1, -1, -2, new TimeSpan(0, 13, 15, 0, 0), new TimeSpan(0, 12, 15, 0, 0) },
-                    { -1, 1, -1, -1, new TimeSpan(0, 11, 15, 0, 0), new TimeSpan(0, 10, 15, 0, 0) }
+                    { -2, 1, -2, new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -1, 1, -1, new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -164,8 +185,8 @@ namespace ShiftTracker.Angular.Migrations
                 columns: new[] { "Id", "BreakDuration", "Date", "DriveTime", "EndTime", "OtherWorkTime", "RunId", "ShiftDuration", "StartTime", "WorkTime" },
                 values: new object[,]
                 {
-                    { -2, new TimeSpan(0, 0, 30, 0, 0), new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0), new TimeSpan(0, 16, 0, 0, 0), new TimeSpan(0, 2, 0, 0, 0), -2, new TimeSpan(0, 6, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), new TimeSpan(0, 1, 30, 0, 0) },
-                    { -1, new TimeSpan(0, 1, 30, 0, 0), new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 55, 0, 0), new TimeSpan(0, 16, 0, 0, 0), new TimeSpan(0, 2, 5, 0, 0), -2, new TimeSpan(0, 8, 0, 0, 0), new TimeSpan(0, 8, 0, 0, 0), new TimeSpan(0, 1, 30, 0, 0) }
+                    { -2, new TimeSpan(0, 0, 30, 0, 0), new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0), new DateTime(1970, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0), -2, new TimeSpan(0, 6, 0, 0, 0), new DateTime(1970, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 30, 0, 0) },
+                    { -1, new TimeSpan(0, 1, 30, 0, 0), new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 55, 0, 0), new DateTime(1970, 1, 1, 20, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 5, 0, 0), -2, new TimeSpan(0, 8, 0, 0, 0), new DateTime(1970, 1, 1, 5, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 30, 0, 0) }
                 });
 
             migrationBuilder.InsertData(
@@ -179,20 +200,43 @@ namespace ShiftTracker.Angular.Migrations
                     { -1, new TimeSpan(0, 0, 30, 0, 0), new TimeSpan(0, 13, 0, 0, 0), -1, new TimeSpan(0, 12, 30, 0, 0) }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Delivery Point",
+                columns: new[] { "Id", "DayOfWeek", "DropNumber", "RunVariantId", "ShopId", "WindowCloseTime", "WindowOpenTime" },
+                values: new object[,]
+                {
+                    { -3, 1, 5, -1, -3, new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -2, 1, 2, -1, -2, new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -1, 1, 1, -1, -1, new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Breaks_ShiftId",
                 table: "Breaks",
                 column: "ShiftId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DailyRoutes_RunId",
-                table: "DailyRoutes",
-                column: "RunId");
+                name: "IX_Delivery Point_RunVariantId",
+                table: "Delivery Point",
+                column: "RunVariantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DailyRoutes_ShopId",
-                table: "DailyRoutes",
-                column: "ShopId");
+                name: "IX_Delivery Point_ShopId_DayOfWeek",
+                table: "Delivery Point",
+                columns: new[] { "ShopId", "DayOfWeek" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Run Variants_RunId_DayOfWeek",
+                table: "Run Variants",
+                columns: new[] { "RunId", "DayOfWeek" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Runs_Number",
+                table: "Runs",
+                column: "Number",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shifts_Date",
@@ -219,10 +263,13 @@ namespace ShiftTracker.Angular.Migrations
                 name: "Breaks");
 
             migrationBuilder.DropTable(
-                name: "DailyRoutes");
+                name: "Delivery Point");
 
             migrationBuilder.DropTable(
                 name: "Shifts");
+
+            migrationBuilder.DropTable(
+                name: "Run Variants");
 
             migrationBuilder.DropTable(
                 name: "Shops");

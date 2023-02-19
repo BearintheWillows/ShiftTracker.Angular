@@ -72,7 +72,7 @@ public class ShiftController : ControllerBase
 			OtherWorkTime = shiftDto.OtherWorkTime,
 			WorkTime = shiftDto.WorkTime,
 			RunId = shiftDto.RunId,
-			Run = await _runService.GetRunByIdAsync(shiftDto.RunId, false),
+			Run = await _runService.GetRunByIdAsync(shiftDto.RunId),
 			Breaks = new List<Break>(),
 			};
 	
@@ -168,7 +168,7 @@ public class ShiftController : ControllerBase
 			shift.ShiftDuration = shiftDto.ShiftDuration;
 			shift.RunId = shiftDto.RunId;
 			shift.Breaks = new List<Break>();
-			var run = await _runService.GetAsync( shiftDto.RunId );
+			Run run = await _runService.GetAsync( shiftDto.RunId );
 			if ( run != null)
 			{
 				shift.Run = run;

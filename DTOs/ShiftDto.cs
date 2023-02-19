@@ -30,7 +30,7 @@ public class ShiftDto
 			Id = shift.Id,
 			Date = shift.Date ,
 			RunId = shift.RunId,
-			Run = new RunDto { Id = shift.Run.Id, Number = shift.Run.Number, Location = shift.Run.Location},
+			// Run = new RunDto { Id = shift.Run.Id, Number = shift.Run.Number, Location = shift.Run.Location},
 			StartTime = shift.StartTime,
 			EndTime = shift.EndTime,
 			DriveTime = shift.DriveTime,

@@ -16,7 +16,7 @@ public class ShopDto
 	public string  Postcode    { get; set; }
 	public int     PhoneNumber { get; set; }
 
-	public ICollection<DailyRoutePlanDto>? DayVariants { get; set; }
+	public ICollection<RunVariantDto>? DayVariants { get; set; }
 
 	public static ShopDto CreateDto(Shop shop)
 	{
@@ -32,16 +32,7 @@ public class ShopDto
 			Postcode    = shop.Postcode,
 			PhoneNumber = shop.PhoneNumber
 		};
-
-		if (shop.DailyRoutePlan != null)
-		{
-			shopDto.DayVariants = new List<DailyRoutePlanDto>();
-
-			foreach (var dayVariant in shop.DailyRoutePlan)
-			{
-				shopDto.DayVariants.Add(DailyRoutePlanDto.CreateDto(dayVariant));
-			}
-		}
+		
 		Log.Information($"ShopDto.CreateDto: {@shopDto}", shopDto);
 		return shopDto;
 	}

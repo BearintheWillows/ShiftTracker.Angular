@@ -8,13 +8,13 @@ using Serilog;
 
 public interface IRunService : IBaseCrudService<Run>
 {
-	Task<List<Run>> GetAllAsync(bool includeDRP);
+	Task<List<Run>> GetAllAsync();
 	Task<bool>      ExistsAsync(int  id);
 
 	Task<List<Tuple<int, int>>> GetAllNumbersAndIds();
 	
-	int        GetRunIdByNumber(int runNumber);
-	Task<Run?> GetRunByIdAsync(int  runId, bool includeDRP);
+	Task<int> GetRunIdByNumber(int runNumber);
+	Task<Run> GetRunByIdAsync(int  runId);
 	
 }
 
@@ -25,25 +25,18 @@ public class RunService : BaseCrudService<Run>, IRunService
 	{
 	}
 
-	public async Task<List<Run>> GetAllAsync(bool includeDRP)
+	public async Task<List<Run>> GetAllAsync()
 	{
-		if ( includeDRP )
-			return await Context.Runs.Include( r => r.RoutePlans ).ThenInclude( r => r.Shop ).ToListAsync();
-		
-		var runs = await Context.Runs.ToListAsync();
-		Log.Information( "RunService.GetAllAsync returned {@runs}.", runs.Count );
-		
-		return runs;
+		return await Context.Runs.Include(r => r.DayVariants).ThenInclude(dv => dv.DeliveryPoints).ThenInclude(dp => dp.Shop).ToListAsync();
 	}
 
-	public async Task<Run?> GetRunByIdAsync(int runId, bool includeDRP)
+	public async Task<IQueryable<Run>> GetRunByIdAsync(int runId, bool includeDRP)
 	{
 		if ( !await ExistsAsync( runId ) ) return null;
 		Log.Information("RunService.GetRunByIdAsync({@runId}) returned successfully", runId);
-		return await Context.Runs.AsQueryable()
-		                     .IncludeDailyDoutePlans( includeDRP )
-		                     .FirstOrDefaultAsync( s => s.Id == runId );
-		
+		return Context.Runs.Include( r => r.DayVariants ).ThenInclude( dv => dv.DeliveryPoints )
+		                    .Where( r => r.Id == runId );
+
 	}
 
 	public async Task<bool> ExistsAsync(int id) => await Context.Runs.AnyAsync( r => r.Id == id );
@@ -56,8 +49,10 @@ public class RunService : BaseCrudService<Run>, IRunService
 		await Context.Runs.Select( r => new Tuple<int, int>( r.Id, r.Number ) ).ToListAsync();
 
 
-	public int GetRunIdByNumber(int runNumber)
+	public async Task<int> GetRunIdByNumber(int runNumber)
 	{
 		return Context.Runs.AsQueryable().Where( r => r.Number == runNumber ).Select( r => r.Id ).FirstOrDefault();
 	}
+
+	public async Task<Run> GetRunByIdAsync(int runId) => throw new NotImplementedException();
 }

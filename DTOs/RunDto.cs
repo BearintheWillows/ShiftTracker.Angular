@@ -8,7 +8,7 @@ public class RunDto
 	public int      Number    { get; set; }
 	public string Location  { get; set; }
 
-	public IEnumerable<DailyRoutePlanDto>? DailyRoutes { get; set; }
+	public IEnumerable<RunVariantDto>? DailyRoutes { get; set; }
 
 	public static IEnumerable<RunDto> CreateDtoList(List<Run> run, bool includeDrp)
 	{
@@ -17,57 +17,19 @@ public class RunDto
 				Id = r.Id,
 				Number = r.Number,
 				Location = r.Location,
-				DailyRoutes = includeDrp
-					? r.RoutePlans.Select( dr => new DailyRoutePlanDto
-							{
-							Id = dr.Id,
-							DayOfWeek = ( int ) dr.DayOfWeek,
-							StartTime = dr.StartTime,
-							Shop = new ShopDto
-								{
-								Id = dr.Shop.Id,
-								Name = dr.Shop.Name,
-								Number = dr.Shop.Number,
-								Street = dr.Shop.Street,
-								Street2 = dr.Shop.Street2,
-								City = dr.Shop.City,
-								Postcode = dr.Shop.Postcode,
-								PhoneNumber = dr.Shop.PhoneNumber,
-								},
-							}
-					).ToList()
-					: null,
 				}
 		);
-
-
 		return runDto;
 	}
 
-	public static RunDto CreateRunDto(Run run, bool includeDRP) => new RunDto
-		{
-		Id = run.Id,
-		Number = run.Number,
-		Location = run.Location,
-		DailyRoutes = includeDRP
-			? run.RoutePlans.Select( dr => new DailyRoutePlanDto
-					{
-					Id = dr.Id,
-					DayOfWeek = ( int ) dr.DayOfWeek,
-					StartTime = dr.StartTime,
-					Shop = new ShopDto
-						{
-						Id = dr.Shop.Id,
-						Name = dr.Shop.Name,
-						Number = dr.Shop.Number,
-						Street = dr.Shop.Street,
-						Street2 = dr.Shop.Street2,
-						City = dr.Shop.City,
-						Postcode = dr.Shop.Postcode,
-						PhoneNumber = dr.Shop.PhoneNumber,
-						},
-					}
-			).ToList()
-			: null,
-		};
+	public static RunDto CreateRunDto(Run run)
+	{
+		var runDto = new RunDto
+			{
+			Id = run.Id,
+			Number = run.Number,
+			Location = run.Location,
+			};
+		return runDto;
+	}
 }

@@ -139,61 +139,50 @@ public static class ModelBuilderExtentions
 			                                     }
 		);
 
-		modelBuilder.Entity<DailyRoutePlan>().HasData( new
+		modelBuilder.Entity<RunVariant>().HasData( new
 			                                               {
 			                                               Id = -1,
-			                                               SequenceNumber = 1,
 			                                               DayOfWeek = DayOfWeek.Monday,
 			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
-			                                               WindowOpenTime = new TimeSpan( 10, 15, 00 ),
-			                                               WindowCloseTime = new TimeSpan( 11, 15, 00 ),
 			                                               RunId = -1,
-			                                               ShopId = -1,
 			                                               },
 		                                               new
 			                                               {
 			                                               Id = -2,
-			                                               SequenceNumber = 2,
 			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
 			                                               DayOfWeek = DayOfWeek.Monday,
-			                                               WindowOpenTime = new TimeSpan( 12, 15, 00 ),
-			                                               WindowCloseTime = new TimeSpan( 13, 15, 00 ),
-			                                               RunId = -1,
-			                                               ShopId = -2,
-			                                               },
-		                                               new
-			                                               {
-			                                               Id = -3,
-			                                               SequenceNumber = 3,
-			                                               StartTime = new DateTime(1930, 01, 01, 03, 00, 00),
-			                                               DayOfWeek = DayOfWeek.Monday,
-			                                               WindowOpenTime = new TimeSpan( 14, 15, 00 ),
-			                                               WindowCloseTime = new TimeSpan( 14, 30, 00 ),
-			                                               RunId = -1,
-			                                               ShopId = -3,
-			                                               },
-		                                               new
-			                                               {
-			                                               Id = -4,
-			                                               SequenceNumber = 2,
-			                                               StartTime = new DateTime( 1930,01,01,03,00,00 ),
-			                                               DayOfWeek = DayOfWeek.Monday,
-			                                               WindowOpenTime = new TimeSpan( 10, 15, 00 ),
-			                                               WindowCloseTime = new TimeSpan( 11, 15, 00 ),
 			                                               RunId = -2,
-			                                               ShopId = -4,
-			                                               },
-		                                               new
-			                                               {
-			                                               Id = -5,
-			                                               SequenceNumber = 1,
-			                                               StartTime = new DateTime( 1930,01,01,03,00,00 ),
-			                                               DayOfWeek = DayOfWeek.Monday,
-			                                               WindowOpenTime = new TimeSpan( 12, 15, 00 ),
-			                                               WindowCloseTime = new TimeSpan( 13, 15, 00 ),
-			                                               RunId = -2,
-			                                               ShopId = -5,
 			                                               }
 		);
+		modelBuilder.Entity<DeliveryPoint>().HasData( new
+			{
+			Id = -1,
+			WindowOpenTime = new DateTime(1930, 01, 01, 03, 00, 00),
+			WindowCloseTime = new DateTime(1930, 01, 01, 03, 30, 00),
+			RunVariantId = -1,
+			ShopId = -1,
+			DayOfWeek = DayOfWeek.Monday,
+			DropNumber = 1,
+			},
+		new {
+			Id = -2,
+			WindowOpenTime = new DateTime(1930, 01, 01, 03, 00, 00),
+			WindowCloseTime = new DateTime(1930, 01, 01, 03, 30, 00),
+			RunVariantId = -1,
+			ShopId = -2,
+			DayOfWeek = DayOfWeek.Monday,
+			DropNumber = 2,
+			},
+		new {
+			Id = -3,
+			WindowOpenTime = new DateTime(1930, 01, 01, 03, 00, 00),
+			WindowCloseTime = new DateTime(1930, 01, 01, 03, 30, 00),
+			RunVariantId = -1,
+			ShopId = -3,
+			DayOfWeek = DayOfWeek.Monday,
+			DropNumber = 5,
+			}
+		);
+		}
 	}
-}
+	

@@ -24,7 +24,13 @@ public class AppDbContext : DbContext
 		set;
 	}
 
-	public DbSet<DailyRoutePlan> DailyRoutes
+	public DbSet<DeliveryPoint> DeliveryPoints
+	{
+		get;
+		set;
+	}
+	
+	public DbSet<RunVariant> RunVariants
 	{
 		get;
 		set;
@@ -37,6 +43,8 @@ public class AppDbContext : DbContext
 		modelBuilder.ApplyConfiguration( new BreakConfiguration() );
 		modelBuilder.ApplyConfiguration( new RunConfiguration() );
 		modelBuilder.ApplyConfiguration( new ShopConfiguration() );
+		modelBuilder.ApplyConfiguration( new DeliveryPointConfiguration() );
+		modelBuilder.ApplyConfiguration( new RunVariantConfiguration() );
 		modelBuilder.Seed();
 	}
 }

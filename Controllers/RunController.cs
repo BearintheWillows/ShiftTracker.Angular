@@ -56,7 +56,7 @@ public class RunController : Controller
 		[HttpGet( "{runId}" )]
 		public async Task<ActionResult<Run>> GetRunById( int runId )
 		{
-			Run runResultAsync = await _runService.GetRunByIdAsync( runId, false );
+			Run runResultAsync = await _runService.GetRunByIdAsync( runId);
 			Log.Information("RunController.GetRunById({@runId}) returned {@runResultAsync} Successfully", runId, runResultAsync);
 			try
 			{
@@ -72,10 +72,10 @@ public class RunController : Controller
 		[HttpGet("{id}/includeDRP")]
 		public async Task<ActionResult<RunDto>> GetRunByIdWithDRP(int id)
 		{
-			Run runResultAsync = await _runService.GetRunByIdAsync(id, true);
+			Run runResultAsync = await _runService.GetRunByIdAsync(id);
 			Log.Information("RunController.GetRunByIdWithDRP({@id}) returned {@runResultAsync} Successfully", id, runResultAsync);
 			
-			RunDto resultConversion = RunDto.CreateRunDto(runResultAsync, true);
+			RunDto resultConversion = RunDto.CreateRunDto(runResultAsync);
 			try
 			{
 				return Ok(resultConversion);

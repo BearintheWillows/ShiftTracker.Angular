@@ -12,8 +12,8 @@ using ShiftTracker.Angular.Data;
 namespace ShiftTracker.Angular.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230129063822_UniqueNumberShifts")]
-    partial class UniqueNumberShifts
+    [Migration("20230219185423_refacto")]
+    partial class refacto
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace ShiftTracker.Angular.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ShiftTracker.Angular.Models.DailyRoutePlan", b =>
+            modelBuilder.Entity("ShiftTracker.Angular.Models.DeliveryPoint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,71 +100,61 @@ namespace ShiftTracker.Angular.Migrations
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RunId")
+                    b.Property<int>("DropNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RunVariantId")
                         .HasColumnType("int");
 
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("WindowCloseTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("WindowCloseTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("WindowOpenTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("WindowOpenTime")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RunId");
+                    b.HasIndex("RunVariantId");
 
-                    b.HasIndex("ShopId");
+                    b.HasIndex("ShopId", "DayOfWeek")
+                        .IsUnique();
 
-                    b.ToTable("DailyRoutes");
+                    b.ToTable("Delivery Point", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = -1,
                             DayOfWeek = 1,
-                            RunId = -1,
+                            DropNumber = 1,
+                            RunVariantId = -1,
                             ShopId = -1,
-                            WindowCloseTime = new TimeSpan(0, 11, 15, 0, 0),
-                            WindowOpenTime = new TimeSpan(0, 10, 15, 0, 0)
+                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
+                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = -2,
                             DayOfWeek = 1,
-                            RunId = -1,
+                            DropNumber = 2,
+                            RunVariantId = -1,
                             ShopId = -2,
-                            WindowCloseTime = new TimeSpan(0, 13, 15, 0, 0),
-                            WindowOpenTime = new TimeSpan(0, 12, 15, 0, 0)
+                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
+                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = -3,
                             DayOfWeek = 1,
-                            RunId = -1,
+                            DropNumber = 5,
+                            RunVariantId = -1,
                             ShopId = -3,
-                            WindowCloseTime = new TimeSpan(0, 14, 30, 0, 0),
-                            WindowOpenTime = new TimeSpan(0, 14, 15, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -4,
-                            DayOfWeek = 1,
-                            RunId = -2,
-                            ShopId = -4,
-                            WindowCloseTime = new TimeSpan(0, 11, 15, 0, 0),
-                            WindowOpenTime = new TimeSpan(0, 10, 15, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -5,
-                            DayOfWeek = 1,
-                            RunId = -2,
-                            ShopId = -5,
-                            WindowCloseTime = new TimeSpan(0, 13, 15, 0, 0),
-                            WindowOpenTime = new TimeSpan(0, 12, 15, 0, 0)
+                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
+                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -176,11 +166,12 @@ namespace ShiftTracker.Angular.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Number")
                         .HasColumnType("int");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -193,14 +184,55 @@ namespace ShiftTracker.Angular.Migrations
                         new
                         {
                             Id = -1,
-                            Number = 68,
-                            StartTime = new TimeSpan(0, 8, 0, 0, 0)
+                            Location = "Norwich",
+                            Number = 68
                         },
                         new
                         {
                             Id = -2,
-                            Number = 19,
-                            StartTime = new TimeSpan(0, 10, 0, 0, 0)
+                            Location = "Milton Keynes",
+                            Number = 19
+                        });
+                });
+
+            modelBuilder.Entity("ShiftTracker.Angular.Models.RunVariant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RunId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RunId", "DayOfWeek")
+                        .IsUnique();
+
+                    b.ToTable("Run Variants", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            DayOfWeek = 1,
+                            RunId = -1,
+                            StartTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = -2,
+                            DayOfWeek = 1,
+                            RunId = -2,
+                            StartTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -221,20 +253,20 @@ namespace ShiftTracker.Angular.Migrations
                     b.Property<TimeSpan>("DriveTime")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<TimeSpan>("OtherWorkTime")
                         .HasColumnType("time");
 
-                    b.Property<int?>("RunId")
+                    b.Property<int>("RunId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("ShiftDuration")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<TimeSpan>("WorkTime")
                         .HasColumnType("time");
@@ -255,11 +287,11 @@ namespace ShiftTracker.Angular.Migrations
                             BreakDuration = new TimeSpan(0, 1, 30, 0, 0),
                             Date = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DriveTime = new TimeSpan(0, 2, 55, 0, 0),
-                            EndTime = new TimeSpan(0, 16, 0, 0, 0),
+                            EndTime = new DateTime(1970, 1, 1, 20, 0, 0, 0, DateTimeKind.Unspecified),
                             OtherWorkTime = new TimeSpan(0, 2, 5, 0, 0),
                             RunId = -2,
                             ShiftDuration = new TimeSpan(0, 8, 0, 0, 0),
-                            StartTime = new TimeSpan(0, 8, 0, 0, 0),
+                            StartTime = new DateTime(1970, 1, 1, 5, 0, 0, 0, DateTimeKind.Unspecified),
                             WorkTime = new TimeSpan(0, 1, 30, 0, 0)
                         },
                         new
@@ -268,11 +300,11 @@ namespace ShiftTracker.Angular.Migrations
                             BreakDuration = new TimeSpan(0, 0, 30, 0, 0),
                             Date = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DriveTime = new TimeSpan(0, 2, 0, 0, 0),
-                            EndTime = new TimeSpan(0, 16, 0, 0, 0),
+                            EndTime = new DateTime(1970, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             OtherWorkTime = new TimeSpan(0, 2, 0, 0, 0),
                             RunId = -2,
                             ShiftDuration = new TimeSpan(0, 6, 0, 0, 0),
-                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StartTime = new DateTime(1970, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
                             WorkTime = new TimeSpan(0, 1, 30, 0, 0)
                         });
                 });
@@ -402,37 +434,57 @@ namespace ShiftTracker.Angular.Migrations
                     b.Navigation("Shift");
                 });
 
-            modelBuilder.Entity("ShiftTracker.Angular.Models.DailyRoutePlan", b =>
+            modelBuilder.Entity("ShiftTracker.Angular.Models.DeliveryPoint", b =>
                 {
-                    b.HasOne("ShiftTracker.Angular.Models.Run", "Run")
-                        .WithMany("RoutePlans")
-                        .HasForeignKey("RunId");
+                    b.HasOne("ShiftTracker.Angular.Models.RunVariant", "RunVariant")
+                        .WithMany("DeliveryPoints")
+                        .HasForeignKey("RunVariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ShiftTracker.Angular.Models.Shop", "Shop")
-                        .WithMany("DailyRoutePlan")
+                        .WithMany("DeliveryPoints")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Run");
+                    b.Navigation("RunVariant");
 
                     b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("ShiftTracker.Angular.Models.RunVariant", b =>
+                {
+                    b.HasOne("ShiftTracker.Angular.Models.Run", "Run")
+                        .WithMany("DayVariants")
+                        .HasForeignKey("RunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Run");
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Shift", b =>
                 {
                     b.HasOne("ShiftTracker.Angular.Models.Run", "Run")
                         .WithMany("Shifts")
-                        .HasForeignKey("RunId");
+                        .HasForeignKey("RunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Run");
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Run", b =>
                 {
-                    b.Navigation("RoutePlans");
+                    b.Navigation("DayVariants");
 
                     b.Navigation("Shifts");
+                });
+
+            modelBuilder.Entity("ShiftTracker.Angular.Models.RunVariant", b =>
+                {
+                    b.Navigation("DeliveryPoints");
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Shift", b =>
@@ -442,7 +494,7 @@ namespace ShiftTracker.Angular.Migrations
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Shop", b =>
                 {
-                    b.Navigation("DailyRoutePlan");
+                    b.Navigation("DeliveryPoints");
                 });
 #pragma warning restore 612, 618
         }
