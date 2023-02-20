@@ -43,7 +43,7 @@ builder.Services.AddDbContext<AppDbContext>( options =>
 
 builder.Services.AddScoped<IShiftService, ShiftService>();
 builder.Services.AddScoped<IBreakService, BreakService>();
-
+builder.Services.AddScoped<IShopService, ShopService>();
 builder.Services.AddScoped<IRunService, RunService>();
 
 

@@ -12,7 +12,7 @@ export class RunSelectorComponent implements OnChanges{
   @Input() runs: IRun[] = []
 
   @Output() selectedRunChange: EventEmitter<IRun> = new EventEmitter<IRun>();
-
+  @Output() addRun: EventEmitter<void> = new EventEmitter<void>();
   selectedRun: IRun = {} as IRun;
   constructor() { }
 
@@ -25,6 +25,6 @@ export class RunSelectorComponent implements OnChanges{
 
   onRunSelected(selectedRun: IRun) {
     this.selectedRunChange.emit(selectedRun);
-
   }
+
 }

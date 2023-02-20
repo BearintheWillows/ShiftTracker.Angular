@@ -9,6 +9,7 @@ import { RunSelectorComponent } from './components/run-selector/run-selector.com
 import {RunDetailsComponent} from "./components/run-details/run-details.component";
 import { DailyRouteNavComponent } from './components/daily-route-nav/daily-route-nav.component';
 import { DailyRouteShopListComponent } from './components/daily-route-shop-list/daily-route-shop-list.component';
+import { RunCreateModalComponent } from './components/run-create-modal/run-create-modal.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { DailyRouteShopListComponent } from './components/daily-route-shop-list/
     RunDetailsComponent,
     DailyRouteNavComponent,
     DailyRouteShopListComponent,
+    RunCreateModalComponent,
   ],
   imports: [
     SharedModule,

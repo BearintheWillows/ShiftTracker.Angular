@@ -29,4 +29,8 @@ export class RunService {
     return this.http.get<IRun>(`${this._baseUrl}/${id}`);
   }
 
+  createRun(run: IRun): Observable<IRun> {
+    return this.http.post<IRun>(`${this._baseUrl}`, run);
+  }
+
 }

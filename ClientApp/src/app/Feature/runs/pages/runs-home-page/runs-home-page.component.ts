@@ -8,6 +8,7 @@ import {ConfirmModalComponent} from "../../../../Shared/components/modals/confir
 import {
   ShopSelectionModealComponent
 } from "../../../../Shared/components/modals/shop-selection-modeal/shop-selection-modeal.component";
+import {RunCreateModalComponent} from "../../components/run-create-modal/run-create-modal.component";
 
 @Component({
   selector: 'app-runs-home-page',
@@ -20,10 +21,12 @@ export class RunsHomePageComponent implements OnInit{
   selectedRun: IRun = {} as IRun;
   $selectedRun: Observable<IRun> = new Observable<IRun>();
 
+
   modalRef?: BsModalRef;
 
   constructor(private runService: RunService,
               private ngZone: NgZone,
+              private modalService: BsModalService
              ) { }
 
   onSelectedRun(run: IRun) {
@@ -41,12 +44,24 @@ export class RunsHomePageComponent implements OnInit{
 
   }
 
-
-
   async getAllRuns(): Promise<IRun[]> {
     return new Promise(async (resolve) => {
       (await this.runService.getAll()).subscribe((runs: IRun[]) => {
         resolve(runs);
       });
     })};
+
+  openAddRunModal() {
+    this.modalRef = this.modalService.show(RunCreateModalComponent, {
+      initialState: {
+        title: 'Create Run',
+        message: 'Create a new run',
+      }
+    });
+    this.modalRef.content.onClose.subscribe((result: boolean) => {
+      if(result) {
+        console.log("Modal closed with result: ");
+      }
+    });
+  }
 }
