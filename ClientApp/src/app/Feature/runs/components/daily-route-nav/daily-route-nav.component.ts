@@ -1,5 +1,8 @@
 import {AfterViewInit, Component, Input, OnInit, Renderer2} from '@angular/core';
 import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
+import {IRunVariant} from "../../models/iRunVariant";
+import {IRun} from "../../models/iRun";
+import {IDeliveryPoint} from "../../models/iDeliveryPoint";
 
 @Component({
   selector: 'app-daily-route-nav',
@@ -8,41 +11,41 @@ import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
 })
 export class DailyRouteNavComponent implements OnInit, AfterViewInit {
 
-  @Input() routes: IDailyRoutePlan[] = [];
-  mondayRoute: IDailyRoutePlan[] = [];
-  tuesdayRoute: IDailyRoutePlan[] = []
-  wednesdayRoute: IDailyRoutePlan[] = []
-  thursdayRoute: IDailyRoutePlan[] = []
-  fridayRoute: IDailyRoutePlan[] = []
-  saturdayRoute: IDailyRoutePlan[] = []
-  sundayRoute: IDailyRoutePlan[] = []
+  @Input() dailyRoutes: IRunVariant[] = [];
+  mondayDeliveryPoints: IDeliveryPoint[] = [];
+  tuesdayDeliveryPoints: IDeliveryPoint[] = [];
+  wednesdayDeliveryPoints: IDeliveryPoint[] = [];
+  thursdayDeliveryPoints: IDeliveryPoint[] = [];
+  fridayDeliveryPoints: IDeliveryPoint[] = [];
+  saturdayDeliveryPoints: IDeliveryPoint[] = [];
+  sundayDeliveryPoints: IDeliveryPoint[] = [];
 
   constructor(private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
-    this.routes.forEach((route) => {
+    this.dailyRoutes.forEach((route) => {
       switch (route.dayOfWeek) {
         case 1:
-          this.mondayRoute.push(route)
+          this.mondayDeliveryPoints = route.deliveryPoints;
           break;
         case 2:
-          this.tuesdayRoute.push(route);
+          this.tuesdayDeliveryPoints= route.deliveryPoints;
           break;
         case 3:
-          this.wednesdayRoute.push(route);
+          this.wednesdayDeliveryPoints = route.deliveryPoints;
           break;
         case 4:
-          this.thursdayRoute.push(route);
+          this.thursdayDeliveryPoints = route.deliveryPoints;
           break;
         case 5:
-          this.fridayRoute.push(route);
+          this.fridayDeliveryPoints = route.deliveryPoints;
           break;
         case 6:
-          this.saturdayRoute.push(route);
+          this.saturdayDeliveryPoints= route.deliveryPoints;
           break;
-        case 7:
-          this.sundayRoute.push(route);
+        case 0:
+          this.sundayDeliveryPoints = route.deliveryPoints;
           break;
       }
     });

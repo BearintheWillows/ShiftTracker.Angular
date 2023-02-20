@@ -27,7 +27,7 @@ export class RunsHomePageComponent implements OnInit{
              ) { }
 
   onSelectedRun(run: IRun) {
-    this.$selectedRun = this.runService.getByIdWithDailyRoutePlans(run.id).pipe() as Observable<IRun>;
+    this.$selectedRun = this.runService.getRunByIdWithRunVariantsAndDeliveryPoints(run.id).pipe() as Observable<IRun>;
     this.$selectedRun.subscribe((run: IRun) => {
       console.log(run);
     })

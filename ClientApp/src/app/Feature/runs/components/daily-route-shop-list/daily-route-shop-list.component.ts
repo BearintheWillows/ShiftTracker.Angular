@@ -4,6 +4,8 @@ import {IShop} from "../../../shops/Models/IShop";
 import {ShopService} from "../../../../Root/services/shop.service";
 import {Observable} from "rxjs";
 import {BsModalService} from "ngx-bootstrap/modal";
+import {IRunVariant} from "../../models/iRunVariant";
+import {IDeliveryPoint} from "../../models/iDeliveryPoint";
 
 @Component({
   selector: 'app-daily-route-shop-list',
@@ -12,14 +14,14 @@ import {BsModalService} from "ngx-bootstrap/modal";
 })
 export class DailyRouteShopListComponent implements OnInit{
 
-  @Input() routes: IDailyRoutePlan[] = [];
+  @Input() DeliveryPoints: IDeliveryPoint[] = [];
   shops: IShop[] = {} as IShop[];
 
   constructor(private _shopService: ShopService,
               private modalService: BsModalService) { }
 
   ngOnInit(): void {
-      console.log(this.routes);
+      console.log(this.DeliveryPoints);
     }
 
   // getShops() {

@@ -1,10 +1,10 @@
-<div *ngIf="routes.length == 0">
+<div *ngIf="DeliveryPoints.length == 0">
   <h2>It's quiet here...</h2>
 </div>
 
-<div *ngIf="routes.length > 1">
-  <div *ngFor="let route of routes ">
-    {{route.shop?.name}}
+<div *ngIf="DeliveryPoints.length > 1">
+  <div *ngFor="let dp of DeliveryPoints ">
+    {{dp.dropNumber}} - {{dp.shop.name}} | {{dp.shop.number}}
   </div>
   <div>
     <button>Add Shop</button>
