@@ -26,41 +26,31 @@ public class RunController : Controller
 		{
 			try
 			{
-				var runResultAsync = await _runService.GetAllAsync();
-				Log.Information("RunController.GetAllRuns() returned {@runResultAsync} Successfully", runResultAsync.Count());
-				return Ok( runResultAsync );
+				List<Run> runResultAsync = await _runService.GetAllAsync();
+
+				IEnumerable < RunDto > runs = RunDto.CreateRunDtoList( runResultAsync );
+
+
+				return Ok( runs );
 				
 			}
 			catch ( Exception e )
 			{
 				
-				return BadRequest();
-			}
-		}
-		
-		[HttpGet( "/runNumber/{runNumber}" )]
-		public IActionResult GetRunByRunNumber( int runNumber )
-		{
-			try
-			{
-				var runResultAsync = _runService.GetRunIdByNumberAsync( runNumber );
-				return Ok( runResultAsync );
-			}
-			catch ( Exception e )
-			{
-				Console.WriteLine( e );
 				return BadRequest();
 			}
 		}
 		
 		[HttpGet( "{runId}" )]
-		public async Task<ActionResult<Run>> GetRunById( int runId )
+		public async Task<IActionResult> GetRunById( int runId )
 		{
-			IQueryable<Run> runResultAsync = await _runService.GetRunByIdAsync( runId);
-			Log.Information("RunController.GetRunById({@runId}) returned {@runResultAsync} Successfully", runId, runResultAsync);
 			try
 			{
-			return Ok( runResultAsync);
+				Run runResultAsync = await _runService.GetRunByIdAsync( runId);
+				Log.Information("RunController.GetRunById({@runId}) returned {@runResultAsync} Successfully", runId, runResultAsync);
+				
+				RunDto runDto = RunDto.CreateRunDto( runResultAsync );
+				return Ok(runDto);
 			}
 			catch ( Exception e )
 			{
@@ -68,6 +58,26 @@ public class RunController : Controller
 				return BadRequest();
 			}
 		}
+		
+		[HttpGet( "number/{runNumber}" )]
+		public async Task<ActionResult> GetRunIdByRunNumber( int runNumber )
+		{
+			try
+			{
+				int runResultAsync = await _runService.GetRunIdByNumberAsync( runNumber );
+
+				Log.Information( "RunController.GetRunIdByRunNumber({@runNumber}) returned {@runResultAsync} Successfully", runNumber, runResultAsync );
+				var returnedId = runResultAsync;
+				return Ok( returnedId );
+			}
+			catch ( Exception e )
+			{
+				Console.WriteLine( e );
+				return BadRequest();
+			}
+		}
+		
+		
 
 		[HttpPost]
 		public async Task<ActionResult<Run>> CreateRun([FromBody] RunDto runDto)
@@ -82,7 +92,7 @@ public class RunController : Controller
                   				                 runResultAsync
                   				);
 					
-                                					return Ok( new RunDto(runResultAsync.Id, runResultAsync.Number, runResultAsync.Location, null));
+                                					return Ok( RunDto.CreateRunDto(runResultAsync));
 				}
 				catch ( Exception e )
 				{

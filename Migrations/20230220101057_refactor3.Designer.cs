@@ -12,8 +12,8 @@ using ShiftTracker.Angular.Data;
 namespace ShiftTracker.Angular.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230219185423_refacto")]
-    partial class refacto
+    [Migration("20230220101057_refactor3")]
+    partial class refactor3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace ShiftTracker.Angular.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
+                .IncrementsBy(10);
+
+            modelBuilder.HasSequence("runs_hilo")
                 .IncrementsBy(10);
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Break", b =>
@@ -164,7 +167,7 @@ namespace ShiftTracker.Angular.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "runs_hilo");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -209,7 +212,7 @@ namespace ShiftTracker.Angular.Migrations
                     b.Property<int>("RunId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

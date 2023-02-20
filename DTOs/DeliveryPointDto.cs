@@ -1,5 +1,7 @@
 ﻿namespace ShiftTracker.Angular.Models;
 
+using DTOs;
+
 public class DeliveryPointDto
 {
 	public int?      Id              { get; set; } = 0;
@@ -8,7 +10,11 @@ public class DeliveryPointDto
 	public DateTime? WindowOpenTime  { get; set; }
 	public DateTime  WindowCloseTime { get; set; }
 	public int       RunVariantId    { get; set; }
+	
+	public RunVariantDto RunVariantDto { get; set; }
 	public int       ShopId          { get; set; }
+	
+	public ShopDto Shop { get; set; }
 
 	public static DeliveryPointDto CreateDtoList(DeliveryPointDto deliveryPoint)
 	{

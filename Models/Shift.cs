@@ -24,7 +24,7 @@ public class Shift
 	public TimeSpan WorkTime      { get; set; }
 	
 	public int             RunId { get; set; }
-	public IQueryable<Run> Run   { get; set; }
+	public Run Run   { get; set; }
 	
 	// Navigation properties
 	public ICollection<Break> Breaks { get; set; }

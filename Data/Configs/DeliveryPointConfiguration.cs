@@ -18,7 +18,5 @@ public class DeliveryPointConfiguration : IEntityTypeConfiguration<DeliveryPoint
 		builder.Property( s => s.RunVariantId ).IsRequired();
 		builder.Property( s => s.WindowOpenTime ).IsRequired();
 		builder.Property( s => s.WindowCloseTime ).IsRequired();
-		builder.HasOne( s => s.Shop ).WithMany( s => s.DeliveryPoints ).HasForeignKey( s => s.ShopId )
-		       .OnDelete( DeleteBehavior.Cascade );
 	}
 }

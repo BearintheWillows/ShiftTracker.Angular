@@ -25,20 +25,8 @@ namespace ShiftTracker.Angular.Migrations
             modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("RunShift", b =>
-                {
-                    b.Property<int>("RunId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShiftsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RunId", "ShiftsId");
-
-                    b.HasIndex("ShiftsId");
-
-                    b.ToTable("RunShift");
-                });
+            modelBuilder.HasSequence("runs_hilo")
+                .IncrementsBy(10);
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Break", b =>
                 {
@@ -176,7 +164,7 @@ namespace ShiftTracker.Angular.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "runs_hilo");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -287,6 +275,8 @@ namespace ShiftTracker.Angular.Migrations
 
                     b.HasIndex("Date")
                         .IsUnique();
+
+                    b.HasIndex("RunId");
 
                     b.ToTable("Shifts", (string)null);
 
@@ -433,21 +423,6 @@ namespace ShiftTracker.Angular.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RunShift", b =>
-                {
-                    b.HasOne("ShiftTracker.Angular.Models.Run", null)
-                        .WithMany()
-                        .HasForeignKey("RunId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShiftTracker.Angular.Models.Shift", null)
-                        .WithMany()
-                        .HasForeignKey("ShiftsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ShiftTracker.Angular.Models.Break", b =>
                 {
                     b.HasOne("ShiftTracker.Angular.Models.Shift", "Shift")
@@ -489,9 +464,22 @@ namespace ShiftTracker.Angular.Migrations
                     b.Navigation("Run");
                 });
 
+            modelBuilder.Entity("ShiftTracker.Angular.Models.Shift", b =>
+                {
+                    b.HasOne("ShiftTracker.Angular.Models.Run", "Run")
+                        .WithMany("Shifts")
+                        .HasForeignKey("RunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Run");
+                });
+
             modelBuilder.Entity("ShiftTracker.Angular.Models.Run", b =>
                 {
                     b.Navigation("DayVariants");
+
+                    b.Navigation("Shifts");
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.RunVariant", b =>
