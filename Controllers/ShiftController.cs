@@ -47,6 +47,7 @@ public class ShiftController : ControllerBase
 			{
 				dtolist.Add( ShiftDto.CreateDto( shift ) );
 			}
+			Log.Information( "ShiftController.GetAllShifts() returned successfully" );
 			
 			return Ok( dtolist);
 		}
@@ -72,7 +73,6 @@ public class ShiftController : ControllerBase
 			OtherWorkTime = shiftDto.OtherWorkTime,
 			WorkTime = shiftDto.WorkTime,
 			RunId = shiftDto.RunId,
-			Run = await _runService.GetRunByIdAsync(shiftDto.RunId),
 			Breaks = new List<Break>(),
 			};
 	

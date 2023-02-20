@@ -69,19 +69,19 @@ public class RunDto
 	{
 	}
 
-	public static RunDto CreateRunDto(Run runResultAsync)
+	public static RunDto CreateRunDto(Run runResultAsync, bool includeVariant = true, bool includeDeliveryPoints = true)
 	{
 		RunDto runDto = new RunDto
 				{
 				Id = runResultAsync.Id,
 				Number = runResultAsync.Number,
 				Location = runResultAsync.Location,
-				DailyRoutes = runResultAsync.DayVariants.Select( dv => new RunVariantDto
+				DailyRoutes = includeVariant ? runResultAsync.DayVariants.Select( dv => new RunVariantDto
 						{
 						Id = dv.Id,
 						DayOfWeek = ( int ) dv.DayOfWeek,
 						RunId = dv.RunId,
-						DeliveryPoints = dv.DeliveryPoints.Select( dp => new DeliveryPointDto
+						DeliveryPoints = includeDeliveryPoints ? dv.DeliveryPoints.Select( dp => new DeliveryPointDto
 								{
 								Id = dp.Id,
 								DropNumber = dp.DropNumber,
@@ -103,9 +103,9 @@ public class RunDto
 									PhoneNumber = dp.Shop.PhoneNumber,
 									},
 								}
-						).ToList(),
+						).ToList() : null,
 						}
-				).ToList(),
+				).ToList() : null,
 				};
 
 		return runDto;
