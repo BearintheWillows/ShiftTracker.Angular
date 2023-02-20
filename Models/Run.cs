@@ -17,19 +17,6 @@ public class Run
 		Number = number;
 		Location = location;
 		DayVariants = new List<RunVariant>();
-		
-		DayVariants = GenerateVariants();
-
 	}
-
-	public List<RunVariant> GenerateVariants()
-	{
-		var variants = new List<RunVariant>();
-		for ( int i = 0; i < 7; i++ )
-		{
-			variants.Add( new RunVariant() { DayOfWeek = (DayOfWeek) i } );
-		}
-
-		return variants;
-	}
+	
 }

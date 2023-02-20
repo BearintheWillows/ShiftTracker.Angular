@@ -55,6 +55,11 @@ public class RunService : BaseCrudService<Run>, IRunService
 	{
 		if ( entity == null ) return null;
 		await Context.Runs.AddAsync( entity );
+		
+		var run = Context.Entry(entity);
+		
+		entity.DayVariants = RunVariant.GenerateRunVariants(entity);
+		
 		await Context.SaveChangesAsync();
 		Log.Information("RunService.CreateAsync({@entity}) returned successfully", entity);
 		return entity;

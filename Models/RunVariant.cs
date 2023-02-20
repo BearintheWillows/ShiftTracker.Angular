@@ -37,4 +37,20 @@ public class RunVariant
 			}
 		}
 	}
+	
+	public static List<RunVariant> GenerateRunVariants(Run run)
+	{
+		var variants = new List<RunVariant>();
+		for ( int i = 0; i < 7; i++ )
+		{
+			variants.Add( new RunVariant()
+				{
+				DayOfWeek = (DayOfWeek) i,
+				RunId = run.Id
+				
+				} );
+		}
+
+		return variants;
+	}
 }
