@@ -11,6 +11,7 @@ import {NavComponent} from "../Core/components/nav/nav.component";
 import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
 import {SharedModule} from "../Shared/shared.module";
 import {RunsModule} from "../Feature/runs/runs.module";
+import {CollapseModule} from "ngx-bootstrap/collapse";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {RunsModule} from "../Feature/runs/runs.module";
     AppRoutingModule,
   ],
   providers: [
+    CollapseModule
   ],
   bootstrap: [AppComponent]
 })

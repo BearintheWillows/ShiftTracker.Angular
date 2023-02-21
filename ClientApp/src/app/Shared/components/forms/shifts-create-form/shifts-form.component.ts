@@ -17,6 +17,7 @@ import {
   TimeFormatForTimeSpanPipe,
   TimeFormatForUiPipe
 } from "../../../pipes/time-format.pipe";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-shifts-form',
@@ -28,8 +29,8 @@ export class ShiftsFormComponent implements OnInit {
 
   @Input() shift: IShift = {} as IShift;
   @Input() formType: FormType = null as unknown as FormType;
-  @Input() runs: IRun[] = [];
-
+  runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
+  runs: IRun[] = [];
   @Output() goBack = new EventEmitter();
 
 
@@ -99,18 +100,26 @@ export class ShiftsFormComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if(this.formType === FormType.Create){
-      this.shiftForm.get('date')?.setValue(new Date().toISOString().substring(0, 10));
-    } else if (this.formType === FormType.Edit) {
-      this.shiftForm.get('date')?.removeAsyncValidators(DateValidators.IsDateAlreadyUsed(this.shiftService));
-      this.shiftForm.get('date')?.disable();
-        };
+    this.runService.getAll().then(() => {
+      this.runs$ = this.runService.runs$;
+      this.runs$.subscribe((runs: IRun[]) => {
+        this.runs = runs;
+      });
+      if(this.formType === FormType.Create) {
+        this.shiftForm.get('date')?.setValue(new Date().toISOString().substring(0, 10));
+      } else if(this.formType === FormType.Edit) {
+        this.shiftForm.get('date')?.removeAsyncValidators(DateValidators.IsDateAlreadyUsed(this.shiftService));
+        this.shiftForm.get('date')?.disable();
+      }
+      ;
+    });
   }
-
   //Works when runs is retrieved from parent component
   ngOnChanges(): void {
-    this.runNumber?.setValue(this.runs[0].number)
-    if (this.formType === FormType.Edit) {
+
+      this.runNumber?.setValue(this.runs[0].number);
+
+      if (this.formType === FormType.Edit) {
       this.shiftForm.setValue({
         date     : this.datePipe.transform(this.shift.date, 'yyyy-MM-dd'),
         runNumber: this.shift.run.number,
@@ -169,7 +178,7 @@ export class ShiftsFormComponent implements OnInit {
     this.shift.otherWorkTime = TimeFormatForTimeSpanPipe.prototype.transform(this.otherWorkTime?.value);
     this.shift.shiftDuration = this.shiftDuration?.value;
 
-    this.shift.runId = this.runs.find(run => run.number == this.runNumber?.value)?.id as number;
+    this.shift.runId = this.runs.find((run: IRun) => run.number === this.runNumber?.value)?.id ?? 0;
     this.shift.breakDuration = TimeFormatForTimeSpanPipe.prototype.transform(this.breakDuration?.value);
     console.log(this.shift);
     if(this.formType === FormType.Create){

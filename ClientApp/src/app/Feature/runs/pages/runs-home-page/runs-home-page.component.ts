@@ -17,7 +17,7 @@ import {RunCreateModalComponent} from "../../components/run-create-modal/run-cre
 })
 export class RunsHomePageComponent implements OnInit{
 
-  runs: IRun[] = [];
+  runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
   selectedRun: IRun = {} as IRun;
   $selectedRun: Observable<IRun> = new Observable<IRun>();
 
@@ -37,19 +37,14 @@ export class RunsHomePageComponent implements OnInit{
 
   }
 
-  async ngOnInit(){
-    await this.ngZone.run(async () => {
-      this.runs = await this.getAllRuns();
-    })
+  ngOnInit(){
+    this.runs$ = this.runService.runs$
 
   }
 
-  async getAllRuns(): Promise<IRun[]> {
-    return new Promise(async (resolve) => {
-      (await this.runService.getAll()).subscribe((runs: IRun[]) => {
-        resolve(runs);
-      });
-    })};
+  async getAllRuns(){
+    await this.runService.getAll();
+    };
 
   openAddRunModal() {
     this.modalRef = this.modalService.show(RunCreateModalComponent, {

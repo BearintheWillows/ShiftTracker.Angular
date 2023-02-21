@@ -3,6 +3,7 @@ import {FormType} from "../../../../Shared/enums/form-type";
 import {IRun} from "../../../runs/models/iRun";
 import {RunService} from "../../../../Root/services/run.service";
 import {Location} from "@angular/common";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shifts-create-page',
@@ -15,21 +16,16 @@ export class ShiftsCreatePageComponent implements OnInit{
   constructor(private runService: RunService, private ngZone: NgZone, private location: Location) { }
 
 
-  runs: IRun[] = [];
-  async ngOnInit(){
-    await this.ngZone.run(async () => {
-      this.runs = await this.getAllRuns();
-      console.log(this.runs);
-    })
+  runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
+  ngOnInit(){
+
 
   }
 
-  async getAllRuns(): Promise<IRun[]> {
-    return new Promise(async (resolve) => {
-      (await this.runService.getAll()).subscribe((runs: IRun[]) => {
-        resolve(runs);
-      });
-    })};
+  async getAllRuns() {
+    await this.runService.getAll();
+    this.runs$ = this.runService.runs$;
+    };
 
   goBack(): void {
     this.location.back();

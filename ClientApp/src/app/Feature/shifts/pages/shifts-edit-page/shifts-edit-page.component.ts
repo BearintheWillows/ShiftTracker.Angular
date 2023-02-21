@@ -33,19 +33,11 @@ export class ShiftsEditPageComponent implements OnInit {
     });
 
     await this.ngZone.run(async () => {
-      this.runs = await this.getAllRuns();
       this.shift = await this.getShiftById(this.shiftId);
       console.log(this.runs);
     })
 
   }
-
-  async getAllRuns(): Promise<IRun[]> {
-    return new Promise(async (resolve) => {
-      (await this.runService.getAll()).subscribe((runs: IRun[]) => {
-        resolve(runs);
-      });
-    })};
 
   async getShiftById(id: number): Promise<IShift> {
     return new Promise(async (resolve) => {

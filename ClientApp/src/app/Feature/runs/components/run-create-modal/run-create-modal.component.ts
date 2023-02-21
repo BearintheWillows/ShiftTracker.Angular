@@ -16,7 +16,10 @@ export class RunCreateModalComponent {
 
   @Input() title: string = '';
   @Input() message: string = '';
+  @Input() runs: IRun[] = [];
+
   run: IRun = {} as IRun;
+  availableRunNumbers: number[] = [];
   modalRef?: BsModalRef;
 
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -27,7 +30,7 @@ export class RunCreateModalComponent {
   }
 
   ngOnInit() {
-
+      this.getAvailableRunNumber();
   }
 
 
@@ -35,16 +38,33 @@ export class RunCreateModalComponent {
     console.log(this.run);
     this._runService.createRun(this.run).subscribe(
       (data) => {
-        console.log(data);
+        this._runService.getAll().then(r => {
+          this.onClose.emit(true);
+          this.bsModalRef?.hide();
+        })}
+      );
       }
-    );
-    this.onClose.emit(true);
-    this.bsModalRef?.hide();
-  }
+
 
   decline(): void {
     this.onClose.emit(false);
     this.bsModalRef?.hide();
+  }
+
+  getAvailableRunNumber() {
+    let runNumbers: number[] = [];
+    this._runService.runs$.subscribe(
+      (data) => {
+
+        data.forEach((run: IRun) => {
+          runNumbers.push(run.number);
+        });
+        for (let i = 1; i <= 120; i++) {
+          if(!runNumbers.includes(i)) {
+            this.availableRunNumbers.push(i);
+          }
+        }
+      });
   }
 
 }

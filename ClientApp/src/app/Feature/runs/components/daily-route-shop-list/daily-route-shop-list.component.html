@@ -3,9 +3,33 @@
 </div>
 
 <div *ngIf="DeliveryPoints.length > 1">
-  <div *ngFor="let dp of DeliveryPoints ">
-    {{dp.dropNumber}} - {{dp.shop.name}} | {{dp.shop.number}}
-  </div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Drop #</th>
+      <th scope="col">Name</th>
+      <th scope="col">City</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let dp of DeliveryPoints; let i = index " >
+      <tr class="collapsible-tr" (click)="onCollapseClick(i)" [attr.aria-expanded]="!collapsedStates[i]">
+        <th scope="row">{{dp.dropNumber}}</th>
+        <td>{{dp.shop.name}} - {{dp.shop.number}}</td>
+        <td>{{dp.shop.city}}</td>
+      </tr>
+      <tr>
+        <td  colspan="3" *ngIf="collapsedStates[i] == false">
+          <div id="{{i}}" [collapse]="collapsedStates[i]"  [isAnimated]="true">
+            <div class="well well-lg card card-block card-header">{{dp.windowOpenTime | timeFormatForUi}}</div>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <hr>
+
   <div>
     <button>Add Shop</button>
   </div>

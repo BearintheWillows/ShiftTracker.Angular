@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IRun} from "../../Feature/runs/models/iRun";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +9,19 @@ import {Observable} from "rxjs";
 export class RunService {
   private readonly _baseUrl = `https://localhost:7004/api/run`;
 
+  private _runsSource = new BehaviorSubject<IRun[]>([]);
+  runs$ = this._runsSource.asObservable();
+
   constructor(private http: HttpClient) {
   }
 
-  async getAll(): Promise<Observable<IRun[]>> {
-    return this.http.get<IRun[]>(this._baseUrl);
-  }
+  async getAll() : Promise<IRun[]> {
+    return new Promise(async (resolve) => {
+      (await this.http.get<IRun[]>(`${this._baseUrl}`)).subscribe((runs: IRun[]) => {
+        this._runsSource.next(runs);
+        resolve(runs);
+      });
+    })}
 
   getRunIdFromRunNumber(runNumber: number): Observable<number>{
     console.log(`${this._baseUrl}/runNumber/${runNumber}`);

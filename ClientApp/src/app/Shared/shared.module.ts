@@ -8,6 +8,8 @@ import {ShiftsFormComponent} from "./components/forms/shifts-create-form/shifts-
 import {TimeFormatForDateTimePipe, TimeFormatForTimeSpanPipe, TimeFormatForUiPipe} from "./pipes/time-format.pipe";
 import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day-of-week-conversion.pipe';
 import { ShopSelectionModealComponent } from './components/modals/shop-selection-modeal/shop-selection-modeal.component';
+import {CollapseModule} from "ngx-bootstrap/collapse";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -29,6 +31,9 @@ import { ShopSelectionModealComponent } from './components/modals/shop-selection
     RouterLink,
     HttpClientModule,
     RouterModule,
+    CollapseModule.forRoot(),
+    BrowserAnimationsModule,
+
   ],
   exports: [
     CommonModule,
@@ -43,6 +48,8 @@ import { ShopSelectionModealComponent } from './components/modals/shop-selection
     ShiftsFormComponent,
     DayOfWeekConversionPipe,
     StrToDayOfWeekConversionPipe,
+    CollapseModule,
+    BrowserAnimationsModule,
   ]
 })
 export class SharedModule { }
