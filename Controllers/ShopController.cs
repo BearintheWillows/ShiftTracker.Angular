@@ -28,4 +28,17 @@ public class ShopController : ControllerBase
 		}
 		return Ok(shopDtoList);
 	}
+	
+	[HttpGet( "available" )]
+	public async Task<IActionResult> GetAllAvailableShops([FromQuery] DayOfWeek dayOfWeek)
+	{
+		var shopList = await _shopService.GetAllAvailableShops(dayOfWeek);
+		var shopDtoList = new List<ShopDto>();
+		
+		foreach (var shop in shopList)
+		{
+			shopDtoList.Add(ShopDto.CreateDto(shop));
+		}
+		return Ok(shopDtoList);
+	}
 }

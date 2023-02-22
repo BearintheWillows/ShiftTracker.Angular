@@ -10,6 +10,7 @@ import {RunDetailsComponent} from "./components/run-details/run-details.componen
 import { DailyRouteNavComponent } from './components/daily-route-nav/daily-route-nav.component';
 import { DailyRouteShopListComponent } from './components/daily-route-shop-list/daily-route-shop-list.component';
 import { RunCreateModalComponent } from './components/run-create-modal/run-create-modal.component';
+import { RunAddShopModalComponent } from './components/run-add-shop-modal/run-add-shop-modal.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { RunCreateModalComponent } from './components/run-create-modal/run-creat
     DailyRouteNavComponent,
     DailyRouteShopListComponent,
     RunCreateModalComponent,
+    RunAddShopModalComponent,
   ],
   imports: [
     SharedModule,

@@ -1,0 +1,25 @@
+<div class="modal-header text-center">
+  <h2>{{title}}</h2>
+</div>
+<br><br>
+<div class="modal-body text-center">
+  <form *ngIf="availableShops.length > 0">
+    <div class="form-group">
+      <label for="shops">Available Shops: </label>
+      <ng-container *ngIf="availableShops.length > 0">
+      <select class="form-control" id="shops" placeholder="Enter Number" [(ngModel)]="availableShops" name="shops">
+        <option *ngFor="let shop of availableShops" [value]="shop">{{shop.name}} | {{shop.number}} - {{shop.city}}</option>
+      </select>
+      </ng-container>
+
+    </div>
+
+    <button type="submit"   class="btn btn-default" >Yes, Confirm</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No, take me back!</button>
+  </form>
+  <ng-container *ngIf="availableShops.length <= 0">
+    <p>All Shops within database already allocated to a run on a {{dayOfWeek | numToDayOfWeekString}}</p>
+
+    <button type="button" class="btn btn-primary" (click)="decline()" >Return</button>
+  </ng-container>
+</div>

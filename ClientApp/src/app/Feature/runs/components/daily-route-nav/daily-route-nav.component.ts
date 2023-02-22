@@ -20,6 +20,8 @@ export class DailyRouteNavComponent implements OnInit, AfterViewInit {
   saturdayDeliveryPoints: IDeliveryPoint[] = [];
   sundayDeliveryPoints: IDeliveryPoint[] = [];
 
+  selectedRunVariant: IRunVariant = {} as IRunVariant;
+
   constructor(private renderer: Renderer2) {
   }
 
@@ -28,6 +30,7 @@ export class DailyRouteNavComponent implements OnInit, AfterViewInit {
       switch (route.dayOfWeek) {
         case 1:
           this.mondayDeliveryPoints = route.deliveryPoints;
+
           break;
         case 2:
           this.tuesdayDeliveryPoints= route.deliveryPoints;

@@ -6,7 +6,8 @@ using Models;
 
 public interface IShopService
 {
-	Task<List<Shop>> GetAllShops();
+	Task<List<Shop>>        GetAllShops();
+	Task<IEnumerable<Shop>> GetAllAvailableShops(DayOfWeek dayOfWeek);
 }
 
 public class ShopService : IShopService
@@ -21,5 +22,14 @@ public class ShopService : IShopService
 	public async Task<List<Shop>> GetAllShops()
 	{
 		return await _context.Shops.ToListAsync();
+	}
+	
+	public async Task<IEnumerable<Shop>> GetAllAvailableShops(DayOfWeek dayOfWeek)
+	{
+		var shops = await _context.Shops
+		                          .Include( s => s.DeliveryPoints )
+		                          .Where( shop => shop.DeliveryPoints.Any( dp => dp.DayOfWeek != dayOfWeek ) )
+		                          .ToListAsync();
+		return shops;
 	}
 }

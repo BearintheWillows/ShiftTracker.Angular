@@ -16,7 +16,6 @@ export class RunCreateModalComponent {
 
   @Input() title: string = '';
   @Input() message: string = '';
-  @Input() runs: IRun[] = [];
 
   run: IRun = {} as IRun;
   availableRunNumbers: number[] = [];

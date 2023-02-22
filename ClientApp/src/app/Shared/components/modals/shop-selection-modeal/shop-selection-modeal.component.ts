@@ -31,7 +31,7 @@ export class ShopSelectionModealComponent implements ConfirmModalComponent, OnIn
   }
 
   ngOnInit() {
-    this.shops$ = this._shopService.getShops();
+
   }
 
 

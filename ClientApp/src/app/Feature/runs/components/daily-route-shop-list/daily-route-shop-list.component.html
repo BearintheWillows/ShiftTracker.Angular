@@ -1,9 +1,9 @@
-<div *ngIf="DeliveryPoints.length == 0">
+<div *ngIf="deliveryPoints.length == 0">
   <h2>It's quiet here...</h2>
 </div>
 
-<div *ngIf="DeliveryPoints.length > 1">
-  <table class="table">
+<div *ngIf="deliveryPoints.length > 1">
+  <table class="table table-runs">
     <thead>
     <tr>
       <th scope="col">Drop #</th>
@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let dp of DeliveryPoints; let i = index " >
+    <ng-container *ngFor="let dp of deliveryPoints; let i = index " >
       <tr class="collapsible-tr" (click)="onCollapseClick(i)" [attr.aria-expanded]="!collapsedStates[i]">
         <th scope="row">{{dp.dropNumber}}</th>
         <td>{{dp.shop.name}} - {{dp.shop.number}}</td>
@@ -21,7 +21,19 @@
       <tr>
         <td  colspan="3" *ngIf="collapsedStates[i] == false">
           <div id="{{i}}" [collapse]="collapsedStates[i]"  [isAnimated]="true">
-            <div class="well well-lg card card-block card-header">{{dp.windowOpenTime | timeFormatForUi}}</div>
+            <div class="well well-lg card card-block card-header">
+              Window Open: {{dp.windowOpenTime | timeFormatForUi}}
+              Window Close: {{dp.windowCloseTime | timeFormatForUi}}
+              <h2>Address</h2>
+              {{dp.shop.street}}
+              {{dp.shop.street2}}
+              {{dp.shop.city}}
+              {{dp.shop.postcode}}
+              {{dp.shop.phoneNumber}}
+
+              <button>Remove Shop</button>
+
+            </div>
           </div>
         </td>
       </tr>
@@ -30,9 +42,9 @@
   </table>
   <hr>
 
-  <div>
-    <button>Add Shop</button>
-  </div>
 </div>
 
+<div>
+  <button (click)="openAddShopModal()">Add Shop</button>
+</div>
 
