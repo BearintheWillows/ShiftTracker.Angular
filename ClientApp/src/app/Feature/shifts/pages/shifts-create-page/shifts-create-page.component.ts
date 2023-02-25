@@ -10,22 +10,10 @@ import {Observable} from "rxjs";
   templateUrl: 'shifts-create-page.component.html',
   styleUrls: ['shifts-create-page.component.scss']
 })
-export class ShiftsCreatePageComponent implements OnInit{
-
+export class ShiftsCreatePageComponent {
   formType: FormType = FormType.Create;
   constructor(private runService: RunService, private ngZone: NgZone, private location: Location) { }
 
-
-  runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
-  ngOnInit(){
-
-
-  }
-
-  async getAllRuns() {
-    await this.runService.getAllRuns();
-    this.runs$ = this.runService.allRuns$;
-    };
 
   goBack(): void {
     this.location.back();

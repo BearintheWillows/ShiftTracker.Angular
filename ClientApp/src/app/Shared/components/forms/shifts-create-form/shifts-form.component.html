@@ -1,4 +1,4 @@
-<form [formGroup]="shiftForm" formGroupName="shiftForm">
+<form [formGroup]="shiftForm" >
   <label for="date">Date: </label>
   <input class="form-control" formControlName="date" name="date" id="date" type="date">
 
@@ -15,7 +15,7 @@
   <select class="form-control" formControlName="runNumber" id="runNumber">
     <option value="" selected disabled hidden>Choose Run Number</option>
     <ng-container *ngIf="runs$ | async as runs">
-    <option *ngFor="let run of runs" [value]="run.number" >{{run.number}}</option>
+    <option *ngFor="let run of runs" [value]="run.id" >{{run.number}}</option>
     </ng-container>
   </select>
 

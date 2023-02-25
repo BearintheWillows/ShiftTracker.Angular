@@ -175,7 +175,7 @@ export class ShiftsFormComponent implements OnInit {
     this.shift.otherWorkTime = TimeFormatForTimeSpanPipe.prototype.transform(this.otherWorkTime?.value);
     this.shift.shiftDuration = this.shiftDuration?.value;
 
-    this.shift.runId = this.runs.find((run: IRun) => run.number === this.runNumber?.value)?.id ?? 0;
+    this.shift.runId = this.runNumber?.value;
     this.shift.breakDuration = TimeFormatForTimeSpanPipe.prototype.transform(this.breakDuration?.value);
     console.log(this.shift);
     if(this.formType === FormType.Create){
