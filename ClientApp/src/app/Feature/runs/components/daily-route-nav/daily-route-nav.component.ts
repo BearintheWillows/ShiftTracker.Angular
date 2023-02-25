@@ -11,6 +11,7 @@ import {IDeliveryPoint} from "../../models/iDeliveryPoint";
 })
 export class DailyRouteNavComponent implements OnInit, AfterViewInit {
 
+  @Input() selectedRun$: IRunVariant = {} as IRunVariant;
   @Input() dailyRoutes: IRunVariant[] = [];
   mondayDeliveryPoints: IDeliveryPoint[] = [];
   tuesdayDeliveryPoints: IDeliveryPoint[] = [];
@@ -85,4 +86,10 @@ export class DailyRouteNavComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+
+  onTabClick(event: any) {
+
+  }
+
 }

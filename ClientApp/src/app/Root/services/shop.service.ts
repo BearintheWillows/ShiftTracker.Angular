@@ -38,4 +38,6 @@ export class ShopService {
     console.log(`${this._baseUrl}/available?runVariantDay=${DayOfWeekConversionPipe.prototype.transform(runVariantDay)}`);
     return this.http.get<IShop[]>(`${this._baseUrl}/available?dayOfWeek=${DayOfWeekConversionPipe.prototype.transform(runVariantDay)}`);
   }
+
+
 }

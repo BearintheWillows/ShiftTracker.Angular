@@ -9,6 +9,7 @@ import {IDeliveryPoint} from "../../models/iDeliveryPoint";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {RunCreateModalComponent} from "../run-create-modal/run-create-modal.component";
 import {RunAddShopModalComponent} from "../run-add-shop-modal/run-add-shop-modal.component";
+import {IRun} from "../../models/iRun";
 
 @Component({
   selector: 'app-daily-route-shop-list',
@@ -20,7 +21,9 @@ export class DailyRouteShopListComponent implements OnInit{
 
   @Input() deliveryPoints: IDeliveryPoint[] = [];
   @Input() dayOfWeek: number = 0;
+
   shops: IShop[] = {} as IShop[];
+
 
   isCollapsed = false;
   selectedDeliveryPoint: HTMLElement | null = null;
@@ -34,7 +37,7 @@ export class DailyRouteShopListComponent implements OnInit{
 
   ngOnInit(): void {
       this.collapsedStates = this.deliveryPoints.map(() => true);
-      console.log(this.deliveryPoints)
+
     }
 
   onCollapseClick(index: number) {
@@ -46,7 +49,7 @@ export class DailyRouteShopListComponent implements OnInit{
       initialState: {
         title: 'Create Run',
         message: 'Create a new run',
-        dayOfWeek: this.dayOfWeek
+        dayOfWeek: this.dayOfWeek,
       }
     });
     this.modalRef.content.onClose.subscribe((result: boolean) => {

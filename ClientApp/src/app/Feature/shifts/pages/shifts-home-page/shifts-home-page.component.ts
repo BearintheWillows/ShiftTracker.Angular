@@ -1,6 +1,7 @@
 import {Component, NgZone, OnInit, Output} from '@angular/core';
 import {ShiftService} from "../../../../Root/services/shift.service";
 import {IShift} from "../../models/iShift";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shifts-home-page',
@@ -9,27 +10,8 @@ import {IShift} from "../../models/iShift";
 })
 
 
-export class ShiftsHomePageComponent implements OnInit{
+export class ShiftsHomePageComponent {
 
-  shifts: IShift[] = []
-
-  constructor(
-    private _shiftService: ShiftService,
-    private ngZone: NgZone
-    ) {
-  }
-
-  async ngOnInit(){
-    await this.ngZone.run(async () => {
-      this.populateShifts();
-    })
-  }
-
-  populateShifts(): void {
-    this._shiftService.getShifts().subscribe((shifts: IShift[]) => {
-      this.shifts = shifts;
-    });
-  }
-
+  constructor() {}
 
 }

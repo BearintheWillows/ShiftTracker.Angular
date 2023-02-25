@@ -3,12 +3,13 @@
 </div>
 <br><br>
 <div class="modal-body text-center">
-  <form *ngIf="availableShops.length > 0">
+  <form *ngIf="availableShops.length > 0" (submit)="addShopToRunVariant()">
     <div class="form-group">
       <label for="shops">Available Shops: </label>
       <ng-container *ngIf="availableShops.length > 0">
-      <select class="form-control" id="shops" placeholder="Enter Number" [(ngModel)]="availableShops" name="shops">
-        <option *ngFor="let shop of availableShops" [value]="shop">{{shop.name}} | {{shop.number}} - {{shop.city}}</option>
+      <select class="form-select" id="shops" name="shops">
+        <option selected>Choose a Shop...</option>
+        <option *ngFor="let shop of availableShops" [(ngModel)]="selectedShop"  [value]="shop">{{shop.name}} | {{shop.number}} - {{shop.city}}</option>
       </select>
       </ng-container>
 

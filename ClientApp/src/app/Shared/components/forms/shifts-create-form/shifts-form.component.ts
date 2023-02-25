@@ -1,5 +1,5 @@
 
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -17,7 +17,7 @@ import {
   TimeFormatForTimeSpanPipe,
   TimeFormatForUiPipe
 } from "../../../pipes/time-format.pipe";
-import {map, Observable} from "rxjs";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shifts-form',
@@ -100,8 +100,8 @@ export class ShiftsFormComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.runService.getAll().then(() => {
-      this.runs$ = this.runService.runs$;
+    this.runService.getAllRuns().then(() => {
+      this.runs$ = this.runService.allRuns$;
       this.runs$.subscribe((runs: IRun[]) => {
         this.runs = runs;
       });
@@ -111,13 +111,10 @@ export class ShiftsFormComponent implements OnInit {
         this.shiftForm.get('date')?.removeAsyncValidators(DateValidators.IsDateAlreadyUsed(this.shiftService));
         this.shiftForm.get('date')?.disable();
       }
-      ;
     });
   }
   //Works when runs is retrieved from parent component
   ngOnChanges(): void {
-
-      this.runNumber?.setValue(this.runs[0].number);
 
       if (this.formType === FormType.Edit) {
       this.shiftForm.setValue({
@@ -159,7 +156,7 @@ export class ShiftsFormComponent implements OnInit {
     }
 
     this.modalRef?.content.onClose.subscribe((result: boolean) => {
-      if (result == true) {
+      if (result) {
         this.onSubmit();
 
       } else {

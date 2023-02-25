@@ -23,8 +23,8 @@ export class ShiftsCreatePageComponent implements OnInit{
   }
 
   async getAllRuns() {
-    await this.runService.getAll();
-    this.runs$ = this.runService.runs$;
+    await this.runService.getAllRuns();
+    this.runs$ = this.runService.allRuns$;
     };
 
   goBack(): void {

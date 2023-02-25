@@ -18,9 +18,9 @@ export class RunSelectorComponent implements OnInit, OnChanges{
   constructor(private runService: RunService) { }
 
   ngOnInit() {
-    this.runService.getAll().then(
+    this.runService.getAllRuns().then(
       () => {
-        this.runs$ = this.runService.runs$;
+        this.runs$ = this.runService.allRuns$;
         this.runs$.subscribe((runs: IRun[]) => {
           if(runs.length > 0) {
             this.selectedRun = runs[0];

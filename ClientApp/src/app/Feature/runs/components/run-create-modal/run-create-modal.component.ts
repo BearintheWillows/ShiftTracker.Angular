@@ -23,6 +23,7 @@ export class RunCreateModalComponent {
 
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+
   constructor(
     public bsModalRef: BsModalRef,
     private _runService: RunService) {
@@ -37,7 +38,7 @@ export class RunCreateModalComponent {
     console.log(this.run);
     this._runService.createRun(this.run).subscribe(
       (data) => {
-        this._runService.getAll().then(r => {
+        this._runService.getAllRuns().then(r => {
           this.onClose.emit(true);
           this.bsModalRef?.hide();
         })}
@@ -52,7 +53,7 @@ export class RunCreateModalComponent {
 
   getAvailableRunNumber() {
     let runNumbers: number[] = [];
-    this._runService.runs$.subscribe(
+    this._runService.allRuns$.subscribe(
       (data) => {
 
         data.forEach((run: IRun) => {

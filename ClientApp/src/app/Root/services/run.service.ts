@@ -9,16 +9,15 @@ import {BehaviorSubject, Observable} from "rxjs";
 export class RunService {
   private readonly _baseUrl = `https://localhost:7004/api/run`;
 
-  private _runsSource = new BehaviorSubject<IRun[]>([]);
-  runs$ = this._runsSource.asObservable();
+  private _allRunsSource = new BehaviorSubject<IRun[]>([]);
+  allRuns$ = this._allRunsSource.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  async getAll() : Promise<IRun[]> {
+  async getAllRuns() : Promise<IRun[]> {
     return new Promise(async (resolve) => {
       (await this.http.get<IRun[]>(`${this._baseUrl}`)).subscribe((runs: IRun[]) => {
-        this._runsSource.next(runs);
+        this._allRunsSource.next(runs);
         resolve(runs);
       });
     })}

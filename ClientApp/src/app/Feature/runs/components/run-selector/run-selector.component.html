@@ -1,8 +1,8 @@
 <div class="run-selector-container" *ngIf="runs$ | async as runs">
   <div class="run-selector">
-  <label for="runNumber">Run Number:</label>
+  <label for="runNumber">Run Number</label>
   <select [(ngModel)]="selectedRun" (change)="onRunSelected(selectedRun)" class="form-control"  id="runNumber">
-    <option  *ngFor="let run of runs" [ngValue]="run" [selected]="run.number">{{run.number}} | {{run.location}}</option>
+    <option  *ngFor="let run of runs" [ngValue]="run" [selected]="run.number">{{run.number}} | {{run.location}} - {{run.id}}</option>
   </select>
 </div>
   <div class="run-add-btn">

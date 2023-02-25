@@ -19,31 +19,30 @@ export class RunsHomePageComponent implements OnInit{
 
   runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
   selectedRun: IRun = {} as IRun;
-  $selectedRun: Observable<IRun> = new Observable<IRun>();
-
-
+  selectedRun$: Observable<IRun> = new Observable<IRun>();
   modalRef?: BsModalRef;
 
   constructor(private runService: RunService,
               private ngZone: NgZone,
               private modalService: BsModalService
-             ) { }
+             ) {}
 
+  ngOnInit(){
+    this.runs$ = this.runService.allRuns$
+
+  }
   onSelectedRun(run: IRun) {
-    this.$selectedRun = this.runService.getRunByIdWithRunVariantsAndDeliveryPoints(run.id).pipe() as Observable<IRun>;
-    this.$selectedRun.subscribe((run: IRun) => {
+    this.selectedRun$ = this.runService.getRunByIdWithRunVariantsAndDeliveryPoints(run.id).pipe() as Observable<IRun>;
+    this.selectedRun$.subscribe((run: IRun) => {
       this.selectedRun = run;
     })
 
   }
 
-  ngOnInit(){
-    this.runs$ = this.runService.runs$
 
-  }
 
   async getAllRuns(){
-    await this.runService.getAll();
+    await this.runService.getAllRuns();
     };
 
   openAddRunModal() {

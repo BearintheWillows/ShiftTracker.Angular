@@ -1,6 +1,6 @@
-<form [formGroup]="shiftForm">
+<form [formGroup]="shiftForm" formGroupName="shiftForm">
   <label for="date">Date: </label>
-  <input class="form-control" formControlName="date" id="date" type="date">
+  <input class="form-control" formControlName="date" name="date" id="date" type="date">
 
   <div *ngIf="date?.errors?.['required'] && (date?.dirty || date?.touched)" class="alert alert-danger">
     <p>Date is required</p>
@@ -13,7 +13,10 @@
   </div>
   <label for="runNumber">Run Number:</label>
   <select class="form-control" formControlName="runNumber" id="runNumber">
-    <option *ngFor="let run of this.runs" [value]="run.number" selected="{{run.number}}">{{run.number}}</option>
+    <option value="" selected disabled hidden>Choose Run Number</option>
+    <ng-container *ngIf="runs$ | async as runs">
+    <option *ngFor="let run of runs" [value]="run.number" >{{run.number}}</option>
+    </ng-container>
   </select>
 
   <div *ngIf="runNumber?.errors?.['required'] && (runNumber?.dirty || runNumber?.touched)">

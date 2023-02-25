@@ -3,6 +3,8 @@ import {BsModalRef} from "ngx-bootstrap/modal";
 import {ShopService} from "../../../../Root/services/shop.service";
 import {IShop} from "../../../shops/Models/IShop";
 import {map, Observable} from "rxjs";
+import {IRun} from "../../models/iRun";
+import {IRunVariant} from "../../models/iRunVariant";
 
 @Component({
   selector: 'app-run-add-shop-modal',
@@ -14,9 +16,11 @@ export class RunAddShopModalComponent implements OnInit{
   @Input() title: string = '';
   @Input() message: string = '';
   @Input() dayOfWeek: number = 0;
+  @Input() selectedRun: IRunVariant = {} as IRunVariant;
 
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
 
+  selectedShop: IShop = {} as IShop;
   availableShops: IShop[] = [];
 
   modalRef?: BsModalRef;
@@ -31,6 +35,8 @@ export class RunAddShopModalComponent implements OnInit{
 
 
 
+
+
   decline(): void {
     this.onClose.emit(false);
     this.bsModalRef?.hide();
@@ -42,7 +48,9 @@ export class RunAddShopModalComponent implements OnInit{
         this.availableShops = data;
       }
     );
-
   }
 
+  addShopToRunVariant() {
+
+  }
 }

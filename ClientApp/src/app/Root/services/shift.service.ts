@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 import {IShift} from "../../Feature/shifts/models/iShift";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShiftService {
-
   private readonly _baseUrl = `https://localhost:7004/api/shift`;
-  constructor(
-    private http: HttpClient
-  ) {
+  private _allShiftsSource = new BehaviorSubject<IShift[]>([]);
 
+  allShifts$ = this._allShiftsSource.asObservable();
 
-  }
+  constructor(private http: HttpClient) {}
 
-  getShifts(): Observable<IShift[]> {
-   return this.http.get<IShift[]>(this._baseUrl);
-  }
+  async getAllShifts() : Promise<IShift[]> {
+    return new Promise(async (resolve) => {
+      (await this.http.get<IShift[]>(`${this._baseUrl}`)).subscribe((shifts: IShift[]) => {
+        this._allShiftsSource.next(shifts);
+        resolve(shifts);
+      });
+    })}
+
 
   getShiftById(id: number): Observable<IShift> {
     return this.http.get<IShift>(`${this._baseUrl}/${id}`);

@@ -1,6 +1,11 @@
-<div class="inner-container">
-  <div *ngIf="shifts" class="table-container">
-    <table class="table table-hover" [(ngModel)]="shifts">
+<ng-container *ngIf="shifts$ | async as shifts">
+  <div *ngIf="shifts.length == 0">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="shifts.length > 0" class="table-container">
+    <table class="table table-hover">
       <thead>
       <tr>
         <th class="text-center" >Date</th>
@@ -27,6 +32,4 @@
       </tbody>
     </table>
   </div>
-
-
-</div>
+</ng-container>

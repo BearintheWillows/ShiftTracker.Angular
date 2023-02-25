@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {ShiftService} from "../../../../Root/services/shift.service";
 import { ConfirmModalComponent } from 'src/app/Shared/components/modals/confirmModal/confirm-modal.component';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shifts-list-table',
@@ -13,36 +14,32 @@ import { ConfirmModalComponent } from 'src/app/Shared/components/modals/confirmM
 })
 export class ShiftsListTableComponent implements OnInit {
 
-  @Input() shifts: IShift[] = []
-  @Output() populateTable = new EventEmitter();
+  shifts$: Observable<IShift[]> = new Observable<IShift[]>();
   modalRef?: BsModalRef;
-
   selectedEditShift?: IShift;
   selectedFunction?: string;
 
   constructor(private shiftService: ShiftService,
               private router: Router,
-              private modalService: BsModalService) {
-
-  }
+              private modalService: BsModalService) { }
 
 
   ngOnInit(): void {
+    this.refreshShifts();
 
   }
 
   ngOnChanges(): void{
-    this.shifts = this.shifts;
+     this.refreshShifts();
   }
 
   editShift(shift: IShift): void {
-
   }
 
   deleteShift(shift: IShift): void {
     this.shiftService.postDeleteShift(shift.id).subscribe((shift: IShift) => {
       console.log('shift deleted');
-      this.populateTable.emit();
+      this.refreshShifts();
     });
   }
 
@@ -74,6 +71,12 @@ export class ShiftsListTableComponent implements OnInit {
 
   goToEdit(shift: IShift): void {
     this.router.navigate([`/shifts/edit/${shift.id}`]);
+  }
+
+  refreshShifts(): void {
+    this.shiftService.getAllShifts().then(() =>
+      this.shifts$ = this.shiftService.allShifts$
+    );
   }
 
 
