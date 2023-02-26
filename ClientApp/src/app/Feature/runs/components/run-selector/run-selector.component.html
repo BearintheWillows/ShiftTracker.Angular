@@ -1,12 +1,14 @@
 <div class="run-selector-container" *ngIf="runs$ | async as runs">
   <div class="run-selector">
-  <label for="runNumber">Run Number</label>
-  <select [(ngModel)]="selectedRun" (change)="onRunSelected(selectedRun)" class="form-control"  id="runNumber">
-    <option  *ngFor="let run of runs" [ngValue]="run" [selected]="run.number">{{run.number}} | {{run.location}} - {{run.id}}</option>
+  <label for="run">Run Number</label>
+
+  <select class="form-control" [(ngModel)]="selectedRun" (ngModelChange)="onSelectedRunChange($event)" id="run">
+    <option [ngValue]="selectedRun" hidden  disabled selected>{{runs[0].number}}</option>
+    <option  *ngFor="let run of runs"  [ngValue]="run">{{run.number}} | {{run.location}}</option>
   </select>
 </div>
   <div class="run-add-btn">
-    <button class="btn btn-primary" (click)="addRunClick.emit()"><i class="fa-regular fa-plus"></i></button>
+    <button class="btn btn-primary" (click)="openAddRunModal()" ><i class="fa-regular fa-plus"></i></button>
   </div>
 </div>
 

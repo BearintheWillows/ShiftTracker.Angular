@@ -6,12 +6,12 @@
   <form *ngIf="availableShops.length > 0" (submit)="addShopToRunVariant()">
     <div class="form-group">
       <label for="shops">Available Shops: </label>
-      <ng-container *ngIf="availableShops.length > 0">
-      <select class="form-select" id="shops" name="shops">
-        <option selected>Choose a Shop...</option>
-        <option *ngFor="let shop of availableShops" [(ngModel)]="selectedShop"  [value]="shop">{{shop.name}} | {{shop.number}} - {{shop.city}}</option>
+      <select [(ngModel)]="selectedShop"  class="form-select" id="shops" name="shops">
+        <option selected hidden disabled>Choose a Shop...</option>
+        <ng-container *ngFor="let shop of availableShops">
+          <option [ngValue]="shop">{{shop.name}} | {{shop.number}} - {{shop.city}}</option>
+        </ng-container>
       </select>
-      </ng-container>
 
     </div>
 

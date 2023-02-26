@@ -45,6 +45,7 @@ builder.Services.AddScoped<IShiftService, ShiftService>();
 builder.Services.AddScoped<IBreakService, BreakService>();
 builder.Services.AddScoped<IShopService, ShopService>();
 builder.Services.AddScoped<IRunService, RunService>();
+builder.Services.AddScoped<IRunVariantService, RunVariantService>();
 
 
 var app = builder.Build();

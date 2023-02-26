@@ -45,17 +45,4 @@ export class RunsHomePageComponent implements OnInit{
     await this.runService.getAllRuns();
     };
 
-  openAddRunModal() {
-    this.modalRef = this.modalService.show(RunCreateModalComponent, {
-      initialState: {
-        title: 'Create Run',
-        message: 'Create a new run',
-      }
-    });
-    this.modalRef.content.onClose.subscribe((result: boolean) => {
-      if(result) {
-        console.log("Modal closed with result: ");
-      }
-    });
-  }
 }

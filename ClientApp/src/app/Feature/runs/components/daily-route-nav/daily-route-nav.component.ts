@@ -3,6 +3,8 @@ import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
 import {IRunVariant} from "../../models/iRunVariant";
 import {IRun} from "../../models/iRun";
 import {IDeliveryPoint} from "../../models/iDeliveryPoint";
+import {Observable} from "rxjs";
+import {RunService} from "../../../../Root/services/run.service";
 
 @Component({
   selector: 'app-daily-route-nav',
@@ -11,49 +13,13 @@ import {IDeliveryPoint} from "../../models/iDeliveryPoint";
 })
 export class DailyRouteNavComponent implements OnInit, AfterViewInit {
 
-  @Input() selectedRun$: IRunVariant = {} as IRunVariant;
-  @Input() dailyRoutes: IRunVariant[] = [];
-  mondayDeliveryPoints: IDeliveryPoint[] = [];
-  tuesdayDeliveryPoints: IDeliveryPoint[] = [];
-  wednesdayDeliveryPoints: IDeliveryPoint[] = [];
-  thursdayDeliveryPoints: IDeliveryPoint[] = [];
-  fridayDeliveryPoints: IDeliveryPoint[] = [];
-  saturdayDeliveryPoints: IDeliveryPoint[] = [];
-  sundayDeliveryPoints: IDeliveryPoint[] = [];
+  selectedRun$: Observable<IRun> = new Observable<IRun>();
 
-  selectedRunVariant: IRunVariant = {} as IRunVariant;
-
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private runService: RunService){
   }
 
   ngOnInit(): void {
-    this.dailyRoutes.forEach((route) => {
-      switch (route.dayOfWeek) {
-        case 1:
-          this.mondayDeliveryPoints = route.deliveryPoints;
-
-          break;
-        case 2:
-          this.tuesdayDeliveryPoints= route.deliveryPoints;
-          break;
-        case 3:
-          this.wednesdayDeliveryPoints = route.deliveryPoints;
-          break;
-        case 4:
-          this.thursdayDeliveryPoints = route.deliveryPoints;
-          break;
-        case 5:
-          this.fridayDeliveryPoints = route.deliveryPoints;
-          break;
-        case 6:
-          this.saturdayDeliveryPoints= route.deliveryPoints;
-          break;
-        case 0:
-          this.sundayDeliveryPoints = route.deliveryPoints;
-          break;
-      }
-    });
-
+    this.selectedRun$ = this.runService.selectedRun$;
   }
 
   ngAfterViewInit() {

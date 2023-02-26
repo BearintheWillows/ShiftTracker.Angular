@@ -128,10 +128,7 @@ export class ShiftsFormComponent implements OnInit, OnChanges, AfterViewInit {
         this.shiftForm.get('date')?.disable();
   }
     });
-    // subscribe to the valueChanges of the mySelect FormControl
-    this.shiftForm.get('run')?.valueChanges.subscribe((value) => {
-      console.log(value); // output the selected value to the console
-    });
+
   }
 
 

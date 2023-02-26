@@ -25,6 +25,8 @@ public abstract class BaseCrudService<T> : IBaseCrudService<T> where T : class
 		Log = logger;
 	}
 
+	
+
 	internal AppDbContext Context { get; }
 
 	/// <summary>

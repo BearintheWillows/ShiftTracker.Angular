@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
 import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
 import {IShop} from "../../../shops/Models/IShop";
 import {ShopService} from "../../../../Root/services/shop.service";
@@ -10,6 +10,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {RunCreateModalComponent} from "../run-create-modal/run-create-modal.component";
 import {RunAddShopModalComponent} from "../run-add-shop-modal/run-add-shop-modal.component";
 import {IRun} from "../../models/iRun";
+import {RunService} from "../../../../Root/services/run.service";
 
 @Component({
   selector: 'app-daily-route-shop-list',
@@ -17,14 +18,13 @@ import {IRun} from "../../models/iRun";
   styleUrls: ['./daily-route-shop-list.component.css'],
 
 })
-export class DailyRouteShopListComponent implements OnInit{
+export class DailyRouteShopListComponent implements OnInit, AfterContentInit{
 
-  @Input() deliveryPoints: IDeliveryPoint[] = [];
-  @Input() dayOfWeek: number = 0;
+  selectedRun$: Observable<IRun> = new Observable<IRun>();
 
+  @Input() dayOfWeek: number = 1;
   shops: IShop[] = {} as IShop[];
-
-
+  deliveryPoints: IDeliveryPoint[] = {} as IDeliveryPoint[];
   isCollapsed = false;
   selectedDeliveryPoint: HTMLElement | null = null;
 
@@ -33,12 +33,31 @@ export class DailyRouteShopListComponent implements OnInit{
   collapsedStates: boolean[] = [];
 
   constructor(private _shopService: ShopService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private runService: RunService) { }
+
+  ngAfterContentInit() {
+
+  }
 
   ngOnInit(): void {
-      this.collapsedStates = this.deliveryPoints.map(() => true);
 
-    }
+    this.selectedRun$ = this.runService.selectedRun$;
+    this.selectedRun$.subscribe((run: IRun) => {
+      if(run != null) {
+        console.log(run)
+        this.deliveryPoints = run.dailyRoutes.find(x => x.dayOfWeek == this.dayOfWeek)?.deliveryPoints ?? [];
+
+
+
+        let dropNumber = 1;
+        this.deliveryPoints.forEach((deliveryPoint) => {
+          deliveryPoint.dropNumber = dropNumber;
+          dropNumber++;
+        })
+      }
+    })
+  }
 
   onCollapseClick(index: number) {
     this.collapsedStates[index] = !this.collapsedStates[index];
