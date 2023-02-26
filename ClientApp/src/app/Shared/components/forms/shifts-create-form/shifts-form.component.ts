@@ -1,5 +1,5 @@
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -25,14 +25,13 @@ import {Observable} from "rxjs";
   styleUrls: ['shifts-form.component.scss'],
   providers: [DatePipe]
 })
-export class ShiftsFormComponent implements OnInit {
+export class ShiftsFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() shift: IShift = {} as IShift;
   @Input() formType: FormType = null as unknown as FormType;
   runs$: Observable<IRun[]> = new Observable<IRun[]>(); // this is the observable that will be used to populate the run selector
   runs: IRun[] = [];
   @Output() goBack = new EventEmitter();
-
 
 
   modalRef?: BsModalRef;
@@ -44,7 +43,7 @@ export class ShiftsFormComponent implements OnInit {
         DateValidators.IsDateInFuture()],
       asyncValidators: [DateValidators.IsDateAlreadyUsed(this.shiftService)],
     }],
-    runNumber: ['', {
+    run: [, {
       validators: [
         Validators.required],
     }],
@@ -100,27 +99,21 @@ export class ShiftsFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.runService.getAllRuns().then(() => {
       this.runs$ = this.runService.allRuns$;
-      this.runs$.subscribe((runs: IRun[]) => {
+      this.runs$.subscribe(runs => {
         this.runs = runs;
       });
-      if(this.formType === FormType.Create) {
-        this.shiftForm.get('date')?.setValue(new Date().toISOString().substring(0, 10));
-      } else if(this.formType === FormType.Edit) {
-        this.shiftForm.get('date')?.removeAsyncValidators(DateValidators.IsDateAlreadyUsed(this.shiftService));
-        this.shiftForm.get('date')?.disable();
-      }
-    });
-  }
-  //Works when runs is retrieved from parent component
-  ngOnChanges(): void {
 
-      if (this.formType === FormType.Edit) {
-      this.shiftForm.setValue({
+    if(this.formType === FormType.Create) {
+      this.shiftForm.get('date')?.setValue(new Date().toISOString().substring(0, 10));
+
+      console.log(this.shiftForm.get('runNumber')?.value);
+    } else if(this.formType === FormType.Edit) {
+      this.shiftForm.patchValue({
         date     : this.datePipe.transform(this.shift.date, 'yyyy-MM-dd'),
-        runNumber: this.shift.run.number,
-
+        run      : this.shift.run,
         timeData: {
           startTime    : TimeFormatForUiPipe.prototype.transform(this.shift.startTime),
           endTime      : TimeFormatForUiPipe.prototype.transform(this.shift.endTime),
@@ -131,8 +124,22 @@ export class ShiftsFormComponent implements OnInit {
           breakDuration: TimeFormatForUiPipe.prototype.transform(this.shift.breakDuration),
         }
       })
-    }
+        this.shiftForm.get('date')?.removeAsyncValidators(DateValidators.IsDateAlreadyUsed(this.shiftService));
+        this.shiftForm.get('date')?.disable();
   }
+    });
+    // subscribe to the valueChanges of the mySelect FormControl
+    this.shiftForm.get('run')?.valueChanges.subscribe((value) => {
+      console.log(value); // output the selected value to the console
+    });
+  }
+
+
+  ngAfterViewInit(): void {
+  }
+  //Works when runs is retrieved from parent component
+  ngOnChanges(): void {
+    }
 
   onSubmitPress() {
     let newDate = new Date(this.date?.value);
@@ -174,8 +181,8 @@ export class ShiftsFormComponent implements OnInit {
     this.shift.workTime = TimeFormatForTimeSpanPipe.prototype.transform(this.workTime?.value);
     this.shift.otherWorkTime = TimeFormatForTimeSpanPipe.prototype.transform(this.otherWorkTime?.value);
     this.shift.shiftDuration = this.shiftDuration?.value;
-
-    this.shift.runId = this.runNumber?.value;
+    this.shift.runId = this.run?.value.id;
+    console.log(this.run?.value.id);
     this.shift.breakDuration = TimeFormatForTimeSpanPipe.prototype.transform(this.breakDuration?.value);
     console.log(this.shift);
     if(this.formType === FormType.Create){
@@ -188,16 +195,18 @@ export class ShiftsFormComponent implements OnInit {
         console.log("Edited Successfully")
       });
     }
+      this.shiftService.getAllShifts().then(
+        () =>  this.router.navigate(['/shifts'])
+  );
 
-      this.router.navigate(['/shifts']);
   }
 
   get date() {
     return this.shiftForm.get('date');
   }
 
-  get runNumber() {
-    return this.shiftForm.get('runNumber');
+  get run() {
+    return this.shiftForm.get('run');
   }
 
   get startTime() {

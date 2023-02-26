@@ -29,7 +29,6 @@ export class ShiftsEditPageComponent implements OnInit {
 
     this.route.params.subscribe(params => {
      this.shiftId = params['id'];
-     console.log(this.shiftId)
 
     });
 
