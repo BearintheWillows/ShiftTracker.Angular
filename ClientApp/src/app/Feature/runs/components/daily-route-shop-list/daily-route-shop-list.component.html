@@ -2,7 +2,7 @@
   <h2>It's quiet here...</h2>
 </div>
 
-<div *ngIf="deliveryPoints.length > 1">
+<div *ngIf="deliveryPoints.length >= 1">
   <table class="table table-runs">
     <thead>
     <tr>
@@ -37,6 +37,7 @@
           </div>
         </td>
       </tr>
+
     </ng-container>
     </tbody>
   </table>

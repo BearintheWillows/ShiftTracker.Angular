@@ -14,8 +14,9 @@ public interface IRunService : IBaseCrudService<Run>
 	Task<int> GetRunIdByNumberAsync(int runNumber);
 	Task<Run> GetRunByIdAsync(int       runId);
 
-	Task<Run> CreateAsync(Run                                entity);
-	Task<Run> AddDeliveryPointToRunAsync(int                 runId,        DayOfWeek dayOfWeek, DeliveryPoint deliveryPoint);
+	Task<Run>           CreateAsync(Run                entity);
+	Task<DeliveryPoint> AddDeliveryPointToRunAsync(int runVariantId, DeliveryPoint deliveryPoint);
+
 }
 
 public class RunService : BaseCrudService<Run>, IRunService
@@ -65,22 +66,29 @@ public class RunService : BaseCrudService<Run>, IRunService
 		return entity;
 	}
 
-	public async Task<Run> AddDeliveryPointToRunAsync(int runId, DayOfWeek dayOfWeek, DeliveryPoint deliveryPoint)
+	public async Task<DeliveryPoint> AddDeliveryPointToRunAsync(int runVariantId, DeliveryPoint deliveryPoint)
 	{
 		
-var run = await Context.Runs.Include( r => r.DayVariants ).ThenInclude( dv => dv.DeliveryPoints )
-		                            .FirstOrDefaultAsync( r => r.Id == runId );
-		if ( run == null ) return null;
-		var dayVariant = run.DayVariants.FirstOrDefault( dv => dv.DayOfWeek == dayOfWeek );
-		Log.Information("RunService.AddDeliveryPointToRunAsync({@runId}, {@dayOfWeek}, {@deliveryPoint}) returned successfully", runId, dayOfWeek, deliveryPoint);
+		try
+		{ 
+			Log.Information( "RunService.AddDeliveryPointToRunAsync({@runVariantId}, {@deliveryPoint}) called",
+			                 runVariantId,
+			                 deliveryPoint
+			);
+			await Context.DeliveryPoints.AddAsync( deliveryPoint );
+			await Context.SaveChangesAsync();
+			Log.Information( "RunService.AddDeliveryPointToRunAsync returned successfully");
+			
+			return deliveryPoint;
+                
+		}
+		catch ( Exception e )
+		{
+			Console.WriteLine( e );
+			throw;
+		}
 		
-
-		deliveryPoint.RunVariantId = deliveryPoint.RunVariantId;
-		deliveryPoint.DayOfWeek    = (DayOfWeek)dayOfWeek;
-		await Context.DeliveryPoints.AddAsync( deliveryPoint );
-		await Context.SaveChangesAsync();
-		Log.Information("RunService.AddDeliveryPointToRunAsync({@runId}, {@dayOfWeek}, {@deliveryPoint}) returned successfully", runId, dayOfWeek, deliveryPoint);
-		return run;
+		
 	}
 
 	

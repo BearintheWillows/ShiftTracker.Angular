@@ -3,7 +3,7 @@
   <label for="run">Run Number</label>
 
   <select class="form-control" [(ngModel)]="selectedRun" (ngModelChange)="onSelectedRunChange($event)" id="run">
-    <option [ngValue]="selectedRun" hidden  disabled selected>{{runs[0].number}}</option>
+    <option  hidden  disabled selected>Choose a Run</option>
     <option  *ngFor="let run of runs"  [ngValue]="run">{{run.number}} | {{run.location}}</option>
   </select>
 </div>

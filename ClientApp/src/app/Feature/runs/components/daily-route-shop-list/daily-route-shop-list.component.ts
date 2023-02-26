@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
+import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {IDailyRoutePlan} from "../../../dailyRoutePlans/Models/IDailyRoutePlan";
 import {IShop} from "../../../shops/Models/IShop";
 import {ShopService} from "../../../../Root/services/shop.service";
@@ -18,7 +18,7 @@ import {RunService} from "../../../../Root/services/run.service";
   styleUrls: ['./daily-route-shop-list.component.css'],
 
 })
-export class DailyRouteShopListComponent implements OnInit, AfterContentInit{
+export class DailyRouteShopListComponent implements OnInit, OnChanges{
 
   selectedRun$: Observable<IRun> = new Observable<IRun>();
 
@@ -45,9 +45,9 @@ export class DailyRouteShopListComponent implements OnInit, AfterContentInit{
     this.selectedRun$ = this.runService.selectedRun$;
     this.selectedRun$.subscribe((run: IRun) => {
       if(run != null) {
-        console.log(run)
-        this.deliveryPoints = run.dailyRoutes.find(x => x.dayOfWeek == this.dayOfWeek)?.deliveryPoints ?? [];
 
+        this.deliveryPoints = run.dailyRoutes.find(x => x.dayOfWeek == this.dayOfWeek)?.deliveryPoints ?? [];
+        console.log(this.deliveryPoints);
 
 
         let dropNumber = 1;
@@ -59,6 +59,17 @@ export class DailyRouteShopListComponent implements OnInit, AfterContentInit{
     })
   }
 
+  ngOnChanges(): void {
+    this.selectedRun$.subscribe((run: IRun) => {
+      if(run != null) {
+
+        this.deliveryPoints = run.dailyRoutes.find(x => x.dayOfWeek == this.dayOfWeek)?.deliveryPoints ?? [];
+        console.log(this.deliveryPoints);
+
+      }})}
+
+
+
   onCollapseClick(index: number) {
     this.collapsedStates[index] = !this.collapsedStates[index];
   }
@@ -69,11 +80,13 @@ export class DailyRouteShopListComponent implements OnInit, AfterContentInit{
         title: 'Create Run',
         message: 'Create a new run',
         dayOfWeek: this.dayOfWeek,
+        selectedRun$: this.selectedRun$
       }
     });
     this.modalRef.content.onClose.subscribe((result: boolean) => {
       if(result) {
-        console.log("Modal closed with result: ");
+        this.runService.getAllRuns();
+        this.selectedRun$ = this.runService.selectedRun$;
       }
     });
   }

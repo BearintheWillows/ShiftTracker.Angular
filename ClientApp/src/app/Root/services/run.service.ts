@@ -43,8 +43,9 @@ export class RunService {
     return this.http.post<IRun>(`${this._baseUrl}`, run);
   }
 
-  addNewDeliveryPoint(newDeliveryPoint: IDeliveryPoint): Observable<IRun> {
-    return this.http.post<IRun>(`${this._baseUrl}/addDeliveryPoint?dayOfWeek=${DayOfWeekConversionPipe.prototype.transform(newDeliveryPoint.dayOfWeek) }`, newDeliveryPoint);
+  addDeliveryPoint(newDeliveryPoint: IDeliveryPoint): Observable<IRun> {
+    console.log(`${this._baseUrl}/runVariant/${newDeliveryPoint.runVariantId}/addDeliveryPoint`);
+    return this.http.post<IRun>(`${this._baseUrl}/runVariant/${newDeliveryPoint.runVariantId}/addDeliveryPoint`, newDeliveryPoint);
   }
 
   setSelectRun(run: IRun) {

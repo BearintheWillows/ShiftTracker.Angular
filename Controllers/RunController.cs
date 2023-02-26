@@ -105,26 +105,33 @@ public class RunController : Controller
 			
 		}
 		
-		[HttpPost("{runId}/addDeliveryPoint")]
-		public async Task<ActionResult<Run>> AddDeliveryPointToRun(int runId,[FromQuery] DayOfWeek dayOfWeek, [FromBody] DeliveryPointDto deliveryPointDto)
+		[HttpPost("runVariant/{runVariantId:int}/addDeliveryPoint")]
+		public async Task<ActionResult<Run>> AddDeliveryPointToRun(int runVariantId, [FromBody] DeliveryPointDto deliveryPointDto)
 		{
 			var deliveryPoint = new DeliveryPoint(deliveryPointDto.DropNumber, (DayOfWeek)deliveryPointDto.DayOfWeek, deliveryPointDto.WindowOpenTime, deliveryPointDto.WindowCloseTime, deliveryPointDto.RunVariantId, deliveryPointDto.ShopId);
+			Log.Information( "RunController.AddDeliveryPointToRun({@runVariantId}, {@deliveryPoint}) called",
+			                 runVariantId,
+			                 deliveryPoint);
 			{
 				try
 				{
-					var runResultAsync = await _runService.AddDeliveryPointToRunAsync(runId, dayOfWeek, deliveryPoint);
-					Log.Information( "RunController.AddDeliveryPointToRun({@runId}, {@dayOfWeek}, {@deliveryPoint}) returned {@runResultAsync} Successfully",
-					                 runId,
-					                 dayOfWeek,
+					var runResultAsync = await _runService.AddDeliveryPointToRunAsync(runVariantId, deliveryPoint);
+					
+					Log.Information( "RunController.AddDeliveryPointToRun({@runVariantId}, {@deliveryPoint}) returned {@runResultAsync} Successfully",
+					                 runVariantId,
 					                 deliveryPoint,
 					                 runResultAsync
 					);
-					return Ok( new RunDto( runResultAsync.Id, runResultAsync.Number, runResultAsync.Location, null ) );
+					return Ok( runResultAsync );
 				}
 				catch ( Exception e )
 				{
-					Console.WriteLine( e );
-					throw;
+					Log.Error( "RunController.AddDeliveryPointToRun({@runVariantId}, {@deliveryPoint}) returned {@runResultAsync} Successfully",
+					           runVariantId,
+					           deliveryPoint,
+					           e
+					);
+					return BadRequest();
 				}
 			}
 		}
