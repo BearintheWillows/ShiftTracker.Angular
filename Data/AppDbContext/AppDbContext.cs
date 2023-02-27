@@ -1,11 +1,10 @@
-﻿namespace ShiftTracker.Angular.Data;
+﻿namespace ShiftTracker.Angular.Data.AppDbContext;
 
 using Configs;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
-public class AppDbContext : IdentityDbContext<User>
+public class AppDbContext : DbContext
 {
 	public AppDbContext(DbContextOptions<AppDbContext> options)
 		: base( options )
@@ -36,7 +35,7 @@ public class AppDbContext : IdentityDbContext<User>
 		get;
 		set;
 	}
-	
+
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -46,7 +45,6 @@ public class AppDbContext : IdentityDbContext<User>
 		modelBuilder.ApplyConfiguration( new ShopConfiguration() );
 		modelBuilder.ApplyConfiguration( new DeliveryPointConfiguration() );
 		modelBuilder.ApplyConfiguration( new RunVariantConfiguration() );
-		modelBuilder.ApplyConfiguration( new UserConfiguration() );
-		modelBuilder.Seed();
+	
 	}
 }

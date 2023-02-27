@@ -1,7 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using ShiftTracker.Angular.Data;
+using ShiftTracker.Angular.Data.AppDbContext;
+using ShiftTracker.Angular.Data.UserDbContext;
+using ShiftTracker.Angular.Models;
 using ShiftTracker.Angular.Services;
 
 var CorsPolicy = "_myAllowSpecificOrigins";
@@ -16,6 +21,8 @@ Log.Logger = new LoggerConfiguration()
                .CreateLogger();
 
 builder.Services.AddSingleton( Log.Logger );
+
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -40,6 +47,16 @@ builder.Services.AddDbContext<AppDbContext>( options =>
 		                                                     )
 	                                                     )
 );
+builder.Services.AddDbContext<UserDbContext>( options =>
+	                                                      options.UseSqlServer(
+		                                                      builder.Configuration.GetConnectionString(
+			                                                      "IdentityConnection"
+		                                                      )
+	                                                      )
+);
+builder.Services.AddIdentity<User, IdentityRole>()
+				.AddEntityFrameworkStores<UserDbContext>()
+				.AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IShiftService, ShiftService>();
 builder.Services.AddScoped<IBreakService, BreakService>();

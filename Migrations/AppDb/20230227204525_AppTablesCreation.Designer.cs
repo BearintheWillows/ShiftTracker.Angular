@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShiftTracker.Angular.Data;
+using ShiftTracker.Angular.Data.AppDbContext;
 
 #nullable disable
 
-namespace ShiftTracker.Angular.Migrations
+namespace ShiftTracker.Angular.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230220101057_refactor3")]
-    partial class refactor3
+    [Migration("20230227204525_AppTablesCreation")]
+    partial class AppTablesCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,40 +56,6 @@ namespace ShiftTracker.Angular.Migrations
                     b.HasIndex("ShiftId");
 
                     b.ToTable("Breaks", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            Duration = new TimeSpan(0, 0, 30, 0, 0),
-                            EndTime = new TimeSpan(0, 13, 0, 0, 0),
-                            ShiftId = -1,
-                            StartTime = new TimeSpan(0, 12, 30, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -2,
-                            Duration = new TimeSpan(0, 1, 0, 0, 0),
-                            EndTime = new TimeSpan(0, 14, 0, 0, 0),
-                            ShiftId = -1,
-                            StartTime = new TimeSpan(0, 15, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -3,
-                            Duration = new TimeSpan(0, 1, 0, 0, 0),
-                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
-                            ShiftId = -2,
-                            StartTime = new TimeSpan(0, 9, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -4,
-                            Duration = new TimeSpan(0, 0, 15, 0, 0),
-                            EndTime = new TimeSpan(0, 14, 0, 0, 0),
-                            ShiftId = -2,
-                            StartTime = new TimeSpan(0, 13, 45, 0, 0)
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.DeliveryPoint", b =>
@@ -127,38 +93,6 @@ namespace ShiftTracker.Angular.Migrations
                         .IsUnique();
 
                     b.ToTable("Delivery Point", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            DayOfWeek = 1,
-                            DropNumber = 1,
-                            RunVariantId = -1,
-                            ShopId = -1,
-                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
-                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = -2,
-                            DayOfWeek = 1,
-                            DropNumber = 2,
-                            RunVariantId = -1,
-                            ShopId = -2,
-                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
-                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = -3,
-                            DayOfWeek = 1,
-                            DropNumber = 5,
-                            RunVariantId = -1,
-                            ShopId = -3,
-                            WindowCloseTime = new DateTime(1930, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
-                            WindowOpenTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Run", b =>
@@ -182,20 +116,6 @@ namespace ShiftTracker.Angular.Migrations
                         .IsUnique();
 
                     b.ToTable("Runs", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            Location = "Norwich",
-                            Number = 68
-                        },
-                        new
-                        {
-                            Id = -2,
-                            Location = "Milton Keynes",
-                            Number = 19
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.RunVariant", b =>
@@ -221,22 +141,6 @@ namespace ShiftTracker.Angular.Migrations
                         .IsUnique();
 
                     b.ToTable("Run Variants", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            DayOfWeek = 1,
-                            RunId = -1,
-                            StartTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = -2,
-                            DayOfWeek = 1,
-                            RunId = -2,
-                            StartTime = new DateTime(1930, 1, 1, 3, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Shift", b =>
@@ -282,34 +186,6 @@ namespace ShiftTracker.Angular.Migrations
                     b.HasIndex("RunId");
 
                     b.ToTable("Shifts", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            BreakDuration = new TimeSpan(0, 1, 30, 0, 0),
-                            Date = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DriveTime = new TimeSpan(0, 2, 55, 0, 0),
-                            EndTime = new DateTime(1970, 1, 1, 20, 0, 0, 0, DateTimeKind.Unspecified),
-                            OtherWorkTime = new TimeSpan(0, 2, 5, 0, 0),
-                            RunId = -2,
-                            ShiftDuration = new TimeSpan(0, 8, 0, 0, 0),
-                            StartTime = new DateTime(1970, 1, 1, 5, 0, 0, 0, DateTimeKind.Unspecified),
-                            WorkTime = new TimeSpan(0, 1, 30, 0, 0)
-                        },
-                        new
-                        {
-                            Id = -2,
-                            BreakDuration = new TimeSpan(0, 0, 30, 0, 0),
-                            Date = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DriveTime = new TimeSpan(0, 2, 0, 0, 0),
-                            EndTime = new DateTime(1970, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            OtherWorkTime = new TimeSpan(0, 2, 0, 0, 0),
-                            RunId = -2,
-                            ShiftDuration = new TimeSpan(0, 6, 0, 0, 0),
-                            StartTime = new DateTime(1970, 1, 1, 3, 30, 0, 0, DateTimeKind.Unspecified),
-                            WorkTime = new TimeSpan(0, 1, 30, 0, 0)
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Shop", b =>
@@ -362,68 +238,6 @@ namespace ShiftTracker.Angular.Migrations
                         .IsUnique();
 
                     b.ToTable("Shops", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            City = "Irthlingborough",
-                            County = "Northants",
-                            Name = "Tesco",
-                            Number = 2006,
-                            PhoneNumber = 1536741000,
-                            Postcode = "NN95JG",
-                            Street = "3 School Mews",
-                            Street2 = ""
-                        },
-                        new
-                        {
-                            Id = -2,
-                            City = "Northampton",
-                            County = "Northants",
-                            Name = "Tesco",
-                            Number = 2005,
-                            PhoneNumber = 1604620000,
-                            Postcode = "NN38px",
-                            Street = "38 Chesham Rise",
-                            Street2 = ""
-                        },
-                        new
-                        {
-                            Id = -3,
-                            City = "Stanwick",
-                            County = "Northants",
-                            Name = "Tesco",
-                            Number = 2004,
-                            PhoneNumber = 1536741000,
-                            Postcode = "NN96JG",
-                            Street = "10 Leighton Close",
-                            Street2 = ""
-                        },
-                        new
-                        {
-                            Id = -4,
-                            City = "Thetford",
-                            County = "Suffolk",
-                            Name = "Aldi",
-                            Number = 121,
-                            PhoneNumber = 1842741000,
-                            Postcode = "IP242JG",
-                            Street = "34 Church Rise",
-                            Street2 = ""
-                        },
-                        new
-                        {
-                            Id = -5,
-                            City = "Brandon",
-                            County = "Suffolk",
-                            Name = "One Stop",
-                            Number = 1223,
-                            PhoneNumber = 1842741000,
-                            Postcode = "IP20JG",
-                            Street = "2 Gander Avenue",
-                            Street2 = ""
-                        });
                 });
 
             modelBuilder.Entity("ShiftTracker.Angular.Models.Break", b =>

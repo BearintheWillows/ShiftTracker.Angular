@@ -1,6 +1,5 @@
-﻿namespace ShiftTracker.Angular.Data.Configs;
+﻿namespace ShiftTracker.Angular.Data.AppDbContext.Configs;
 
-using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Models;
