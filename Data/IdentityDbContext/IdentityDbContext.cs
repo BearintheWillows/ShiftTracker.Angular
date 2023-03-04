@@ -1,20 +1,17 @@
-﻿namespace ShiftTracker.Angular.Data.UserDbContext;
+﻿namespace ShiftTracker.Angular.Data.IdentityDbContext;
 
-using Configs;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShiftTracker.Angular.Models;
 
-public class UserDbContext : IdentityDbContext<User>
+public class IdentityDbContext : IdentityDbContext<AppUser>
 {
-	public UserDbContext(DbContextOptions<UserDbContext> options)
+	public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
 		: base( options )
 	{ }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		
-		modelBuilder.ApplyConfiguration( new UserConfiguration() );
 		base.OnModelCreating( modelBuilder );
 	}
 }

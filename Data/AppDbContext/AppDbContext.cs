@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
 
 	public DbSet<Shift> Shifts { get; set; }
 	public DbSet<Break> Breaks { get; set; }
+
 	public DbSet<Run> Runs
 	{
 		get;
@@ -29,7 +30,7 @@ public class AppDbContext : DbContext
 		get;
 		set;
 	}
-	
+
 	public DbSet<RunVariant> RunVariants
 	{
 		get;
@@ -45,6 +46,6 @@ public class AppDbContext : DbContext
 		modelBuilder.ApplyConfiguration( new ShopConfiguration() );
 		modelBuilder.ApplyConfiguration( new DeliveryPointConfiguration() );
 		modelBuilder.ApplyConfiguration( new RunVariantConfiguration() );
-	
+		modelBuilder.Seed();
 	}
 }

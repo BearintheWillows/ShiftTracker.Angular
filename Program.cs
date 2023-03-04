@@ -1,11 +1,12 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
-using ShiftTracker.Angular.Data;
+using ShiftTracker.Angular.AutoMapperProfiles;
+using ShiftTracker.Angular.Data.IdentityDbContext;
 using ShiftTracker.Angular.Data.AppDbContext;
-using ShiftTracker.Angular.Data.UserDbContext;
 using ShiftTracker.Angular.Models;
 using ShiftTracker.Angular.Services;
 
@@ -20,6 +21,8 @@ Log.Logger = new LoggerConfiguration()
                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                .CreateLogger();
 
+
+
 builder.Services.AddSingleton( Log.Logger );
 
 
@@ -27,7 +30,6 @@ builder.Services.AddSingleton( Log.Logger );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 
 builder.Services.AddCors( options =>
 	{
@@ -41,22 +43,23 @@ builder.Services.AddCors( options =>
 	}
 );
 builder.Services.AddDbContext<AppDbContext>( options =>
-	                                                     options.UseSqlServer(
-		                                                     builder.Configuration.GetConnectionString(
-			                                                     "DefaultConnection"
-		                                                     )
-	                                                     )
+	{
+		options.UseSqlServer( builder.Configuration.GetConnectionString( "AppDbConnection" ));
+	}
 );
-builder.Services.AddDbContext<UserDbContext>( options =>
-	                                                      options.UseSqlServer(
-		                                                      builder.Configuration.GetConnectionString(
-			                                                      "IdentityConnection"
-		                                                      )
-	                                                      )
+builder.Services.AddDbContext<ShiftTracker.Angular.Data.IdentityDbContext.IdentityDbContext>( options => {
+	options.UseSqlServer( builder.Configuration.GetConnectionString( "IdentityConnection" ),
+		options => options.MigrationsAssembly( "ShiftTracker.Angular" )
+	                    );
+}
+
 );
-builder.Services.AddIdentity<User, IdentityRole>()
-				.AddEntityFrameworkStores<UserDbContext>()
-				.AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+				.AddEntityFrameworkStores<ShiftTracker.Angular.Data.IdentityDbContext.IdentityDbContext>()
+        
+       .AddDefaultTokenProviders();
+
+
 
 builder.Services.AddScoped<IShiftService, ShiftService>();
 builder.Services.AddScoped<IBreakService, BreakService>();
@@ -64,6 +67,7 @@ builder.Services.AddScoped<IShopService, ShopService>();
 builder.Services.AddScoped<IRunService, RunService>();
 builder.Services.AddScoped<IRunVariantService, RunVariantService>();
 
+builder.Services.AddAutoMapper( typeof( MappingProfile ) );
 
 var app = builder.Build();
 
@@ -89,8 +93,6 @@ app.UseAuthorization();
 app.MapControllerRoute( name: "default",
                         pattern: "{controller}/{action=Index}/{id?}"
 );
-app.MapRazorPages();
-
 
 app.MapFallbackToFile( "index.html" );
 
