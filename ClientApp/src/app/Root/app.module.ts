@@ -12,6 +12,7 @@ import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
 import {SharedModule} from "../Shared/shared.module";
 import {RunsModule} from "../Feature/runs/runs.module";
 import {CollapseModule} from "ngx-bootstrap/collapse";
+import {AuthenticationModule} from "../Feature/auth/authentication.module";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
     CoreModule,
     HttpClientModule,
     ModalModule.forRoot(),
+    AuthenticationModule,
     ShiftsModule,
     RunsModule,
     AppRoutingModule,

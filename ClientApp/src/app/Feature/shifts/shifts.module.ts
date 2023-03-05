@@ -5,8 +5,6 @@ import {ShiftsComponent} from "./shifts.component";
 import {ShiftsDetailCardComponent} from "./components/shifts-detail-card/shifts-detail-card.component";
 import { ShiftsHomePageComponent } from './pages/shifts-home-page/shifts-home-page.component';
 import {SharedModule} from "../../Shared/shared.module";
-import {ConfirmModalComponent} from "../../Shared/components/modals/confirmModal/confirm-modal.component";
-import {RouterLink} from "@angular/router";
 import {ShiftsRoutingModule} from "./shifts.routing.module";
 import { ShiftsEditPageComponent } from './pages/shifts-edit-page/shifts-edit-page.component';
 import { ShiftsDetailPageComponent } from './pages/shifts-detail-page/shifts-detail-page.component';
@@ -26,13 +24,8 @@ import { ShiftsDetailPageComponent } from './pages/shifts-detail-page/shifts-det
     SharedModule,
     ShiftsRoutingModule
   ],
-  providers:[
-  ],
-  exports: [
-
-
-
-  ]
+  providers:[],
+  exports: []
 })
 export class ShiftsModule {
 

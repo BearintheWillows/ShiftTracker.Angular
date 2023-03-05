@@ -12,10 +12,6 @@ const ShiftsRoutes: Routes = [
     component: ShiftsComponent,
     children: [
       {
-        path: '', component: ShiftsHomePageComponent
-      },
-      {
-
         path: 'create', component: ShiftsCreatePageComponent
       },
       {
@@ -24,8 +20,11 @@ const ShiftsRoutes: Routes = [
       {
         path: 'detail/:id', component: ShiftsDetailPageComponent
       },
-        ]
+      {
+        path: '', component: ShiftsHomePageComponent,
+        pathMatch: 'full'
       },
+    ]}
     ]
 @NgModule({
   declarations: [
