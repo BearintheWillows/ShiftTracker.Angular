@@ -19,4 +19,8 @@ export class AuthenticationService {
   private createCompleteRoute(route: string, envAddress: string) {
     return `${envAddress}/${route}`;
   }
+
+  public register(route: string, user: IUserForRegistrationDto) {
+    return this.http.post<IRegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
+  }
 }
