@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../Root/services/authentication.service";
 import {IUserForRegistrationDto} from "../../_interfaces/user/IUserForRegistrationDto";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AuthValidators} from "../../../../Shared/Validators/auth/auth-validators";
 
 @Component({
   selector: 'app-register-user',
@@ -11,24 +12,26 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./register-user.component.css']
 })
 export class RegisterUserComponent implements OnInit {
-
-  registerForm: FormGroup = this.fb.group({
-    firstName      : [''],
-    lastName       : [''],
-    username       : ['', Validators.required],
-    email          : ['', [Validators.required, Validators.email]],
-    password       : ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
-  });
-
+  registerForm: FormGroup;
   constructor(
     private fb: FormBuilder,
     private accountService: AuthenticationService,
     private router: Router
-  ) {
+  ){
+  this.registerForm = this.fb.group({
+    firstName      : [''],
+    lastName       : [''],
+    username       : ['', [Validators.required]],
+    email          : ['', [Validators.required, Validators.email]],
+    password       : ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', [Validators.required]]
+  });
+    this.confirmPassword?.setValidators(AuthValidators.validateConfirmPassword(<AbstractControl>this.password));
+
   }
 
   ngOnInit(): void {
+
 
   }
 

@@ -22,18 +22,20 @@
         <div class="col-md-5">
           <input type="text" id="username" formControlName="username" class="form-control" />
         </div>
+
         <div>
-          <em class="alert alert-danger" *ngIf="username?.errors?.['required'] && (username?.dirty || username?.touched)">Email is required</em>
+          <em class="alert alert-danger" *ngIf="validateControl('username')&& hasError('username', 'required')">Username is required</em>
         </div>
       </div>
+
       <div class="mb-3 row">
         <label for="email" class="col-form-label col-sm-2">Email:</label>
         <div class="col-md-5">
           <input type="email" id="email" formControlName="email" class="form-control" />
         </div>
         <div >
-          <em class="alert alert-danger" *ngIf="email?.errors?.['email'] && (email?.dirty || email?.touched)">Please provide a valid email</em>
-          <em class="alert alert-danger" *ngIf="email?.errors?.['required'] && (email?.dirty || email?.touched)">Email Required</em>
+          <em class="alert alert-danger" *ngIf="validateControl('email') && hasError('email', 'required')">Please provide a valid email</em>
+          <em class="alert alert-danger" *ngIf="validateControl('email') && hasError('email', 'email')">Not Valid a Email</em>
        </div>
       </div>
 
@@ -43,7 +45,8 @@
           <input type="password" id="password" formControlName="password" class="form-control" />
         </div>
         <div class="col-md-5">
-          <em class="alert alert-danger" *ngIf="password?.errors?.['required'] && (password?.dirty || password?.touched)">Password Required</em>
+          <em class="alert alert-danger" *ngIf="validateControl('password') && hasError('password', 'required')">Password Required</em>
+          <em class="alert alert-danger" *ngIf="validateControl('password') && hasError('password', 'minlength')">Password must be at least 6 characters.</em>
         </div>
       </div>
 
@@ -52,7 +55,12 @@
         <div class="col-md-5">
           <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" />
         </div>
-      </div>
+        <div class="col-md-5">
+          <em class="alert alert-danger" *ngIf="validateControl('confirmPassword') && hasError('confirmPassword', 'required')">Confirm Password Required</em>
+
+          <em class="alert alert-danger" *ngIf="validateControl('confirmPassword') && hasError('confirmPassword', 'passwordsNotMatch')">Password does not match.</em>
+        </div>
+        </div>
       <br>
 
       <div class="mb-3 row">

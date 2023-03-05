@@ -10,6 +10,7 @@ import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day
 import { ShopSelectionModealComponent } from './components/modals/shop-selection-modeal/shop-selection-modeal.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AuthValidators} from "./Validators/auth/auth-validators";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ShiftsFormComponent,
     DayOfWeekConversionPipe,
     StrToDayOfWeekConversionPipe,
-    ShopSelectionModealComponent
+    ShopSelectionModealComponent,
 
   ],
   imports: [
