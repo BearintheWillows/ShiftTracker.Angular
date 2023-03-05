@@ -18,7 +18,7 @@ export class RegisterUserComponent implements OnInit {
     username       : ['', Validators.required],
     email          : ['', [Validators.required, Validators.email]],
     password       : ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', Validators.required]
+    confirmPassword: ['', [Validators.required]]
   });
 
   constructor(
@@ -59,4 +59,29 @@ export class RegisterUserComponent implements OnInit {
       });
 
   }
+
+  public get username() {
+    return this.registerForm.get('username');
+  }
+
+  public get email() {
+    return this.registerForm.get('email');
+  }
+
+  public get password() {
+    return this.registerForm.get('password');
+  }
+
+  public get confirmPassword() {
+    return this.registerForm.get('confirmPassword');
+  }
+
+  public get firstName() {
+    return this.registerForm.get('firstName');
+  }
+
+  public get lastName() {
+    return this.registerForm.get('lastName');
+  }
+
 }
