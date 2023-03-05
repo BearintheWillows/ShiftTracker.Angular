@@ -8,8 +8,14 @@
     <h1>Shift Tracker</h1>
   </div>
   <div class="nav__rightDiv">
-    <a routerLink="/runs" class="nav-item">Runs</a>
-    <a routerLink="/shops" class="nav-item">Shops</a>
+    <form class="d-flex">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link"[routerLink]="['/auth/register']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">Register</a>
+        </li>
+      </ul>
+    </form>
 </div>
 </nav>
 
