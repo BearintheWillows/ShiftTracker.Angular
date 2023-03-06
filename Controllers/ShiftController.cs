@@ -4,13 +4,14 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using DTOs;
 using Duende.IdentityServer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
 using Serilog;
 using Services;
 using static Helpers.TimeConverter;
-
+[Authorize]
 [ApiController]
 [Route( "api/[controller]" )]
 public class ShiftController : ControllerBase

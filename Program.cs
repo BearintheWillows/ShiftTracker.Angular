@@ -1,7 +1,10 @@
+using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 using ShiftTracker.Angular.AutoMapperProfiles;
@@ -67,6 +70,26 @@ builder.Services.AddIdentity<AppUser, IdentityRole>( options =>
 	        }
         ).AddEntityFrameworkStores<ShiftTracker.Angular.Data.IdentityDbContext.IdentityDbContext>()
          .AddDefaultTokenProviders();
+
+var jwtSettings = builder.Configuration.GetSection( "JwtSettings" );
+builder.Services.AddAuthentication( opt =>
+{
+	opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer( options =>
+{
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuerSigningKey = true,
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidIssuer = jwtSettings.GetSection( "Issuer" ).Value,
+		ValidAudience = jwtSettings.GetSection( "Audience" ).Value, 
+		IssuerSigningKey = new SymmetricSecurityKey( Encoding.ASCII.GetBytes( jwtSettings.GetSection( "SecurityKey" ).Value ) ),
+	
+	};
+} );
 
 
 
