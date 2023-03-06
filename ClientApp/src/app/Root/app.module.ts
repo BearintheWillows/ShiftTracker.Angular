@@ -5,7 +5,7 @@ import {CoreModule} from "../Core/core.module";
 import {ShiftsModule} from "../Feature/shifts/shifts.module";
 import {RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {NavComponent} from "../Core/components/nav/nav.component";
 import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
@@ -13,6 +13,7 @@ import {SharedModule} from "../Shared/shared.module";
 import {RunsModule} from "../Feature/runs/runs.module";
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import {AuthenticationModule} from "../Feature/auth/authentication.module";
+import {ErrorHandlerInterceptor} from "./services/error-handler.interceptor";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,12 @@ import {AuthenticationModule} from "../Feature/auth/authentication.module";
     AppRoutingModule,
   ],
   providers: [
-    CollapseModule
+    CollapseModule,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

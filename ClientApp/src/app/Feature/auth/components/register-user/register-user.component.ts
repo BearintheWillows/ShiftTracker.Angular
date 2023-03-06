@@ -13,6 +13,8 @@ import {AuthValidators} from "../../../../Shared/Validators/auth/auth-validators
 })
 export class RegisterUserComponent implements OnInit {
   registerForm: FormGroup;
+  public errorMessage: string = '';
+  public showError: boolean = false;
   constructor(
     private fb: FormBuilder,
     private accountService: AuthenticationService,
@@ -58,9 +60,12 @@ export class RegisterUserComponent implements OnInit {
     this.accountService.register("accounts/register", user)
       .subscribe({
         next : () => console.log("User registered"),
-        error: (err: HttpErrorResponse) => console.log(err.error.errors)
-      });
-
+        error: (err: HttpErrorResponse) =>{
+          this.showError = true;
+          console.log(err);
+          this.errorMessage = err.message;
+        }
+      })
   }
 
   public get username() {
