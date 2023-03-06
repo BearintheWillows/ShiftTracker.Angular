@@ -54,10 +54,19 @@ builder.Services.AddDbContext<ShiftTracker.Angular.Data.IdentityDbContext.Identi
 }
 
 );
-builder.Services.AddIdentity<AppUser, IdentityRole>()
-				.AddEntityFrameworkStores<ShiftTracker.Angular.Data.IdentityDbContext.IdentityDbContext>()
-        
-       .AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, IdentityRole>( options =>
+	        {
+
+		        options.Password.RequireDigit = false;
+		        options.Password.RequireLowercase = false;
+		        options.Password.RequireUppercase = false;
+		       options.Password.RequireNonAlphanumeric = false;
+		        options.Password.RequiredLength = 6;
+		        options.Password.RequiredUniqueChars = 0;
+		        options.User.RequireUniqueEmail = true;
+	        }
+        ).AddEntityFrameworkStores<ShiftTracker.Angular.Data.IdentityDbContext.IdentityDbContext>()
+         .AddDefaultTokenProviders();
 
 
 
