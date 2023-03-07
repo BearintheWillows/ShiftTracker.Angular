@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {IUserForRegistrationDto} from "../../Feature/auth/_interfaces/user/IUserForRegistrationDto";
 import {IRegistrationResponseDto} from "../../Feature/auth/_interfaces/response/IRegistrationResponseDto";
 import {EnvironmentUrlService} from "./environment-url.service";
+import {IUserForAuthenticationDto} from "../../Feature/auth/_interfaces/user/IUserForAuthenticationDto";
+import {IAuthResponseDto} from "../../Feature/auth/_interfaces/response/IAuthResponseDto";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,8 @@ export class AuthenticationService {
     return `${envAddress}/${route}`;
   }
 
-  public register(route: string, user: IUserForRegistrationDto) {
-    return this.http.post<IRegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
+  public loginUser(route: string, user: IUserForAuthenticationDto) {
+    return this.http.post<IAuthResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
   }
+
 }
