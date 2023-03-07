@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using DTOs;
+using Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -13,11 +14,13 @@ public class AccountsController : Controller
 {
 	private readonly UserManager<AppUser> _userManager;
 	private readonly IMapper _mapper;
+	private readonly JwtHandler _jwtHandler;
 	
-	public AccountsController(UserManager<AppUser> userManager, IMapper mapper)
+	public AccountsController(UserManager<AppUser> userManager, IMapper mapper, JwtHandler jwtHandler )
 	{
 		_userManager = userManager;
 		_mapper = mapper;
+		_jwtHandler = jwtHandler;
 	}
 	
 	[HttpPost( "register" )]
@@ -56,4 +59,7 @@ public class AccountsController : Controller
 		
 		return StatusCode( 201 );
 	}
+	
+	
+	
 }

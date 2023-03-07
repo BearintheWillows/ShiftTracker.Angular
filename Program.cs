@@ -10,6 +10,7 @@ using Serilog.Events;
 using ShiftTracker.Angular.AutoMapperProfiles;
 using ShiftTracker.Angular.Data.IdentityDbContext;
 using ShiftTracker.Angular.Data.AppDbContext;
+using ShiftTracker.Angular.Handlers;
 using ShiftTracker.Angular.Models;
 using ShiftTracker.Angular.Services;
 
@@ -91,7 +92,7 @@ builder.Services.AddAuthentication( opt =>
 	};
 } );
 
-
+builder.Services.AddScoped<JwtHandler>();
 
 builder.Services.AddScoped<IShiftService, ShiftService>();
 builder.Services.AddScoped<IBreakService, BreakService>();
