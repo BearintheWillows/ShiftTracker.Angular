@@ -1,5 +1,6 @@
 ﻿namespace ShiftTracker.Angular.Controllers;
 
+using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using DTOs;
 using Handlers;
@@ -60,6 +61,37 @@ public class AccountsController : Controller
 		return StatusCode( 201 );
 	}
 	
+	[HttpPost( "login" )]
+	public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
+	{
+		if (userForAuthentication == null)
+		{
+			Log.Error( "UserForAuthenticationDto is null" );
+			return BadRequest( "Invalid client request" );
+		}
 	
+		var user = await _userManager.FindByEmailAsync( userForAuthentication.Email );
 	
+		if (user == null || !await _userManager.CheckPasswordAsync( user, userForAuthentication.Password ))
+		{
+			Log.Error( "User is null or password is incorrect" );
+			return Unauthorized( new AuthResponseDto()
+			{
+				IsSuccessful = false,
+				ErrorMessage = "Invalid Authentication"
+			} );
+		}
+		
+		var signingCredentials = _jwtHandler.GetSigningCredentials();
+		var claims = _jwtHandler.GetClaims( user );
+		var tokenOptions = _jwtHandler.GenerateTokenOptions( signingCredentials, claims );
+		var token = new JwtSecurityTokenHandler().WriteToken( tokenOptions );
+		
+		return Ok( new AuthResponseDto()
+		{
+			IsSuccessful = true,
+			Token = token
+		} );
+	}
+
 }
