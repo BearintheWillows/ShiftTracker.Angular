@@ -9,10 +9,17 @@
   </div>
   <div class="nav__rightDiv">
     <form class="d-flex">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <ul *ngIf="!isUserLoggedIn" class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
           <a class="nav-link"[routerLink]="['/auth/register']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Register</a>
+          <a class="nav-link" [routerLink]="['/auth/login']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">Login</a>
+        </li>
+      </ul>
+      <ul *ngIf="isUserLoggedIn" class="navbar-nav me-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <button class="btn btn-link" style="color: orange">Logout</button>
         </li>
       </ul>
     </form>
