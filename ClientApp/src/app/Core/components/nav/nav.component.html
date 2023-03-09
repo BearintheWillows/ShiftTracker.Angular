@@ -19,7 +19,7 @@
       </ul>
       <ul *ngIf="isUserLoggedIn" class="navbar-nav me-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <button class="btn btn-link" style="color: orange">Logout</button>
+          <button class="btn btn-link" style="color: orange" (click)="logout()">Logout</button>
         </li>
       </ul>
     </form>

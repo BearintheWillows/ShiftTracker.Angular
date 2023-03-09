@@ -17,7 +17,11 @@ export class NavComponent implements OnInit {
     this.authService.authChange$.subscribe((isLoggedIn: boolean) => {
       this.isUserLoggedIn = isLoggedIn;
     });
+  }
 
+  public logout(): void {
+    this.authService.logoutUser();
+    this.router.navigate(['/']);
   }
 
 }

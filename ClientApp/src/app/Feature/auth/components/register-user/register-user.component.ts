@@ -59,7 +59,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.accountService.registerUser("accounts/register", user)
       .subscribe({
-        next : () => console.log("User registered"),
+        next : () => this.router.navigate(['/auth/login']),
         error: (err: HttpErrorResponse) =>{
           this.showError = true;
           console.log(err);
