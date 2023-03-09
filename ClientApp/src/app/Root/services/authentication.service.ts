@@ -5,6 +5,7 @@ import {IRegistrationResponseDto} from "../../Feature/auth/_interfaces/response/
 import {EnvironmentUrlService} from "./environment-url.service";
 import {IUserForAuthenticationDto} from "../../Feature/auth/_interfaces/user/IUserForAuthenticationDto";
 import {IAuthResponseDto} from "../../Feature/auth/_interfaces/response/IAuthResponseDto";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,
               private envUrl: EnvironmentUrlService) { }
+
+  private authChangeSub = new Subject<boolean>();
+  public authChange$ = this.authChangeSub.asObservable();
 
   public registerUser(route: string, user: IUserForRegistrationDto) {
     return this.http.post<IRegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
@@ -24,6 +28,10 @@ export class AuthenticationService {
 
   public loginUser(route: string, user: IUserForAuthenticationDto) {
     return this.http.post<IAuthResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
+  }
+
+  public sendAuthStateChangeNotification(isLoggedIn: boolean) {
+    this.authChangeSub.next(isLoggedIn);
   }
 
 }
