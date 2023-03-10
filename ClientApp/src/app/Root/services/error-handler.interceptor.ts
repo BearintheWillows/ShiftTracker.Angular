@@ -45,7 +45,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           break;
         case 403:
           // Forbidden
-          console.log("forbidden");
+          return this.handleForbidden(error);
           break;
         case 404:
           // Not found
@@ -62,6 +62,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
     }
     return errorMessage;
+  }
+
+  private handleForbidden(error: HttpErrorResponse): string {
+    this.router.navigate(['/forbidden'], {queryParams: { returnUrl: this.router.url}});
+    return "forbidden";
   }
 
   private handleNotFound(error: HttpErrorResponse): string {

@@ -4,12 +4,14 @@ import {NavComponent} from "./components/nav/nav.component";
 import {SharedModule} from "../Shared/shared.module";
 import { FooterComponent } from './components/footer/footer.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
     NavComponent,
     FooterComponent,
     PrivacyComponent,
+    ForbiddenComponent,
   ],
   imports: [
     SharedModule,
