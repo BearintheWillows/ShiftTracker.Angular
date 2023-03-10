@@ -41,7 +41,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           break;
         case 401:
           // Unauthorized
-          this.router.navigate(["/auth/login"]);
+          return this.handleUnauthorized(error);
           break;
         case 403:
           // Forbidden
@@ -84,4 +84,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     }
   }
 
+  private handleUnauthorized(error: HttpErrorResponse) {
+    if(this.router.url === "/auth/login") {
+      return error.error ? "Authentication Failed. Wrong Username or Password" : error.message;
+    } else {
+      this.router.navigate(["/auth/login"]);
+      return error.error ? error.error : error.message;
+    }
+  }
 }
