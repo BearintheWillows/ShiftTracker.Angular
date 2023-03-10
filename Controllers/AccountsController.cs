@@ -45,7 +45,6 @@ public class AccountsController : Controller
 		
 		if (!result.Succeeded)
 		{
-
 			var errors = new List<string>();
 			foreach (var error in result.Errors)
 			{
@@ -57,6 +56,8 @@ public class AccountsController : Controller
 				Errors = errors
 				} );
 		}
+		
+		await _userManager.AddToRoleAsync( userToCreate, "Employee" );
 		
 		return StatusCode( 201 );
 	}
@@ -83,7 +84,7 @@ public class AccountsController : Controller
 		}
 		
 		var signingCredentials = _jwtHandler.GetSigningCredentials();
-		var claims = _jwtHandler.GetClaims( user );
+		var claims = await _jwtHandler.GetClaims( user );
 		var tokenOptions = _jwtHandler.GenerateTokenOptions( signingCredentials, claims );
 		var token = new JwtSecurityTokenHandler().WriteToken( tokenOptions );
 		

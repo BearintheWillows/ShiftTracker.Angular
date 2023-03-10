@@ -3,17 +3,16 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {CoreModule} from "../Core/core.module";
 import {ShiftsModule} from "../Feature/shifts/shifts.module";
-import {RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ModalModule} from "ngx-bootstrap/modal";
-import {NavComponent} from "../Core/components/nav/nav.component";
-import {ShiftsRoutingModule} from "../Feature/shifts/shifts.routing.module";
 import {SharedModule} from "../Shared/shared.module";
 import {RunsModule} from "../Feature/runs/runs.module";
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import {AuthenticationModule} from "../Feature/auth/authentication.module";
 import {ErrorHandlerInterceptor} from "./services/error-handler.interceptor";
+import {JwtModule} from "@auth0/angular-jwt";
+import {AuthGuard} from "../Shared/guards/auth.guard";
 
 @NgModule({
   declarations: [
@@ -21,12 +20,22 @@ import {ErrorHandlerInterceptor} from "./services/error-handler.interceptor";
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+    SharedModule,
     CoreModule,
     HttpClientModule,
     ModalModule.forRoot(),
     AuthenticationModule,
     ShiftsModule,
     RunsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        },
+        allowedDomains: ['localhost:7004'],
+        disallowedRoutes: [],
+      }
+    }),
     AppRoutingModule,
   ],
   providers: [
@@ -35,7 +44,8 @@ import {ErrorHandlerInterceptor} from "./services/error-handler.interceptor";
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
       multi: true
-    }
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

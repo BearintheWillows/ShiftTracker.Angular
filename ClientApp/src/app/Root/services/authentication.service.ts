@@ -6,6 +6,7 @@ import {EnvironmentUrlService} from "./environment-url.service";
 import {IUserForAuthenticationDto} from "../../Feature/auth/_interfaces/user/IUserForAuthenticationDto";
 import {IAuthResponseDto} from "../../Feature/auth/_interfaces/response/IAuthResponseDto";
 import {Subject} from "rxjs";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,23 @@ import {Subject} from "rxjs";
 export class AuthenticationService {
 
   constructor(private http: HttpClient,
-              private envUrl: EnvironmentUrlService) { }
+              private envUrl: EnvironmentUrlService,
+              private jwtHelper: JwtHelperService,) { }
 
   private authChangeSub = new Subject<boolean>();
   public authChange$ = this.authChangeSub.asObservable();
+
+  public isUserAuthenticated(): "" | boolean {
+    const token = localStorage.getItem('token');
+    if(token) {
+      console.log("Token is not null");
+      console.log("Token is expired: " + this.jwtHelper.isTokenExpired(token));
+    return token && !this.jwtHelper.isTokenExpired(token);
+    } else {
+      console.log("Token is null");
+      return "";
+    }
+  }
 
   public registerUser(route: string, user: IUserForRegistrationDto) {
     return this.http.post<IRegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);

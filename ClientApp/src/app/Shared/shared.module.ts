@@ -10,7 +10,7 @@ import {DayOfWeekConversionPipe, StrToDayOfWeekConversionPipe} from './pipes/day
 import { ShopSelectionModealComponent } from './components/modals/shop-selection-modeal/shop-selection-modeal.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {AuthValidators} from "./Validators/auth/auth-validators";
+import {JwtModule} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import {AuthValidators} from "./Validators/auth/auth-validators";
     RouterModule,
     CollapseModule.forRoot(),
     BrowserAnimationsModule,
-
+    JwtModule,
   ],
   exports: [
     CommonModule,

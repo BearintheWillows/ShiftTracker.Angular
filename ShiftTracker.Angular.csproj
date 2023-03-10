@@ -56,7 +56,6 @@
       <Folder Include="ClientApp\src\app\Shared\pipes" />
       <Folder Include="ClientApp\src\app\Shared\Standalone\confirmModal" />
       <Folder Include="ClientApp\src\app\Shared\Validators\auth" />
-      <Folder Include="Data\IdentityDbContext\Configs" />
       <Folder Include="Logs" />
       <Folder Include="Pages\Shared" />
     </ItemGroup>
