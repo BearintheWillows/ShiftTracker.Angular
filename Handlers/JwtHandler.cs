@@ -11,9 +11,9 @@ public class JwtHandler
 {
 	private readonly IConfiguration _configuration;
 	private readonly IConfigurationSection _jwtSettings;
-	private readonly UserManager<IdentityUser> _userManager;
+	private readonly UserManager<AppUser> _userManager;
 	
-	public JwtHandler(IConfiguration configuration, UserManager<IdentityUser> userManager)
+	public JwtHandler(IConfiguration configuration, UserManager<AppUser> userManager)
 	{
 		_configuration = configuration;
 		_jwtSettings = _configuration.GetSection( "JwtSettings" );

@@ -45,6 +45,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           break;
         case 403:
           // Forbidden
+          console.log("forbidden");
           break;
         case 404:
           // Not found
