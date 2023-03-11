@@ -36,10 +36,6 @@ export class AuthenticationService {
     return this.http.post<IRegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
   }
 
-  private createCompleteRoute(route: string, envAddress: string) {
-    return `${envAddress}/${route}`;
-  }
-
   public loginUser(route: string, user: IUserForAuthenticationDto) {
     return this.http.post<IAuthResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
   }
@@ -53,4 +49,20 @@ export class AuthenticationService {
     this.authChangeSub.next(isLoggedIn);
   }
 
+  public isUserAdmin = (): boolean => {
+    const token = localStorage.getItem("token");
+    if(token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role === 'Admin';
+    } else {
+      return false;
+    }
+
+
+  }
+
+  private createCompleteRoute(route: string, envAddress: string) {
+    return `${envAddress}/${route}`;
+  }
 }
