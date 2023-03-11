@@ -1,11 +1,14 @@
 <div class="main-container">
-<header>
-  <app-nav></app-nav>
-</header>
+  <ng-container *ngIf="isLoggedIn$ | async as isLogged" >
+    <header *ngIf="isLogged">
+      <app-nav></app-nav>
+    </header>
+
+  </ng-container>
 
 <main>
     <router-outlet></router-outlet>
-  </main>
+</main>
 
 <footer>
   <app-footer></app-footer>

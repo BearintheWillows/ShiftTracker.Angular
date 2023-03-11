@@ -13,6 +13,7 @@ import {AuthenticationModule} from "../Feature/auth/authentication.module";
 import {ErrorHandlerInterceptor} from "./services/error-handler.interceptor";
 import {JwtModule} from "@auth0/angular-jwt";
 import {AuthGuard} from "../Shared/guards/auth.guard";
+import {AdminGuard} from "../Shared/guards/admin.guard";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {AuthGuard} from "../Shared/guards/auth.guard";
       useClass: ErrorHandlerInterceptor,
       multi: true
     },
-    AuthGuard
+    AuthGuard,
+    AdminGuard
   ],
   bootstrap: [AppComponent]
 })

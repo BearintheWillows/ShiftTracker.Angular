@@ -1,25 +1,37 @@
 .cBtn {
   display: inline-block;
   padding: 0.25rem 0.5rem;
-  background-color: white;
-  transition: ease-in-out 0.2s;
+  margin: 0.25rem;
 
-  &.cBtn-Del{
-    color: red;
+  &.cBtn-primary{
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background: $cPrimary;
+
+    &:hover {
+      transform: scale(1.05);
+
+      transition: all 0.2s ease-in-out;
+    }
   }
-  &.cBtn-Edit{
-    color: blue;
 
+
+  &.cBtn-small {
+    width: 5em;
+    height: 2em;
   }
 
-  &:hover {
-    transform: scale(1.35);
+  &.cBtn-regular {
+
+    width: 10em;
+    height: 3em;
   }
 
-  &:active {
-
-    transform: scale(0.8);
+  &.cBtn-large {
+    width: 15em;
+    height: 4em;
   }
+
 }
 
 

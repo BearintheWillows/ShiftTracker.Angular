@@ -5,6 +5,7 @@ import {SharedModule} from "../Shared/shared.module";
 import { FooterComponent } from './components/footer/footer.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
     FooterComponent,
     PrivacyComponent,
     ForbiddenComponent,
+    HomeComponent,
   ],
   imports: [
     SharedModule,

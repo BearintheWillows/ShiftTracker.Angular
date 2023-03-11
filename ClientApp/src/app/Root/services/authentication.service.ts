@@ -23,12 +23,23 @@ export class AuthenticationService {
   public isUserAuthenticated(): "" | boolean {
     const token = localStorage.getItem('token');
     if(token) {
-      console.log("Token is not null");
+      console.log("User is authenticated");
       console.log("Token is expired: " + this.jwtHelper.isTokenExpired(token));
     return token && !this.jwtHelper.isTokenExpired(token);
     } else {
-      console.log("Token is null");
+      console.log("User is not authenticated");
       return "";
+    }
+  }
+
+  public isUserAdmin = (): boolean => {
+    const token = localStorage.getItem("token");
+    if(token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role === 'Admin';
+    } else {
+      return false;
     }
   }
 
@@ -49,18 +60,7 @@ export class AuthenticationService {
     this.authChangeSub.next(isLoggedIn);
   }
 
-  public isUserAdmin = (): boolean => {
-    const token = localStorage.getItem("token");
-    if(token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-      return role === 'Admin';
-    } else {
-      return false;
-    }
 
-
-  }
 
   private createCompleteRoute(route: string, envAddress: string) {
     return `${envAddress}/${route}`;

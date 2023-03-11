@@ -52,7 +52,7 @@ export class LoginUserComponent implements OnInit {
 
           localStorage.setItem('token', res.token);
           this.authService.sendAuthStateChangeNotification(res.isSuccessful);
-          this.router.navigate([this.returnUrl || '/']);
+          this.router.navigate(['/shifts']);
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.message;

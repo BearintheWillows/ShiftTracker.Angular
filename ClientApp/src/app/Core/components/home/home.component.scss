@@ -1,0 +1,39 @@
+.landing-page{
+  .header{
+    color: blueviolet;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+
+
+    .heading-primary{
+      display: flex;
+      flex-direction: column;
+      width: 20em;
+      text-align: center;
+
+      .heading-primary--main{
+        font-size: 1.5em;
+        padding: 0.5em;
+      }
+
+      .heading-primary--sub{
+        font-size: 0.8em;
+      }
+    }
+  }
+
+  .home-page-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .home-buttons{
+      margin-top: 10em;
+    }
+
+
+  }
+
+
+}
