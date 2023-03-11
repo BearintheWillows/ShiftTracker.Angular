@@ -11,7 +11,11 @@ export class NavComponent implements OnInit {
   public isUserLoggedIn: boolean = false;
 
   constructor(private router: Router,
-              private authService: AuthenticationService) { }
+              private authService: AuthenticationService) {
+    this.authService.authChange$.subscribe(res => {
+      this.isUserLoggedIn = res;
+    })
+  }
 
   ngOnInit(): void {
     this.authService.authChange$.subscribe((isLoggedIn: boolean) => {
