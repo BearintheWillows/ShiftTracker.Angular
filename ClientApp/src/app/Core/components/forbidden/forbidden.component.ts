@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthenticationService} from "../../../Root/services/authentication.service";
 
 @Component({
   selector: 'app-forbidden',
@@ -9,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class ForbiddenComponent {
   private returnUrl: string = '';
 
-  constructor( private router: Router, private route: ActivatedRoute) {
+  constructor( private router: Router, private route: ActivatedRoute, private authService: AuthenticationService){
   }
 
   ngOnInit(): void {
@@ -17,6 +18,7 @@ export class ForbiddenComponent {
   }
 
   public navigateToLogin(): void {
+    this.authService.logoutUser();
     this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.returnUrl}});
   }
 }

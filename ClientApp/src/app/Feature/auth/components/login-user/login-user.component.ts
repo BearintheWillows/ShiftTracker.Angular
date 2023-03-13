@@ -27,7 +27,11 @@ export class LoginUserComponent implements OnInit {
   showError: boolean = false;
 
   ngOnInit(): void {
-    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'];
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      this.returnUrl = params.get('returnUrl') || '/';
+      console.log(this.returnUrl)
+    });
+
   }
 
   validateControl(controlName: string) {
@@ -52,14 +56,21 @@ export class LoginUserComponent implements OnInit {
 
           localStorage.setItem('token', res.token);
           this.authService.sendAuthStateChangeNotification(res.isSuccessful);
-          this.router.navigate(['/shifts']);
+
+          if(this.returnUrl ){
+            this.router.navigate([this.returnUrl])
+          }else{
+            this.router.navigate(['/shifts']);
+          }
         },
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.message;
           this.showError = true;
         }
-
-
       })
+  }
+
+  goBack() {
+    this.router.navigate([this.returnUrl]);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthenticationService} from "./services/authentication.service";
 import {Observable} from "rxjs";
 
@@ -6,18 +6,12 @@ import {Observable} from "rxjs";
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'ShiftTracker';
 
-  isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+  isLoggedIn$: Observable<boolean> = this.authService.authChange$;
 
   constructor(private authService: AuthenticationService) {
   }
 
-  ngOnInit() {
-    if(this.authService.isUserAuthenticated()) {
-      this.authService.sendAuthStateChangeNotification(true);
-      this.isLoggedIn$ = this.authService.authChange$
-    }
-  }
 }

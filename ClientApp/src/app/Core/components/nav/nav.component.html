@@ -1,34 +1,9 @@
 <nav class="nav">
-  <div class="nav__leftDiv">
-    <a href="#" class="nav-item is-active">Analysis</a>
-    <a routerLink="/shifts" class="nav-item">Shifts</a>
-
-  </div>
-  <div class="nav__centreDiv">
-    <h1>Shift Tracker</h1>
-  </div>
-  <div class="nav__rightDiv">
-    <form class="d-flex">
-      <ul *ngIf="!isUserLoggedIn$" class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link"[routerLink]="['/auth/register']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">Register</a>
-          <a class="nav-link" [routerLink]="['/auth/login']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">Login</a>
-
-        </li>
-      </ul>
-      <ul *ngIf="isUserLoggedIn$" class="navbar-nav me-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <button class="btn btn-link" style="color: orange" (click)="logout()">Logout</button>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/privacy']" routerLinkActive="active"
-           [routerLinkActiveOptions]="{exact: true}"> Privacy </a>
-      </li>
-      </ul>
-
-    </form>
-</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
 </nav>
 

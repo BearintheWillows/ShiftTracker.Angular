@@ -20,12 +20,11 @@ export class AuthenticationService {
   private authChangeSub = new Subject<boolean>();
   public authChange$ = this.authChangeSub.asObservable();
 
+
   public isUserAuthenticated(): "" | boolean {
     const token = localStorage.getItem('token');
     if(token) {
-      console.log("User is authenticated");
-      console.log("Token is expired: " + this.jwtHelper.isTokenExpired(token));
-    return token && !this.jwtHelper.isTokenExpired(token);
+  return token && !this.jwtHelper.isTokenExpired(token);
     } else {
       console.log("User is not authenticated");
       return "";
@@ -48,6 +47,7 @@ export class AuthenticationService {
   }
 
   public loginUser(route: string, user: IUserForAuthenticationDto) {
+
     return this.http.post<IAuthResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), user);
   }
 

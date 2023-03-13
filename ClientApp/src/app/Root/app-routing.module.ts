@@ -6,12 +6,13 @@ import {ForbiddenComponent} from "../Core/components/forbidden/forbidden.compone
 import {AuthGuard} from "../Shared/guards/auth.guard";
 import {AdminGuard} from "../Shared/guards/admin.guard";
 import {HomeComponent} from "../Core/components/home/home.component";
+import {UnAuthGuard} from "../Shared/guards/un-auth-guard.service";
 
 const routes: Routes = [
   { path: 'privacy', component: PrivacyComponent,
   canActivate: [AuthGuard, AdminGuard]},
   { path: 'forbidden', component: ForbiddenComponent},
-  { path: '', redirectTo: '', pathMatch: 'full', component: HomeComponent },
+  { path: '', redirectTo: '', pathMatch: 'full', component: HomeComponent, canActivate: [UnAuthGuard]},
 
 ];
 

@@ -8,13 +8,16 @@ import {ShiftsEditPageComponent} from "../shifts/pages/shifts-edit-page/shifts-e
 import {ShiftsDetailPageComponent} from "../shifts/pages/shifts-detail-page/shifts-detail-page.component";
 import {RunsComponent} from "./runs.component";
 import {RunsHomePageComponent} from "./pages/runs-home-page/runs-home-page.component";
+import {AuthGuard} from "../../Shared/guards/auth.guard";
+import {AdminGuard} from "../../Shared/guards/admin.guard";
 
 const RunsRoutes: Routes = [
   { path: 'runs',
     component: RunsComponent,
     children: [
       { path: '', component: RunsHomePageComponent },
-    ]
+    ],
+    canActivate: [AuthGuard, AdminGuard]
   },
 ]
 
