@@ -9,9 +9,13 @@ import {Observable} from "rxjs";
 export class AppComponent{
   title = 'ShiftTracker';
 
-  isLoggedIn$: Observable<boolean> = this.authService.authChange$;
+  isLoggedIn: "" | boolean = false;
 
   constructor(private authService: AuthenticationService) {
+  }
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isUserAuthenticated();
   }
 
 }
