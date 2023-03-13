@@ -19,6 +19,7 @@ export class ForbiddenComponent {
 
   public navigateToLogin(): void {
     this.authService.logoutUser();
+    this.authService.sendAuthStateChangeNotification(false);
     this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.returnUrl}});
   }
 }

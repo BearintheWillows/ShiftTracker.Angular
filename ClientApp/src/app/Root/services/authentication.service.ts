@@ -5,7 +5,7 @@ import {IRegistrationResponseDto} from "../../Feature/auth/_interfaces/response/
 import {EnvironmentUrlService} from "./environment-url.service";
 import {IUserForAuthenticationDto} from "../../Feature/auth/_interfaces/user/IUserForAuthenticationDto";
 import {IAuthResponseDto} from "../../Feature/auth/_interfaces/response/IAuthResponseDto";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
@@ -17,17 +17,20 @@ export class AuthenticationService {
               private envUrl: EnvironmentUrlService,
               private jwtHelper: JwtHelperService,) { }
 
-  private authChangeSub = new Subject<boolean>();
-  public authChange$ = this.authChangeSub.asObservable();
+  private isAuthenticated = new BehaviorSubject<boolean>(false);
+  public isAuthenticated$ = this.isAuthenticated.asObservable();
 
 
-  public isUserAuthenticated(): "" | boolean {
+  public isUserAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    if(token) {
-  return token && !this.jwtHelper.isTokenExpired(token);
+    if(token && !this.jwtHelper.isTokenExpired(token)) {
+      console.log("User is authenticated");
+      this.sendAuthStateChangeNotification(true);
+      return true;
     } else {
       console.log("User is not authenticated");
-      return "";
+      this.sendAuthStateChangeNotification(false);
+      return false;
     }
   }
 
@@ -57,7 +60,7 @@ export class AuthenticationService {
   }
 
   public sendAuthStateChangeNotification(isLoggedIn: boolean) {
-    this.authChangeSub.next(isLoggedIn);
+    this.isAuthenticated.next(isLoggedIn);
   }
 
 
